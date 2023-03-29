@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_app/home_page.dart';
-// import 'package:lunch_app/home_page.dart';
-import 'package:lunch_app/Sign_in_page.dart';
+
+
+import 'package:lunch_app/screens/authenticate/sign_in.dart';
 
 class LunchApp extends StatelessWidget {
   const LunchApp({super.key});
@@ -14,7 +14,7 @@ class LunchApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Sign_in_page(),
+      home: Login_page(),
     );
   }
 }

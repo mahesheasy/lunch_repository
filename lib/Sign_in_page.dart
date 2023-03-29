@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_app/home_page.dart';
+
 
 class Sign_in_page extends StatefulWidget {
   const Sign_in_page({super.key});
@@ -109,10 +109,10 @@ class _Sign_in_page extends State<Sign_in_page> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => HomePage()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>HomePage()),
+                    );
 
                     
                   },
