@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
             ),
             height: 30,
             width: double.infinity,
-            padding: EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10, left: 10),
             child: currentDate(),
           ),
           Container(
@@ -41,6 +41,14 @@ class HomePage extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 80, 167, 221),
               borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
 
             child: Column(
@@ -83,6 +91,16 @@ class HomePage extends StatelessWidget {
             width: 320,
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Total food quantity",
+                        style: Theme.of(context).textTheme.displayLarge),
+                  ],
+                ),
+                SizedBox(
+                  height: 25,
+                ),
                 totalquantity(0, context, 0),
                 SizedBox(
                   height: 25,
@@ -106,7 +124,10 @@ class HomePage extends StatelessWidget {
                 width: 20,
               ),
               Text('and paste in WhatsApp',
-                  style: Theme.of(context).textTheme.displayLarge)
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(fontSize: 21))
             ],
           ),
         ),

@@ -4,12 +4,21 @@ List buttonNames = ['Log out', 'Haa', 'Copy'];
 
 ElevatedButton logoutsubmitSharebtn(
     int buttonNamesIndex, BuildContext context) {
-  if (buttonNames[buttonNamesIndex] == 2) {
+  if (buttonNamesIndex == 2) {
     return ElevatedButton.icon(
         onPressed: null,
         style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(Colors.amber),
-            padding: MaterialStatePropertyAll(EdgeInsets.all(10)),
+            textStyle: MaterialStatePropertyAll(TextStyle(
+              fontSize: 18,
+              wordSpacing: 1,
+              letterSpacing: 1,
+              color: Color.fromARGB(255, 5, 5, 5),
+              fontWeight: FontWeight.bold,
+            )),
+            elevation: MaterialStatePropertyAll(4),
+            backgroundColor:
+                MaterialStatePropertyAll(Color.fromARGB(255, 247, 247, 246)),
+            padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
         icon: Icon(Icons.copy),
         label: Text(buttonNames[buttonNamesIndex]));
