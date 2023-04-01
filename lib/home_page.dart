@@ -6,8 +6,6 @@ import 'package:lunch_app/logoutsubmitSharebtn.dart';
 import 'package:lunch_app/totalquantity.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -55,7 +53,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text("Bharath",
                     style: Theme.of(context).textTheme.displayLarge),
-                logoutsubmitSharebtn(0, context)
+                logoutsubmitSharebtn(0, context, false, true)
               ],
             ),
           ),
@@ -146,7 +144,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text(_list[_currentIndex],
                     style: Theme.of(context).textTheme.displayLarge),
-                logoutsubmitSharebtn(1, context)
+                logoutsubmitSharebtn(1, context, _lunchisChecked, _eggisChecked)
               ],
             ),
           ),
@@ -189,7 +187,7 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              logoutsubmitSharebtn(2, context),
+              logoutsubmitSharebtn(2, context, false, true),
               SizedBox(
                 width: 20,
               ),

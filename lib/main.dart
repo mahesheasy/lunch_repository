@@ -5,8 +5,7 @@ import 'package:lunch_app/app.dart';
 import 'package:lunch_app/Sign_in_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const LunchApp());
