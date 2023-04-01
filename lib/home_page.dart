@@ -1,33 +1,70 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lunch_app/CurrentDate.dart';
-import 'package:lunch_app/checkboxs.dart';
 import 'package:lunch_app/logoutsubmitSharebtn.dart';
-import 'package:lunch_app/submitbesidetext.dart';
 import 'package:lunch_app/totalquantity.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool _lunchisChecked = false;
+  bool _eggisChecked = false;
+
+  List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Create a Timer to update the list every 24 hours
+    Timer.periodic(Duration(hours: 24), (timer) {
+      setState(() {
+        _currentIndex = (timer.tick + 1) %
+            _list.length; // Update the current index of the list
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: Text('EasyCloud'),
-        // actions: [logoutsubmitSharebtn(0,context)],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text('EasyCloud'), logoutsubmitSharebtn(0, context)],
-        ),
+        centerTitle: true,
+        title: Text('EasyCloud'),
       ),
       body: Center(
         // widthFactor: double.infinity,
         child: Column(children: [
           Container(
+            decoration: BoxDecoration(color: Color.fromARGB(255, 80, 167, 221)),
+            margin: EdgeInsets.only(
+              top: 5,
+            ),
+            height: 40,
+            width: double.infinity,
+            padding: EdgeInsets.only(right: 10, left: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Bharath",
+                    style: Theme.of(context).textTheme.displayLarge),
+                logoutsubmitSharebtn(0, context)
+              ],
+            ),
+          ),
+          Container(
             decoration: BoxDecoration(color: Colors.grey),
             margin: EdgeInsets.only(
               top: 5,
             ),
-            height: 30,
+            height: 20,
             width: double.infinity,
             padding: EdgeInsets.only(right: 10, left: 10),
             child: currentDate(),
@@ -57,11 +94,43 @@ class HomePage extends StatelessWidget {
               children: [
                 Container(
                   width: 160,
-                  child: checkbox(0, context),
+                  child: CheckboxListTile(
+                    value: _lunchisChecked,
+                    onChanged: (newValue) async {
+                      assert(newValue != null);
+                      setState(() {
+                        _lunchisChecked = newValue!;
+                      });
+                    },
+                    title: Text(
+                      "Lunch",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 23, color: Colors.grey[800]),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
+                  ),
                 ),
                 Container(
                   width: 160,
-                  child: checkbox(1, context),
+                  child: CheckboxListTile(
+                    value: _eggisChecked,
+                    onChanged: (newValue) async {
+                      assert(newValue != null);
+                      setState(() {
+                        _eggisChecked = newValue!;
+                      });
+                    },
+                    title: Text(
+                      "Egg",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 23, color: Colors.grey[800]),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
+                  ),
                 )
               ],
             ),
@@ -75,7 +144,8 @@ class HomePage extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.baseline,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                submitbesidetext(0, context),
+                Text(_list[_currentIndex],
+                    style: Theme.of(context).textTheme.displayLarge),
                 logoutsubmitSharebtn(1, context)
               ],
             ),

@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:lunch_app/home_page.dart';
 import 'package:lunch_app/Sign_in_page.dart';
 
-class LunchApp extends StatelessWidget {
+class LunchApp extends StatefulWidget {
   const LunchApp({super.key});
 
+  @override
+  State<LunchApp> createState() => _LunchAppState();
+}
+
+class _LunchAppState extends State<LunchApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
