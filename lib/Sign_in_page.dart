@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,6 +13,22 @@ class _Sign_in_page extends State<Sign_in_page> {
   @override
   void initState() {
     // TODO: implement initState
+
+//final now = DateTime.now();
+
+// FirebaseFirestore.instance
+//   .collection('lunch')
+//   .where('name', isEqualTo: 'Ram')
+//   .get()
+//   .then((snapshot) {
+//     if (snapshot.size == 0) {
+//       // allow to edit
+//     } else {
+//       // do not allow
+//     }
+//   });
+
+
     super.initState();
   }
 
@@ -109,11 +126,14 @@ class _Sign_in_page extends State<Sign_in_page> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>HomePage()),
-                    );
-
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) =>HomePage()),
+                    // );
+                    // FirebaseDatabase.instance
+                    // .reference().child("users")
+                    // .orderByChild("User_id")
+                    // .equalTo($this.userId)
                     
                   },
                   child: const Text('Sign up'),

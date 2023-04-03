@@ -1,4 +1,13 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lunch_app/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
+
+
+
+
+
 
 class Login_page extends StatefulWidget {
   const Login_page({super.key});
@@ -8,9 +17,12 @@ class Login_page extends StatefulWidget {
 }
 
 class _Login_page extends State<Login_page> {
+  final TextEditingController _editingController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   void initState() {
-    // TODO: implement initState
+    ToastContext().init(context);
     super.initState();
   }
 
@@ -24,66 +36,108 @@ class _Login_page extends State<Login_page> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Image.network(
-              'https://easycloud.in/wp-content/uploads/2018/06/logo_final.png',
-              // width: 380,
-              height: 100,
-              fit: BoxFit.fill,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextField(
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
-                      labelText: ' User_name',
-                      hintText: ' User name',
-                      prefixIcon: Icon(Icons.person_3_rounded),
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextField(
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      labelText: ' Password ',
-                      hintText: 'Enter your password:',
-                      prefixIcon: Icon(Icons.password_sharp),
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-             crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                
-                Padding(
-                  padding: EdgeInsets.only(left: 20,right: 20),
-                  
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Continue'),
-                  ),
-                )
+                Image.network(
+                  'https://easycloud.in/wp-content/uploads/2018/06/logo_final.png',
+                  // width: 380,
+                  height: 100,
+                  fit: BoxFit.fill,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      child: TextField(
+                        controller: _editingController,
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          labelText: ' emailAddress',
+                          hintText: 'emailAddress',
+                          prefixIcon: Icon(Icons.person_3_rounded),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      child: TextField(
+                        controller: _passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          labelText: ' Password ',
+                          hintText: 'Enter your password:',
+                          prefixIcon: Icon(Icons.password_sharp),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          print("user enterd :${_editingController.text}");
+                          print(
+                              "user enterd the password:${_passwordController.text}");
+                          try {
+                            final credential = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                              email: _editingController.text,
+                              password: _passwordController.text,
+                            );
+                            var user = credential.user;
+                            print(user);
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            Toast.show("invalid email or password",
+                                duration: Toast.lengthLong, gravity: Toast.top);
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                            } else if (e.code == 'email-already-in-use') {
+                              print('The account already exists for that email.');
+                            }
+                          } catch (e) {
+                            Toast.show("invalid email or password",
+                                duration: Toast.lengthLong, gravity: Toast.top);
+
+                            print(e);
+                            print("password error");
+                          }
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setString(
+                              'email',
+                              _editingController
+                                  .text); //it is used to save the email and password entered by the user
+                          prefs.setString('password', _passwordController.text);
+                        },
+                        child: const Text('Continue'),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

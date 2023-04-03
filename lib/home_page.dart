@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lunch_app/submitSharebtn.dart';
 import 'package:lunch_app/CurrentDate.dart';
 import 'package:lunch_app/checkboxs.dart';
-import 'package:lunch_app/submitSharebtn.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('EasyCloud'),
       ),
+
       body: Center(
         // widthFactor: double.infinity,
         child: Column(children: [
@@ -22,6 +23,7 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.only(right: 10),
             child: currentDate(),
           ),
+          
           Container(
             width: double.infinity,
             color: Colors.amber,
@@ -42,16 +44,19 @@ class HomePage extends StatelessWidget {
           ),
           Container(
             child: Row(
-              children: [
-                Text(' This is Bharath '),
-
-                submitSharebtn()
-              ],
+              children: [Text(' This is Bharath '), submitSharebtn()],
+            ),
+          ),
+          Container(
+            child: ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              },
+              child: Text("Logout"),
             ),
           )
         ]),
       ),
     );
   }
-
 }
