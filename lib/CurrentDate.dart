@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 var now = DateTime.now();
 
 Row currentDate() {
+  if (now.hour >= 10 && now.minute > 30) {}
+
   return Row(
     // mainAxisSize: MainAxisSize.max,
     crossAxisAlignment: CrossAxisAlignment.center,

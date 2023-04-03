@@ -75,7 +75,7 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     lunch.add({
       'egg': _lunchisChecked,
       'lunch': _eggisChecked,
-      'name': 'Ram',
+      'name': 'test',
     }).then((value) => print('updated food'));
   }
 }
