@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_app/CurrentDate.dart';
 import 'package:lunch_app/logoutsubmitSharebtn.dart';
 import 'package:lunch_app/totalquantity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,13 +15,43 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
 
+  bool _testinguser = false;
+
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
+
+//   Future<QuerySnapshot<Map<String, dynamic>>> lunch = FirebaseFirestore.instance.collection('lunch').where('name',isEqualTo: 'test').get().then((snapshot) {
+// if (snapshot.size = 0) {
+
+// } else {
+
+// }
+//   });
+  void usertesting() {
+    FirebaseFirestore.instance
+        .collection('lunch')
+        .where('name', isEqualTo: 'test2')
+        .get()
+        .then(
+      (QuerySnapshot) {
+        if (QuerySnapshot.size == 0) {
+          print('pls order');
+          _testinguser = true;
+          setState(() {});
+        } else {
+          print('y ordered food before only');
+
+          _testinguser = false;
+          setState(() {});
+        }
+      },
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-
+    usertesting();
     // Create a Timer to update the list every 24 hours
     Timer.periodic(Duration(hours: 24), (timer) {
       setState(() {
@@ -164,8 +195,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(_list[_currentIndex],
                       style: Theme.of(context).textTheme.displayLarge),
-                  logoutsubmitSharebtn(
-                      1, context, _lunchisChecked, _eggisChecked)
+                  if (_testinguser)
+                    logoutsubmitSharebtn(
+                        1, context, _lunchisChecked, _eggisChecked,
+                        onPress: () {
+                      usertesting();
+                    })
                 ],
               ),
             ),

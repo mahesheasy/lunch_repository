@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_app/Sign_in_page.dart';
-import 'package:lunch_app/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lunch_app/home_page.dart';
 
 List buttonNames = ['Log out', 'Haa', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance.collection('lunch');
 
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
-    bool _lunchisChecked, bool _eggisChecked) {
+    bool _lunchisChecked, bool _eggisChecked,
+    {VoidCallback? onPress}) {
   if (buttonNamesIndex == 2) {
     return ElevatedButton.icon(
         onPressed: () {
@@ -51,6 +51,7 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
           await mycallbackusingforlogoutandhaa(
               buttonNamesIndex, context, _lunchisChecked, _eggisChecked);
           // Handle the result here
+          onPress?.call();
         },
         child: Text(
           buttonNames[buttonNamesIndex],
@@ -75,8 +76,10 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     lunch.add({
       'egg': _lunchisChecked,
       'lunch': _eggisChecked,
-      'name': 'test',
-    }).then((value) => print('updated food'));
+      'name': 'test2',
+    }).then((value) {
+      print('updated food');
+    });
   }
 }
 
