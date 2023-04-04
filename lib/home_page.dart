@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
-
+  var now = DateTime.now();
 //   Future<QuerySnapshot<Map<String, dynamic>>> lunch = FirebaseFirestore.instance.collection('lunch').where('name',isEqualTo: 'test').get().then((snapshot) {
 // if (snapshot.size = 0) {
 
@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
   void usertesting() {
     FirebaseFirestore.instance
         .collection('lunch')
-        .where('name', isEqualTo: 'test2')
+        .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
+        .where('name', isEqualTo: 'test4')
         .get()
         .then(
       (QuerySnapshot) {
@@ -185,6 +186,7 @@ class _HomePageState extends State<HomePage> {
               //if (now.hour > 10) Text('Timed out'),
             ),
             Container(
+              height: 40,
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 2, 221, 199),
               ),

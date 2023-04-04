@@ -4,6 +4,7 @@ import 'package:lunch_app/home_page.dart';
 
 List buttonNames = ['Log out', 'Haa', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance.collection('lunch');
+var now = DateTime.now();
 
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
     bool _lunchisChecked, bool _eggisChecked,
@@ -11,7 +12,10 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
   if (buttonNamesIndex == 2) {
     return ElevatedButton.icon(
         onPressed: () {
-          myCallback(context);
+          print('Buttonindex 2 pressed!,pressed copy');
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => Sign_in_page()),
         },
         style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(TextStyle(
@@ -76,17 +80,10 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     lunch.add({
       'egg': _lunchisChecked,
       'lunch': _eggisChecked,
-      'name': 'test2',
+      'name': "test4",
+      'date': "${now.day}-${now.month}-${now.year}"
     }).then((value) {
       print('updated food');
     });
   }
-}
-
-void myCallback(BuildContext context) {
-  print('Buttonindex 2 pressed!,pressed copy');
-  // Navigator.push(
-  //   context,
-  //   MaterialPageRoute(builder: (context) => Sign_in_page()),
-  // );
 }
