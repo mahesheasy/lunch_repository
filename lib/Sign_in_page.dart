@@ -109,12 +109,10 @@ class _Sign_in_page extends State<Sign_in_page> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => HomePage()),
-                    // );
-
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
                   },
                   child: const Text('Sign up'),
                 ),
