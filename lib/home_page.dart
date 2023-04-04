@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
+
 //   Future<QuerySnapshot<Map<String, dynamic>>> lunch = FirebaseFirestore.instance.collection('lunch').where('name',isEqualTo: 'test').get().then((snapshot) {
 // if (snapshot.size = 0) {
 
@@ -32,9 +33,11 @@ class _HomePageState extends State<HomePage> {
 //   });
   void usertesting() {
     FirebaseFirestore.instance
-        .collection('lunch')
+        .collection('lunch_${now.day}-${now.month}-${now.year}')
+
+        //
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
-        .where('name', isEqualTo: 'test4')
+        .where('name', isEqualTo: 'test5')
         .get()
         .then(
       (QuerySnapshot) {
@@ -67,6 +70,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Name, email address, and profile photo URL
+      final name = user.displayName;
+      final email = user.email;
+      final photoUrl = user.photoURL;
+
+      // Check if user's email is verified
+      final emailVerified = user.emailVerified;
+
+      // The user's ID, unique to the Firebase project. Do NOT use this value to
+      // authenticate with your backend server, if you have one. Use
+      // User.getIdToken() instead.
+      final uid = user.uid;
+      print(name);
+
+      print(email);
+      print(photoUrl);
+    }
+
     var now = DateTime.now();
     print(now.hour);
 
@@ -93,7 +116,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Bharath",
+                  Text(user!.email!,
                       style: Theme.of(context).textTheme.displayLarge),
                   logoutsubmitSharebtn(0, context, false, true)
                 ],

@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lunch_app/home_page.dart';
 
 List buttonNames = ['Log out', 'Haa', 'Copy'];
-CollectionReference lunch = FirebaseFirestore.instance.collection('lunch');
+CollectionReference lunch = FirebaseFirestore.instance
+    .collection('lunch_${now.day}-${now.month}-${now.year}');
 var now = DateTime.now();
+
+//
 
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
     bool _lunchisChecked, bool _eggisChecked,
@@ -73,15 +76,16 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     // Navigator.push(
     //   context,
     //   MaterialPageRoute(builder: (context) => Sign_in_page()),
-    // );
+    // );]
+    await FirebaseAuth.instance.signOut();
   }
   if (buttonNamesIndex == 1) {
     print('Buttonindex 1 pressed!,pressed haa');
     lunch.add({
       'egg': _lunchisChecked,
       'lunch': _eggisChecked,
-      'name': "test4",
-      'date': "${now.day}-${now.month}-${now.year}"
+      'name': "test5",
+      'date': "${now.day}-${now.month}-${now.year}",
     }).then((value) {
       print('updated food');
     });
