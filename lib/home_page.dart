@@ -5,6 +5,9 @@ import 'package:lunch_app/CurrentDate.dart';
 import 'package:lunch_app/logoutsubmitSharebtn.dart';
 import 'package:lunch_app/totalquantity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lunch_app/CurrentDate.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   @override

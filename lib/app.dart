@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_app/Sign_in_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lunch_app/Login_page.dart';
+import 'package:lunch_app/home_page.dart';
+import 'package:flutter/material.dart';
 
 class LunchApp extends StatefulWidget {
   const LunchApp({super.key});
@@ -13,7 +17,7 @@ class _LunchAppState extends State<LunchApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'New project',
       theme: ThemeData(
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
@@ -33,7 +37,16 @@ class _LunchAppState extends State<LunchApp> {
             right: 0,
             top: 0,
           ))))),
-      home: Sign_in_page(),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return HomePage();
+          } else {
+            return Login_page();
+          }
+        },
+      ),
     );
   }
 }
