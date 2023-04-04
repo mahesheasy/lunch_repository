@@ -13,7 +13,6 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('EasyCloud'),
       ),
-
       body: Center(
         // widthFactor: double.infinity,
         child: Column(children: [
@@ -23,7 +22,6 @@ class HomePage extends StatelessWidget {
             padding: EdgeInsets.only(right: 10),
             child: currentDate(),
           ),
-          
           Container(
             width: double.infinity,
             color: Colors.amber,
