@@ -6,7 +6,7 @@ List buttonNames = ['Log out', 'Haa', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance
     .collection('lunch_${now.day}-${now.month}-${now.year}');
 var now = DateTime.now();
-
+final user = FirebaseAuth.instance.currentUser;
 //
 
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
@@ -81,10 +81,12 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
   }
   if (buttonNamesIndex == 1) {
     print('Buttonindex 1 pressed!,pressed haa');
+    var user_email = user!.email!;
     lunch.add({
       'egg': _lunchisChecked,
       'lunch': _eggisChecked,
       'name': "test5",
+      'email': user_email,
       'date': "${now.day}-${now.month}-${now.year}",
     }).then((value) {
       print('updated food');
