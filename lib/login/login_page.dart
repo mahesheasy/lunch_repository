@@ -1,17 +1,18 @@
+import 'package:lunch_app/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lunch_app/home_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-class Login_page extends StatefulWidget {
-  const Login_page({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<Login_page> createState() => _Login_page();
+  State<LoginPage> createState() => _LoginPage();
 }
 
-class _Login_page extends State<Login_page> {
+class _LoginPage extends State<LoginPage> {
   final TextEditingController _editingController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -24,33 +25,66 @@ class _Login_page extends State<Login_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: PreferredSize(child: AppBar(
+        backgroundColor: Color.fromARGB(236, 9, 0, 0),
+       actions: const [
+           IconButton(
+              onPressed: null,
+              icon: Icon(Icons.food_bank_rounded,color: Colors.white,),
+            ),
+            IconButton(
+              onPressed: null,
+              icon: Icon(Icons.lunch_dining,color: Colors.white,),
+            ),
+        ],
+     
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Login"),
+            // Text(" MealMaven"),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(
+                    color: Color.fromARGB(255, 240, 3, 3),
+                    fontSize: 26,
+                    fontWeight: FontWeight.w900),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: "MEAL",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                  TextSpan(
+                    text: " MAVEN",
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
+      ), preferredSize: Size.fromHeight(65),),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(
-                'https://media.tenor.com/8vB6Rw4l4I8AAAAC/bubududu-food.gif'),
-            fit: BoxFit.cover,
-          ),
-        ),
+
+            //color: Colors.black,
+            // image: DecorationImage(
+            //   // image: NetworkImage(
+            //   //     'https://media.tenor.com/8vB6Rw4l4I8AAAAC/bubududu-food.gif'),
+            //   // fit: BoxFit.cover,
+            // ),
+            ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.network(
-                    'https://easycloud.in/wp-content/uploads/2018/06/logo_final.png',
-                    height: 100,
-                    fit: BoxFit.fill,
+                    'https://media.tenor.com/8vB6Rw4l4I8AAAAC/bubududu-food.gif',
+                    height: 200,
+                    fit: BoxFit.cover,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,9 +98,17 @@ class _Login_page extends State<Login_page> {
                           decoration: InputDecoration(
                             labelText: ' emailAddress',
                             hintText: 'emailAddress',
-                            prefixIcon: Icon(Icons.person_3_rounded),
-                            border: OutlineInputBorder(),
+                            fillColor: Color.fromARGB(255, 222, 224, 225),
+                            filled: true,
+                            prefixIcon: Icon(
+                              Icons.person_3_rounded,
+                              color: Color.fromARGB(255, 3, 3, 3),
+                            ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                                gapPadding: 5),
                           ),
+                          cursorColor: Colors.red,
                         ),
                       ),
                     ],
@@ -80,11 +122,19 @@ class _Login_page extends State<Login_page> {
                         child: TextField(
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
+                          style: TextStyle(color: Color.fromARGB(255, 6, 6, 6)),
                           decoration: InputDecoration(
                             labelText: ' Password ',
                             hintText: 'Enter your password:',
-                            prefixIcon: Icon(Icons.password_sharp),
-                            border: OutlineInputBorder(),
+                            fillColor: Color.fromARGB(255, 222, 224, 225),
+                            filled: true,
+                            prefixIcon: Icon(
+                              Icons.password_sharp,
+                              color: Color.fromARGB(255, 10, 9, 9),
+                            ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                                gapPadding: 5),
                           ),
                         ),
                       ),
@@ -96,10 +146,27 @@ class _Login_page extends State<Login_page> {
                       Padding(
                         padding: EdgeInsets.only(left: 20, right: 20),
                         child: ElevatedButton(
+                          style: ButtonStyle(
+                            textStyle: MaterialStatePropertyAll(
+                              TextStyle(
+                                fontSize: 22,
+                                wordSpacing: 1,
+                                letterSpacing: 1,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            elevation: MaterialStatePropertyAll(4),
+                            backgroundColor: MaterialStatePropertyAll(
+                              Color.fromARGB(255, 200, 192, 234),
+                            ),
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.all(8),
+                            ),
+                            minimumSize: MaterialStatePropertyAll(
+                              Size(40, 40),
+                            ),
+                          ),
                           onPressed: () async {
-                            // print("user enterd :${_editingController.text}");
-                            // print(
-                            //     "user enterd the password:${_passwordController.text}");
                             try {
                               final credential = await FirebaseAuth.instance
                                   .signInWithEmailAndPassword(
@@ -134,18 +201,24 @@ class _Login_page extends State<Login_page> {
                               print("password error");
                             }
                             final prefs = await SharedPreferences.getInstance();
-                            prefs.setString(
-                                'email',
-                                _editingController
-                                    .text); //it is used to save the email and password entered by the user
+                            prefs.setString('email', _editingController.text);
                             prefs.setString(
                                 'password', _passwordController.text);
                           },
-                          child: const Text('Continue'),
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              color: Color.fromARGB(221, 1, 1, 1), // text color
+                            ),
+                          ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      )
                     ],
                   ),
+                  Container(child: Text("forgot password"),)
                 ],
               ),
             ),

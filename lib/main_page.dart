@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_app/app.dart';
-// ignore: unused_import
-import 'package:lunch_app/Sign_in_page.dart';
+import 'package:lunch_app/login/app_state.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+// ignore: unused_import
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

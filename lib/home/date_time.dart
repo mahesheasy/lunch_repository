@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 
 var now = DateTime.now();
 
-Row currentDate() {
+Row Current_Date() {
   if (now.hour >= 10 && now.minute > 30) {}
 
   return Row(
-    // mainAxisSize: MainAxisSize.max,
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
     children: [
-      Text('${now.hour}hour\'s-${now.minute}min\'s-${now.second}sec\'s',
-          style: TextStyle(color: Colors.white)),
-      Text('${now.day}-${now.month}-${now.year}',
-          style: TextStyle(color: Colors.white)),
+      Text(
+        '${now.hour}hour\'s-${now.minute}min\'s-${now.second}sec\'s',
+        style: TextStyle(color: Colors.white),
+      ),
+      Text(
+        '${now.day}-${now.month}-${now.year}',
+        style: TextStyle(color: Colors.white),
+      ),
     ],
   );
 }
