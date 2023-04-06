@@ -23,26 +23,43 @@ class _HomePageState extends State<HomePage> {
   var now = DateTime.now();
 
   void usertesting() {
+    final user = FirebaseAuth.instance.currentUser;
     var email = user!.email!;
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
-
-        //
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
         .where('email', isEqualTo: email)
         .get()
         .then(
-      (QuerySnapshot) {
-        if (QuerySnapshot.size == 0) {
+      (Snap) {
+        if (Snap.size == 0) {
           print('pls order');
           _testinguser = true;
           setState(() {});
         } else {
           print('y ordered food before only');
-
           _testinguser = false;
           setState(() {});
         }
+      },
+    );
+  }
+
+  void fortotalcount() {
+    final user = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('lunch_${now.day}-${now.month}-${now.year}')
+        .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
+        .orderBy('_lunchisChecked', descending: true)
+        .get()
+        .then(
+      (QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          print(doc["email"]);
+          print(doc["lunch"]);
+        });
+
+        setState(() {});
       },
     );
   }
@@ -51,6 +68,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     usertesting();
+    fortotalcount();
     // Create a Timer to update the list every 24 hours
     Timer.periodic(Duration(hours: 24), (timer) {
       setState(() {
