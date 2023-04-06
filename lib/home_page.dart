@@ -15,9 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
-
   bool _testinguser = false;
-
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
@@ -45,20 +43,33 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void fortotalcount() {
-    final user = FirebaseAuth.instance.currentUser;
+  var totallunchcount = 0;
+  Future<void> fortotallunch() async {
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
-        .orderBy('_lunchisChecked', descending: true)
+        .where('lunch', isEqualTo: true)
         .get()
         .then(
       (QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          print(doc["email"]);
-          print(doc["lunch"]);
-        });
+        totallunchcount = querySnapshot.size;
+        print('bharath $totallunchcount');
+        setState(() {});
+      },
+    );
+  }
 
+  var totaleggcount = 0;
+  Future<void> fortotalegg() async {
+    FirebaseFirestore.instance
+        .collection('lunch_${now.day}-${now.month}-${now.year}')
+        .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
+        .where('egg', isEqualTo: true)
+        .get()
+        .then(
+      (QuerySnapshot querySnapshot) {
+        totaleggcount = querySnapshot.size;
+        print('bharath $totaleggcount');
         setState(() {});
       },
     );
@@ -68,7 +79,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     usertesting();
-    fortotalcount();
+    fortotallunch();
+    fortotalegg();
     // Create a Timer to update the list every 24 hours
     Timer.periodic(Duration(hours: 24), (timer) {
       setState(() {
@@ -252,11 +264,11 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 25,
                   ),
-                  totalquantity(0, context, 0),
+                  totalquantity(0, context, totallunchcount.toString()),
                   SizedBox(
                     height: 25,
                   ),
-                  totalquantity(1, context, 1)
+                  totalquantity(1, context, totaleggcount.toString())
                 ],
               ),
             )

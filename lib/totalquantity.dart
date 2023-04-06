@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_app/home_page.dart';
 
 List quantity = ['Total Lunch', r"Total Egg  "];
-List quantitynums = ['40', '38'];
 
 Row totalquantity(
-    int quantityIndex, BuildContext context, int quantitynumsIndex) {
+    int quantityIndex, BuildContext context, String _totallunchandeggcount) {
   return Row(
     // crossAxisAlignment: CrossAxisAlignment.baseline,
     //mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -20,7 +20,7 @@ Row totalquantity(
             style: Theme.of(context).textTheme.displayLarge),
       ),
       Expanded(
-        child: Text(quantitynums[quantityIndex],
+        child: Text(_totallunchandeggcount,
             textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.displayLarge),
       ),

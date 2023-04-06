@@ -84,8 +84,8 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     final user = FirebaseAuth.instance.currentUser;
     var user_email = user!.email!;
     lunch.add({
-      'egg': _lunchisChecked,
-      'lunch': _eggisChecked,
+      'egg': _eggisChecked,
+      'lunch': _lunchisChecked,
       'name': "test5",
       'email': user_email,
       'date': "${now.day}-${now.month}-${now.year}",
