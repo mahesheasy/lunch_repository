@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,45 +26,55 @@ class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(child: AppBar(
-        backgroundColor: Color.fromARGB(236, 9, 0, 0),
-       actions: const [
-           IconButton(
+      appBar: PreferredSize(
+        child: AppBar(
+          backgroundColor: Color.fromARGB(236, 9, 0, 0),
+          actions: const [
+            IconButton(
               onPressed: null,
-              icon: Icon(Icons.food_bank_rounded,color: Colors.white,),
+              icon: Icon(
+                Icons.food_bank_rounded,
+                color: Colors.white,
+              ),
             ),
             IconButton(
               onPressed: null,
-              icon: Icon(Icons.lunch_dining,color: Colors.white,),
-            ),
-        ],
-     
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Text(" MealMaven"),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(
-                    color: Color.fromARGB(255, 240, 3, 3),
-                    fontSize: 26,
-                    fontWeight: FontWeight.w900),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: "MEAL",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                  TextSpan(
-                    text: " MAVEN",
-                  ),
-                ],
+              icon: Icon(
+                Icons.lunch_dining,
+                color: Colors.white,
               ),
             ),
           ],
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Text(" MealMaven"),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 240, 3, 3),
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: GoogleFonts.newRocker(fontSize: 0).fontFamily,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "Meal",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                    TextSpan(
+                      text: " Maven",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ), preferredSize: Size.fromHeight(65),),
+        preferredSize: Size.fromHeight(65),
+      ),
       body: Container(
         decoration: BoxDecoration(
 
@@ -96,8 +107,16 @@ class _LoginPage extends State<LoginPage> {
                           controller: _editingController,
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                            labelText: ' emailAddress',
-                            hintText: 'emailAddress',
+                            labelText: ' Email address',
+                            labelStyle: GoogleFonts.kaushanScript(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 25,
+                                color: Colors.black),
+                            hintText: 'Enter your email address',
+                            hintStyle: GoogleFonts.greatVibes(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 25,
+                                color: Colors.black),
                             fillColor: Color.fromARGB(255, 222, 224, 225),
                             filled: true,
                             prefixIcon: Icon(
@@ -120,12 +139,22 @@ class _LoginPage extends State<LoginPage> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: TextField(
+                           obscureText: true,
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           style: TextStyle(color: Color.fromARGB(255, 6, 6, 6)),
                           decoration: InputDecoration(
                             labelText: ' Password ',
+                            
+                            labelStyle: GoogleFonts.kaushanScript(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 25,
+                                color: Colors.black),
                             hintText: 'Enter your password:',
+                            hintStyle: GoogleFonts.greatVibes(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                                color: Colors.black),
                             fillColor: Color.fromARGB(255, 222, 224, 225),
                             filled: true,
                             prefixIcon: Icon(
@@ -148,11 +177,10 @@ class _LoginPage extends State<LoginPage> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             textStyle: MaterialStatePropertyAll(
-                              TextStyle(
+                              GoogleFonts.vastShadow(
                                 fontSize: 22,
-                                wordSpacing: 1,
-                                letterSpacing: 1,
                                 fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 20, 1, 1),
                               ),
                             ),
                             elevation: MaterialStatePropertyAll(4),
@@ -215,10 +243,14 @@ class _LoginPage extends State<LoginPage> {
                       ),
                       SizedBox(
                         height: 20,
-                      )
+                      ),
                     ],
                   ),
-                  Container(child: Text("forgot password"),)
+                  Container(
+                    child: Text(
+                      "forgot password",
+                    ),
+                  ),
                 ],
               ),
             ),
