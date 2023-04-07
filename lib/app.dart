@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lunch_app/Login_page.dart';
 import 'package:lunch_app/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LunchApp extends StatefulWidget {
   const LunchApp({super.key});
@@ -19,12 +20,12 @@ class _LunchAppState extends State<LunchApp> {
     return MaterialApp(
       title: 'New project',
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
           textTheme: TextTheme(
-            displayLarge: TextStyle(
-              fontSize: 23,
+            displayLarge: GoogleFonts.greatVibes(
+              fontSize: 21,
               wordSpacing: 3,
-              letterSpacing: 1.2,
+              letterSpacing: 1.5,
               color: Colors.black87,
               fontWeight: FontWeight.bold,
             ),

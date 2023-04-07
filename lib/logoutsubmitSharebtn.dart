@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-List buttonNames = ['Log out', 'Haa', 'Copy'];
+List buttonNames = ['Yes', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance
     .collection('lunch_${now.day}-${now.month}-${now.year}');
 var now = DateTime.now();
@@ -12,7 +13,7 @@ var now = DateTime.now();
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
     bool _lunchisChecked, bool _eggisChecked,
     {VoidCallback? onPress}) {
-  if (buttonNamesIndex == 2) {
+  if (buttonNamesIndex == 1) {
     return ElevatedButton.icon(
         onPressed: () {
           print('Buttonindex 2 pressed!,pressed copy');
@@ -21,16 +22,14 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
           //   MaterialPageRoute(builder: (context) => Sign_in_page()),
         },
         style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(TextStyle(
-              fontSize: 18,
-              wordSpacing: 1,
-              letterSpacing: 1,
+            textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
+              fontSize: 16,
               color: Color.fromARGB(255, 5, 5, 5),
               fontWeight: FontWeight.bold,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 240, 202, 246)),
+                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
         icon: Icon(Icons.copy, color: Colors.black87),
@@ -43,15 +42,14 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
   } else {
     return ElevatedButton(
         style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(TextStyle(
-              fontSize: 18,
-              wordSpacing: 1,
-              letterSpacing: 1,
+            textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
+              fontSize: 16,
+              color: Color.fromARGB(255, 5, 5, 5),
               fontWeight: FontWeight.bold,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 240, 202, 246)),
+                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
         onPressed: () async {
@@ -72,14 +70,6 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
 Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     BuildContext context, _lunchisChecked, _eggisChecked) async {
   if (buttonNamesIndex == 0) {
-    print('Buttonindex 0 pressed!,pressed logout');
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => Sign_in_page()),
-    // );]
-    await FirebaseAuth.instance.signOut();
-  }
-  if (buttonNamesIndex == 1) {
     print('Buttonindex 1 pressed!,pressed haa');
     final user = FirebaseAuth.instance.currentUser;
     var user_email = user!.email!;
