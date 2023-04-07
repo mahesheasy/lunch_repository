@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:lunch_app/CurrentDate.dart';
-import 'package:lunch_app/logoutsubmitSharebtn.dart';
-import 'package:lunch_app/totalquantity.dart';
+import 'package:lunch_app/home/date_time.dart';
+import 'package:lunch_app/home/food_quantity.dart';
+import 'package:lunch_app/home/home_page_buttons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -276,6 +276,8 @@ class _HomePageState extends State<HomePage> {
                             _eggisChecked,
                             onPress: () {
                               usertesting();
+                              fortotallunch();
+                              fortotalegg();
                             },
                           ),
                         ],
@@ -303,7 +305,7 @@ class _HomePageState extends State<HomePage> {
                         Text("Total food quantity",
                             style: Theme.of(context).textTheme.displayLarge),
                         Row(
-                          children: [currentDate()],
+                          children: [Current_Date()],
                         )
                       ],
                     ),
