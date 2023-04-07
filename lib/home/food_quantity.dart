@@ -6,8 +6,6 @@ List quantity = ['Total Lunch', r"Total Egg  "];
 Row totalquantity(
     int quantityIndex, BuildContext context, String _totallunchandeggcount) {
   return Row(
-    // crossAxisAlignment: CrossAxisAlignment.baseline,
-    //mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
       Expanded(
         child: Text(quantity[quantityIndex],
