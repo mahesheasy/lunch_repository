@@ -11,10 +11,8 @@ Row currentDate() {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
     children: [
-      Text('${now.hour}hour\'s-${now.minute}min\'s-${now.second}sec\'s',
-          style: TextStyle(color: Colors.white)),
       Text('${now.day}-${now.month}-${now.year}',
-          style: TextStyle(color: Colors.white)),
+          style: TextStyle(color: Colors.black87)),
     ],
   );
 }
