@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
+import 'package:toast/toast.dart';
 
 List buttonNames = ['Yes', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance
@@ -11,15 +13,16 @@ var now = DateTime.now();
 //
 
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
-    bool _lunchisChecked, bool _eggisChecked,
+    bool _lunchisChecked, bool _eggisChecked, totallunchcount, totaleggcount,
     {VoidCallback? onPress}) {
   if (buttonNamesIndex == 1) {
     return ElevatedButton.icon(
         onPressed: () {
-          print('Buttonindex 2 pressed!,pressed copy');
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => Sign_in_page()),
+          Toast.show("Copied!",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          final whatsapptext = ClipboardData(
+              text: " Lunch : $totallunchcount  Egg : $totaleggcount");
+          Clipboard.setData(whatsapptext);
         },
         style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
@@ -57,6 +60,8 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
               buttonNamesIndex, context, _lunchisChecked, _eggisChecked);
           // Handle the result here
           onPress?.call();
+          Toast.show("Successfully updated!",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
         },
         child: Text(
           buttonNames[buttonNamesIndex],
