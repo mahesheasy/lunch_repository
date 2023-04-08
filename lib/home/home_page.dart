@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_app/home/date_time.dart';
 import 'package:lunch_app/home/food_quantity.dart';
@@ -20,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
+ late Timer timer;
 
   void usertesting() {
     final user = FirebaseAuth.instance.currentUser;
@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
 
           _lunchisChecked = Snap.docs.first['lunch'] as bool;
           _eggisChecked = Snap.docs.first['egg'] as bool;
+          timer.cancel();////
           setState(() {});
         }
       },
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
     fortotallunch();
     fortotalegg();
     // Create a Timer to update the list every 24 hours
-    Timer.periodic(
+     timer = Timer.periodic(
       Duration(seconds: 5),
       (timer) {
         setState(
@@ -123,10 +124,12 @@ class _HomePageState extends State<HomePage> {
             Text(user!.email!, style: Theme.of(context).textTheme.displayLarge),
         actions: [
           IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-              },
-              icon: Icon(Icons.logout, color: Colors.black))
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.pop(context); 
+            },
+            icon: Icon(Icons.logout, color: Colors.black),
+          ),
         ],
       ),
       body: Center(
@@ -355,5 +358,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    timer.cancel();
+    super.dispose();
   }
 }

@@ -40,11 +40,25 @@ class _LunchAppState extends State<LunchApp> {
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
+
+          switch (snapshot.connectionState) {
+            
+            case ConnectionState.none:
+              
+            case ConnectionState.waiting:
+              
+            case ConnectionState.active:
+              return LoginPage();
+            case ConnectionState.done:
+              if (snapshot.hasData && snapshot.data != null && !snapshot.hasError) {
             return HomePage();
           } else {
             return LoginPage();
           }
+             
+          }
+
+          
         },
       ),
     );

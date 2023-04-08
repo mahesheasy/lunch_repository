@@ -198,9 +198,8 @@ class _LoginPage extends State<LoginPage> {
                   print(e);
                   print("password error");
                 }
-                final prefs = await SharedPreferences.getInstance();
-                prefs.setString('email', _editingController.text);
-                prefs.setString('password', _passwordController.text);
+              
+               
               },
               child: Text(
                 'Login',
