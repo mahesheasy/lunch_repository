@@ -14,10 +14,20 @@ class LunchApp extends StatefulWidget {
 
 class _LunchAppState extends State<LunchApp> {
   // This widget is the root of your application.
+
+  late Stream<User?> authStateChanges;
+
+  @override
+  void initState() {
+    super.initState();
+
+    authStateChanges = FirebaseAuth.instance.authStateChanges();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'New project',
+      title: 'Mealmaven',
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,
           textTheme: TextTheme(
@@ -38,27 +48,22 @@ class _LunchAppState extends State<LunchApp> {
             top: 0,
           ))))),
       home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
+        stream: authStateChanges,
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-
+          print(snapshot.connectionState);
           switch (snapshot.connectionState) {
-            
-            case ConnectionState.none:
-              
-            case ConnectionState.waiting:
-              
+           
             case ConnectionState.active:
-              return LoginPage();
             case ConnectionState.done:
-              if (snapshot.hasData && snapshot.data != null && !snapshot.hasError) {
-            return HomePage();
-          } else {
-            return LoginPage();
+              if (snapshot.hasData &&
+                  snapshot.data != null &&
+                  !snapshot.hasError) {
+                return HomePage();
+              } else {
+                return LoginPage();
+              }
+          default:return LoginPage();
           }
-             
-          }
-
-          
         },
       ),
     );

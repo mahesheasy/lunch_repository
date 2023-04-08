@@ -177,12 +177,11 @@ class _LoginPage extends State<LoginPage> {
                     password: _passwordController.text,
                   );
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                  );
+                  // Navigator.of(context).push(   
+                  //   MaterialPageRoute(
+                  //     builder: (context) => HomePage(),
+                  //   ),
+                  // );
                 } on FirebaseAuthException catch (e) {
                   Toast.show("invalid email or password",
                       duration: Toast.lengthLong, gravity: Toast.top);

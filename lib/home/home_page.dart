@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
-              Navigator.pop(context); 
+            //  Navigator.pop(context); 
             },
             icon: Icon(Icons.logout, color: Colors.black),
           ),
@@ -335,7 +335,7 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: Column(
               children: [
-                if (now.hour >= 10 && now.minute >= 30)
+                // if (now.hour >= 10 && now.minute >= 30)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
