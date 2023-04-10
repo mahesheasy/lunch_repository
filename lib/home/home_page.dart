@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:lunch_app/home/date_time.dart';
-import 'package:lunch_app/home/food_quantity.dart';
-import 'package:lunch_app/home/home_page_buttons.dart';
+import 'package:lunch_app/home/app_bar_dispaly.dart';
+import 'package:lunch_app/home/bottombarcontant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lunch_app/home/time_out_display.dart';
+import 'package:lunch_app/home/total_quantaty_count_widgit_display.dart';
+import 'package:lunch_app/home/yes_text_list_display.dart';
 import 'package:toast/toast.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
+  TimeOfDay startTime = TimeOfDay(hour: 10, minute: 30);
   late Timer timer;
 
   void usertesting() {
@@ -117,24 +120,8 @@ class _HomePageState extends State<HomePage> {
     print(now.hour);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 222, 225, 225),
-        leading: null,
-        automaticallyImplyLeading: false,
-        leadingWidth: 0,
-        title:
-            Text(user!.email!, style: Theme.of(context).textTheme.displayLarge),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.logout, color: Colors.black))
-        ],
-      ),
+      appBar: appbar(user, context),
       body: Center(
-        // widthFactor: double.infinity,
         child: Container(
           decoration: BoxDecoration(color: Colors.purple[50]),
           child: Column(
@@ -143,10 +130,8 @@ class _HomePageState extends State<HomePage> {
                 width: 200,
                 height: 180,
                 margin: EdgeInsets.only(top: 60, bottom: 60),
-                // decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.all(Radius.circular())),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 251, 254, 253),
+                  color: Color.fromARGB(255, 187, 246, 226),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
@@ -157,15 +142,12 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (now.hour <= 10 && now.minute <= 30)
-
-// we have to change time in ""if""" change operators opposite --8/4/23 over
-
+                    if (now.hour <= startTime.hour &&
+                        now.minute <= startTime.minute)
                       Container(
                         child: Column(
                           children: [
@@ -184,11 +166,6 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 checkboxShape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
-                                  side: BorderSide(
-                                    color:
-                                        Colors.red, // set the border color here
-                                    width: 5.0, // set the border width here
-                                  ),
                                 ),
                                 title: Text(
                                   "Lunch",
@@ -196,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                                       .textTheme
                                       .displayLarge!
                                       .copyWith(
-                                        fontSize: 23,
+                                        fontSize: 25,
                                         color: Colors.grey[800],
                                       ),
                                 ),
@@ -219,11 +196,6 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 checkboxShape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
-                                  side: BorderSide(
-                                    color:
-                                        Colors.red, // set the border color here
-                                    width: 5.0, // set the border width here
-                                  ),
                                 ),
                                 title: Text(
                                   "Egg",
@@ -231,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                                       .textTheme
                                       .displayLarge!
                                       .copyWith(
-                                          fontSize: 23,
+                                          fontSize: 25,
                                           color: Colors.grey[800]),
                                 ),
                                 controlAffinity:
@@ -241,17 +213,11 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                    if (now.hour >= 10 && now.minute >= 30)
-
-// we have to change time in ""if""" change operators opposite --8/4/23 over
-
-                      Container(
-                        child: Text("Time Out",
-                            style: Theme.of(context).textTheme.displayLarge),
-                      ),
+                    if (now.hour >= startTime.hour &&
+                        now.minute >= startTime.minute)
+                      timeoutwidget(context),
                   ],
                 ),
-                //if (now.hour > 10) Text('Timed out'),
               ),
               Container(
                 height: 50,
@@ -262,35 +228,22 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                    if (now.hour <= 10 && now.minute <= 30)
+                    if (now.hour <= startTime.hour &&
+                        now.minute <= startTime.minute)
                       if (_isLunchProvided)
-
-// we have to change time in ""if""" change operators opposite --8/4/23 over
-
-                        Row(
-                          // crossAxisAlignment: CrossAxisAlignment.baseline,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(_list[_currentIndex],
-                                style:
-                                    Theme.of(context).textTheme.displayLarge),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            logoutsubmitSharebtn(
-                              0,
-                              context,
-                              _lunchisChecked,
-                              _eggisChecked,
-                              null,
-                              null,
-                              onPress: () {
-                                usertesting();
-                                fortotallunch();
-                                fortotalegg();
-                              },
-                            ),
-                          ],
+                        yesbtnandtext(
+                          0,
+                          context,
+                          _lunchisChecked,
+                          _eggisChecked,
+                          null,
+                          null,
+                          _list[_currentIndex],
+                          onPress: () {
+                            usertesting();
+                            fortotallunch();
+                            fortotalegg();
+                          },
                         ),
                   ],
                 ),
@@ -298,34 +251,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 40,
               ),
-              Container(
-                width: 320,
-                margin: EdgeInsets.only(
-                  top: 40,
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Total food quantity",
-                            style: Theme.of(context).textTheme.displayLarge),
-                        Row(
-                          children: [Current_Date(context)],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    totalquantity(0, context, totallunchcount.toString()),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    totalquantity(1, context, totaleggcount.toString())
-                  ],
-                ),
-              ),
+              Totalquantatydisplay(context, totallunchcount, totaleggcount),
             ],
           ),
         ),
@@ -338,26 +264,10 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: Column(
               children: [
-                if (now.hour >= 10 && now.minute >= 30)
-
-// we have to change time in ""if""" change operators opposite --8/4/23 over
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      logoutsubmitSharebtn(1, context, false, true,
-                          totallunchcount.toString(), totaleggcount.toString()),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'and paste in WhatsApp',
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayLarge!
-                            .copyWith(fontSize: 21),
-                      )
-                    ],
-                  ),
+                if (now.hour >= startTime.hour &&
+                    now.minute >= startTime.minute)
+                  Bottomappbarcontant(context, totallunchcount.toString(),
+                      totaleggcount.toString()),
               ],
             ),
           ),

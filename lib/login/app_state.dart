@@ -21,7 +21,7 @@ class _LunchAppState extends State<LunchApp> {
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,
           textTheme: TextTheme(
-            displayLarge: GoogleFonts.greatVibes(
+            displayLarge: GoogleFonts.eduQldBeginner(
               fontSize: 21,
               wordSpacing: 3,
               letterSpacing: 1.5,
