@@ -1,13 +1,15 @@
-import 'package:lunch_app/home/home_page.dart';
+import 'dart:math';
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lunch_app/login/text_fields/email_input.dart';
 import 'package:lunch_app/login/text_fields/password_input.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lunch_app/main.dart';
+import 'package:lunch_app/noti.dart';
 import 'package:toast/toast.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,68 +28,32 @@ class _LoginPage extends State<LoginPage> {
         _passwordVisible = !_passwordVisible;
       },
     );
+
+void checkForNotification()async{
+  NotificationAppLaunchDetails? details=await
+  flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  if (details?.didNotificationLaunchApp==true) {
+    NotificationResponse? response= details!.notificationResponse;
+    if (response != null) {
+      String? payload= response.payload;
+      log("Notification payload: $payload" as num);
+      
+    }
+    
   }
+}
 
   @override
   void initState() {
     ToastContext().init(context);
     super.initState();
+    //noti.initialize(flutterLocalNotificationsPlugin);
+    checkForNotification();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.black,
-      // appBar: PreferredSize(
-      //   child: AppBar(
-      //     backgroundColor: Color.fromARGB(236, 9, 0, 0),
-      //     actions: const [
-      //       IconButton(
-      //         onPressed: null,
-      //         icon: Icon(
-      //           Icons.food_bank_rounded,
-      //           color: Colors.white,
-      //         ),
-      //       ),
-      //       IconButton(
-      //         onPressed: null,
-      //         icon: Icon(
-      //           Icons.lunch_dining,
-      //           color: Colors.white,
-      //         ),
-      //       ),
-      //     ],
-      //     title: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         // Text(" MealMaven"),
-      //         RichText(
-      //           text: TextSpan(
-      //             style: TextStyle(
-      //               color: Color.fromARGB(255, 240, 3, 3),
-      //               fontSize: 28,
-      //               fontWeight: FontWeight.w900,
-      //               fontFamily: GoogleFonts.newRocker(fontSize: 0).fontFamily,
-      //             ),
-      //             children: <TextSpan>[
-      //               TextSpan(
-      //                 text: "Meal",
-      //                 style: TextStyle(
-      //                   color: Color.fromARGB(255, 255, 255, 255),
-      //                 ),
-      //               ),
-      //               TextSpan(
-      //                 text: " Maven",
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      //   preferredSize: Size.fromHeight(65),
-      // ),
-
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           top: 70,
@@ -177,11 +143,7 @@ class _LoginPage extends State<LoginPage> {
                     password: _passwordController.text,
                   );
 
-                  // Navigator.of(context).push(   
-                  //   MaterialPageRoute(
-                  //     builder: (context) => HomePage(),
-                  //   ),
-                  // );
+                 
                 } on FirebaseAuthException catch (e) {
                   Toast.show("invalid email or password",
                       duration: Toast.lengthLong, gravity: Toast.top);
@@ -197,8 +159,6 @@ class _LoginPage extends State<LoginPage> {
                   print(e);
                   print("password error");
                 }
-              
-               
               },
               child: Text(
                 'Login',
@@ -218,10 +178,30 @@ class _LoginPage extends State<LoginPage> {
             SizedBox(
               height: 10,
             ),
-            Center(child: Text("Don't have an account? SIGN UP")),
+            Center(
+              child: Text("Don't have an account? SIGN UP"),
+            ),
+            Container(
+              child: ElevatedButton(
+                onPressed: () {
+                  noti.showBigTextNotification(
+                      title: "new notification",
+                      body: "whats up",
+                      fln: flutterLocalNotificationsPlugin);
+                },
+                child: Text('noti'),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }

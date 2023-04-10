@@ -79,14 +79,18 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     print('Buttonindex 1 pressed!,pressed haa');
     final user = FirebaseAuth.instance.currentUser;
     var user_email = user!.email!;
-    lunch.add({
-      'egg': _eggisChecked,
-      'lunch': _lunchisChecked,
-      'name': "test5",
-      'email': user_email,
-      'date': "${now.day}-${now.month}-${now.year}",
-    }).then((value) {
-      print('updated food');
-    });
+    lunch.add(
+      {
+        'egg': _eggisChecked,
+        'lunch': _lunchisChecked,
+        'name': "test5",
+        'email': user_email,
+        'date': "${now.day}-${now.month}-${now.year}",
+      },
+    ).then(
+      (value) {
+        print('updated food');
+      },
+    );
   }
 }
