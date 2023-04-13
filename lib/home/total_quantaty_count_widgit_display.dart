@@ -5,7 +5,7 @@ import 'package:lunch_app/home/food_quantity.dart';
 Container Totalquantatydisplay(
     BuildContext context, totallunchcount, totaleggcount) {
   return Container(
-    width: 320,
+    width: 350,
     margin: EdgeInsets.only(
       top: 40,
     ),
@@ -14,22 +14,26 @@ Container Totalquantatydisplay(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Total food quantity",
-                style: Theme.of(context).textTheme.displayLarge),
+            Text(
+              "Total food quantity",
+              style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                    fontSize: 21,
+                  ),
+            ),
             Row(
               children: [Current_Date(context)],
             )
           ],
         ),
         SizedBox(
-          height: 25,
+          height: 40,
         ),
         // totalquantity(0, context, totallunchcount.toString()),
         Quantitywidget(
             quantityIndex: 0,
             totallunchandeggcount: totallunchcount.toString()),
         SizedBox(
-          height: 25,
+          height: 30,
         ),
 
         Quantitywidget(

@@ -24,19 +24,31 @@ class Quantitywidget extends StatelessWidget {
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Expanded(
-          child: Text(quantity[quantityIndex],
-              style: Theme.of(context).textTheme.displayLarge),
+          child: Text(
+            quantity[quantityIndex],
+            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                  fontSize: 21,
+                ),
+          ),
         ),
         SizedBox(
           width: 20,
-          child: Text(":",
-              textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.displayLarge),
+          child: Text(
+            ":",
+            textAlign: TextAlign.end,
+            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                  fontSize: 21,
+                ),
+          ),
         ),
         Expanded(
-          child: Text(totallunchandeggcount,
-              textAlign: TextAlign.end,
-              style: Theme.of(context).textTheme.displayLarge),
+          child: Text(
+            totallunchandeggcount,
+            textAlign: TextAlign.end,
+            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                  fontSize: 21,
+                ),
+          ),
         ),
       ],
     );

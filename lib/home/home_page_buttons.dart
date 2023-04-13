@@ -61,7 +61,7 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
           // Handle the result here
           onPress?.call();
           Toast.show("Successfully updated!",
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+              duration: Toast.lengthShort, gravity: Toast.top);
         },
         child: Text(
           buttonNames[buttonNamesIndex],
@@ -81,7 +81,6 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     lunch.add({
       'egg': _eggisChecked,
       'lunch': _lunchisChecked,
-      'name': "test5",
       'email': user_email,
       'date': "${now.day}-${now.month}-${now.year}",
     }).then((value) {

@@ -109,12 +109,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      final name = user.displayName;
-      final email = user.email;
-      final photoUrl = user.photoURL;
-      print(name);
-      print(email);
-      print(photoUrl);
+      final email = user.email!;
     }
     var now = DateTime.now();
     print(now.hour);

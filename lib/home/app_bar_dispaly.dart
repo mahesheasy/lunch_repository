@@ -7,7 +7,12 @@ AppBar appbar(User? user, BuildContext context) {
     leading: null,
     automaticallyImplyLeading: false,
     leadingWidth: 0,
-    title: Text(user!.email!, style: Theme.of(context).textTheme.displayLarge),
+    title: Text(
+      user!.email!,
+      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+            fontSize: 21,
+          ),
+    ),
     actions: [
       IconButton(
           onPressed: () async {
