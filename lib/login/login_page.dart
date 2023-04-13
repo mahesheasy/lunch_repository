@@ -1,13 +1,10 @@
-import 'dart:math';
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lunch_app/login/text_fields/email_input.dart';
 import 'package:lunch_app/login/text_fields/password_input.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lunch_app/main.dart';
-import 'package:lunch_app/noti.dart';
+
 import 'package:toast/toast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,180 +25,159 @@ class _LoginPage extends State<LoginPage> {
         _passwordVisible = !_passwordVisible;
       },
     );
+  }
+  
 
-void checkForNotification()async{
-  NotificationAppLaunchDetails? details=await
-  flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-  if (details?.didNotificationLaunchApp==true) {
-    NotificationResponse? response= details!.notificationResponse;
-    if (response != null) {
-      String? payload= response.payload;
-      log("Notification payload: $payload" as num);
-      
+    @override
+    void initState() {
+      ToastContext().init(context);
+      super.initState();
+      //noti.initialize(flutterLocalNotificationsPlugin);
+     
     }
-    
-  }
-}
 
-  @override
-  void initState() {
-    ToastContext().init(context);
-    super.initState();
-    //noti.initialize(flutterLocalNotificationsPlugin);
-    checkForNotification();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          top: 70,
-          left: 16,
-          right: 16,
-        ),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.s,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 240, 3, 3),
-                    fontSize: 43,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: GoogleFonts.newRocker(fontSize: 0).fontFamily,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "Meal",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 8, 0, 0),
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            top: 70,
+            left: 16,
+            right: 16,
+          ),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.s,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 240, 3, 3),
+                      fontSize: 43,
+                      fontWeight: FontWeight.w900,
+                      fontFamily: GoogleFonts.newRocker(fontSize: 0).fontFamily,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "Meal",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 8, 0, 0),
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: " Maven",
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Image.network(
-              'https://media.tenor.com/8vB6Rw4l4I8AAAAC/bubududu-food.gif',
-              height: 200,
-              fit: BoxFit.fitHeight,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Email_input(_editingController),
-            SizedBox(
-              height: 18,
-            ),
-            Password_input(
-              _passwordVisible,
-              _passwordController,
-              context,
-              onPress: () {
-                passwordVisibility();
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
+                      TextSpan(
+                        text: " Maven",
+                      ),
+                    ],
                   ),
                 ),
-                textStyle: MaterialStatePropertyAll(
-                  GoogleFonts.vastShadow(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 20, 1, 1),
-                  ),
-                ),
-                elevation: MaterialStatePropertyAll(4),
-                backgroundColor: MaterialStatePropertyAll(
-                  Color.fromARGB(255, 200, 192, 234),
-                ),
-                padding: MaterialStatePropertyAll(
-                  EdgeInsets.all(16),
-                ),
-                minimumSize: MaterialStatePropertyAll(
-                  Size(40, 40),
-                ),
               ),
-              onPressed: () async {
-                try {
-                  final credential =
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: _editingController.text,
-                    password: _passwordController.text,
-                  );
-
-                 
-                } on FirebaseAuthException catch (e) {
-                  Toast.show("invalid email or password",
-                      duration: Toast.lengthLong, gravity: Toast.top);
-                  if (e.code == 'weak-password') {
-                    print('The password provided is too weak.');
-                  } else if (e.code == 'email-already-in-use') {
-                    print('The account already exists for that email.');
-                  }
-                } catch (e) {
-                  Toast.show("invalid email or password",
-                      duration: Toast.lengthLong, gravity: Toast.top);
-
-                  print(e);
-                  print("password error");
-                }
-              },
-              child: Text(
-                'Login',
-                style: TextStyle(
-                  color: Color.fromARGB(221, 1, 1, 1), // text color
-                ),
+              Image.network(
+                'https://media.tenor.com/8vB6Rw4l4I8AAAAC/bubududu-food.gif',
+                height: 200,
+                fit: BoxFit.fitHeight,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: Text(
-                "forgot password",
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Text("Don't have an account? SIGN UP"),
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  noti.showBigTextNotification(
-                      title: "new notification",
-                      body: "whats up",
-                      fln: flutterLocalNotificationsPlugin);
+              Email_input(_editingController),
+              SizedBox(
+                height: 18,
+              ),
+              Password_input(
+                _passwordVisible,
+                _passwordController,
+                context,
+                onPress: () {
+                  passwordVisibility();
                 },
-                child: Text('noti'),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                  textStyle: MaterialStatePropertyAll(
+                    GoogleFonts.vastShadow(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 20, 1, 1),
+                    ),
+                  ),
+                  elevation: MaterialStatePropertyAll(4),
+                  backgroundColor: MaterialStatePropertyAll(
+                    Color.fromARGB(255, 200, 192, 234),
+                  ),
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.all(16),
+                  ),
+                  minimumSize: MaterialStatePropertyAll(
+                    Size(40, 40),
+                  ),
+                ),
+                onPressed: () async {
+                  try {
+                    final credential =
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: _editingController.text,
+                      password: _passwordController.text,
+                    );
+                  } on FirebaseAuthException catch (e) {
+                    Toast.show("invalid email or password",
+                        duration: Toast.lengthLong, gravity: Toast.top);
+                    if (e.code == 'weak-password') {
+                      print('The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      print('The account already exists for that email.');
+                    }
+                  } catch (e) {
+                    Toast.show("invalid email or password",
+                        duration: Toast.lengthLong, gravity: Toast.top);
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+                    print(e);
+                    print("password error");
+                  }
+                },
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                    color: Color.fromARGB(221, 1, 1, 1), // text color
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Text(
+                  "forgot password",
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Text("Don't have an account? SIGN UP"),
+              ),
+              // Container(
+              //   child: ElevatedButton(
+              //     onPressed: ()  {
+              //       noti.showBigTextNotification(title: "hello", body: "everyone", fln:FlutterLocalNotificationsPlugin(),);
+                
+              //     },
+              //     child: Text('noti'),
+              //   ),
+              //),
+            ],
+          ),
+        ),
+      );
+    }
   }
-}
+
+
