@@ -237,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    if (now.hour <= 10 && now.minute <= 30)
+                  // if (now.hour <= 10 && now.minute <= 30)
 
 // we have to change time in ""if""" change operators opposite
 
