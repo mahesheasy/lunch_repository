@@ -8,6 +8,7 @@ import 'package:lunch_app/home/time_out_display.dart';
 import 'package:lunch_app/home/total_quantaty_count_widgit_display.dart';
 import 'package:lunch_app/home/yes_text_list_display.dart';
 import 'package:toast/toast.dart';
+import 'package:lunch_app/home/check_box_tile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
-  TimeOfDay startTime = TimeOfDay(hour: 10, minute: 30);
+
   late Timer timer;
 
   void usertesting() {
@@ -141,76 +142,63 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (now.hour <= startTime.hour &&
-                        now.minute <= startTime.minute)
-                      Container(
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 160,
-                              child: CheckboxListTile(
-                                value: _lunchisChecked,
-                                enabled: _isLunchProvided,
-                                onChanged: (newValue) async {
-                                  assert(newValue != null);
-                                  setState(
-                                    () {
-                                      _lunchisChecked = newValue!;
-                                    },
-                                  );
-                                },
-                                checkboxShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                title: Text(
-                                  "Lunch",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayLarge!
-                                      .copyWith(
-                                        fontSize: 25,
-                                        color: Colors.grey[800],
-                                      ),
-                                ),
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                              ),
-                            ),
-                            Container(
-                              width: 160,
-                              child: CheckboxListTile(
-                                value: _eggisChecked,
-                                enabled: _isLunchProvided,
-                                onChanged: (newValue) async {
-                                  assert(newValue != null);
-                                  setState(
-                                    () {
-                                      _eggisChecked = newValue!;
-                                    },
-                                  );
-                                },
-                                checkboxShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                title: Text(
-                                  "Egg",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayLarge!
-                                      .copyWith(
-                                          fontSize: 25,
-                                          color: Colors.grey[800]),
-                                ),
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                              ),
-                            ),
-                          ],
-                        ),
+                    // if (now.hour <= 11)
+                    Container(
+                      child: Column(
+                        children: [
+                          // Container(
+                          //   width: 160,
+                          //   child: CheckboxListTile(
+                          //     value: _lunchisChecked,
+                          //     enabled: _isLunchProvided,
+                          //     onChanged: (newValue) async {
+                          //       assert(newValue != null);
+                          //       setState(
+                          //         () {
+                          //           _lunchisChecked = newValue!;
+                          //         },
+                          //       );
+                          //     },
+                          //     checkboxShape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(5),
+                          //     ),
+                          //     title: Text(
+                          //       "Lunch",
+                          //       style: Theme.of(context)
+                          //           .textTheme
+                          //           .displayLarge!
+                          //           .copyWith(
+                          //             fontSize: 25,
+                          //             color: Colors.grey[800],
+                          //           ),
+                          //     ),
+                          //     controlAffinity: ListTileControlAffinity.leading,
+                          //   ),
+                          // ),
+                          CheckBoxtile(
+                            initialvalue: _lunchisChecked,
+                            isLunchProvided: _isLunchProvided,
+                            title: "Lunch",
+                            onchnage: (value) {
+                              setState(() {
+                                _lunchisChecked = value!;
+                              });
+                            },
+                          ),
+                          CheckBoxtile(
+                            initialvalue: _eggisChecked,
+                            isLunchProvided: _isLunchProvided,
+                            title: "Egg",
+                            onchnage: (value) {
+                              setState(() {
+                                _eggisChecked = value!;
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                    if (now.hour >= startTime.hour &&
-                        now.minute >= startTime.minute)
-                      timeoutwidget(context),
+                    ),
+                    // if (now.hour >= 11) timeoutwidget(context),
                   ],
                 ),
               ),
@@ -223,23 +211,22 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                    if (now.hour <= startTime.hour &&
-                        now.minute <= startTime.minute)
-                      if (_isLunchProvided)
-                        yesbtnandtext(
-                          0,
-                          context,
-                          _lunchisChecked,
-                          _eggisChecked,
-                          null,
-                          null,
-                          _list[_currentIndex],
-                          onPress: () {
-                            usertesting();
-                            fortotallunch();
-                            fortotalegg();
-                          },
-                        ),
+                    //  if (now.hour <= 11)
+                    if (_isLunchProvided)
+                      yesbtnandtext(
+                        0,
+                        context,
+                        _lunchisChecked,
+                        _eggisChecked,
+                        null,
+                        null,
+                        _list[_currentIndex],
+                        onPress: () {
+                          usertesting();
+                          fortotallunch();
+                          fortotalegg();
+                        },
+                      ),
                   ],
                 ),
               ),
@@ -259,10 +246,9 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: Column(
               children: [
-                if (now.hour >= startTime.hour &&
-                    now.minute >= startTime.minute)
-                  Bottomappbarcontant(context, totallunchcount.toString(),
-                      totaleggcount.toString()),
+                // if (now.hour >= 11)
+                Bottomappbarcontant(context, totallunchcount.toString(),
+                    totaleggcount.toString()),
               ],
             ),
           ),

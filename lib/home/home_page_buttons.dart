@@ -61,7 +61,7 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
           // Handle the result here
           onPress?.call();
           Toast.show("Successfully updated!",
-              duration: Toast.lengthShort, gravity: Toast.top);
+              duration: Toast.lengthShort, gravity: Toast.center);
         },
         child: Text(
           buttonNames[buttonNamesIndex],

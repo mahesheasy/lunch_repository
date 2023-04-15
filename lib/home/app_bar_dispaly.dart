@@ -17,7 +17,7 @@ AppBar appbar(User? user, BuildContext context) {
       IconButton(
           onPressed: () async {
             await FirebaseAuth.instance.signOut();
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
           icon: Icon(Icons.logout, color: Colors.black))
     ],

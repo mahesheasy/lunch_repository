@@ -17,6 +17,7 @@ class _LunchAppState extends State<LunchApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'New project',
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,
