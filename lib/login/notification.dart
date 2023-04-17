@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lunch_app/home/home_page_buttons.dart';
 
@@ -20,18 +19,16 @@ class notification {
   Future<void> showNotification(int id, String title, String body) async {
     tz.initializeTimeZones();
     var SheduleDate1 = tz.TZDateTime.from(
-        DateTime(now.year, now.month, now.day, 16, 44, 0), tz.local);
+        DateTime(now.year, now.month, now.day, 9, 0, 0), tz.local);
     var SheduleDate2 = tz.TZDateTime.from(
-        DateTime(now.year, now.month, now.day, 16, 3, 0), tz.local);
+        DateTime(now.year, now.month, now.day, 10, 30, 0), tz.local);
     if (now.isBefore(SheduleDate1)) {
       await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,
         body,
         SheduleDate1,
-        // tz.TZDateTime.now(tz.local).add(
-        //   Duration(minutes: 1),
-        // ),
+        
         NotificationDetails(
           android: AndroidNotificationDetails(
             id.toString(),
@@ -52,12 +49,9 @@ class notification {
         id + 1,
         "Alert..❗️",
 
-        "time is too short update your food yaar 🕚",
+        "time is too short..🕚  update your food broooo ",
         SheduleDate2,
-        // tz.TZDateTime.now(tz.local).add(
-        //   Duration(hours: 15,minutes: 16),
-
-        // ),
+        
         NotificationDetails(
           android: AndroidNotificationDetails(
             (id + 1).toString(),

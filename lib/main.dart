@@ -11,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   notification myNotification = notification();
   await myNotification.initilizeNotification();
- await myNotification.showNotification(1, 'ℍ𝕖𝕝𝕝𝕠 𝕘𝕦𝕪𝕤 😊😝', 'Update your lunch..😋🍛');
+ await myNotification.showNotification(1, 'ℍ𝕖𝕝𝕝𝕠 𝕘𝕦𝕪𝕤 😊😝', '˜”*°•.˜”*°• Update your lunch •°*”˜.•°*”˜..😋🍛');
 
   await Firebase.initializeApp();
   runApp(const LunchApp());

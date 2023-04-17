@@ -19,10 +19,12 @@ class _LoginPage extends State<LoginPage> {
   TextEditingController _editingController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _passwordVisible = false;
+   bool _isLoading = false;
   void passwordVisibility() {
     setState(
       () {
         _passwordVisible = !_passwordVisible;
+       
       },
     );
   }
@@ -39,7 +41,10 @@ class _LoginPage extends State<LoginPage> {
     @override
     Widget build(BuildContext context) {
       return Scaffold(
-        body: SingleChildScrollView(
+        body:_isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            ): SingleChildScrollView(
           padding: EdgeInsets.only(
             top: 70,
             left: 16,
@@ -122,6 +127,10 @@ class _LoginPage extends State<LoginPage> {
                 ),
                 onPressed: () async {
                   try {
+                      setState(() {
+                         _isLoading = true ;
+                      });
+
                     final credential =
                         await FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: _editingController.text,
