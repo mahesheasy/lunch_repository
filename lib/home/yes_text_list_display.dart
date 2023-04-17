@@ -17,7 +17,7 @@ Row yesbtnandtext(
         listtext,
         style: Theme.of(context).textTheme.displayLarge!.copyWith(
               fontSize: 28,
-              color: Colors.grey[800],
+              color: Colors.white,
             ),
       ),
       SizedBox(

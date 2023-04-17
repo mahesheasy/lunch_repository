@@ -18,7 +18,7 @@ class _LunchAppState extends State<LunchApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'New project',
+      title: 'MealMaven',
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,
           textTheme: TextTheme(
@@ -26,7 +26,7 @@ class _LunchAppState extends State<LunchApp> {
               fontSize: 21,
               wordSpacing: 3,
               letterSpacing: 1.5,
-              color: Colors.black87,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),

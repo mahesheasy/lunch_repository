@@ -7,7 +7,7 @@ Container Totalquantatydisplay(
   return Container(
     width: 350,
     margin: EdgeInsets.only(
-      top: 40,
+      top: 30,
     ),
     child: Column(
       children: [

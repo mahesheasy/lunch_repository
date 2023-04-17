@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 AppBar appbar(User? user, BuildContext context) {
   return AppBar(
-    backgroundColor: Color.fromARGB(255, 222, 225, 225),
+    //Color.fromARGB(255, 222, 225, 225)
+    backgroundColor: Colors.black,
     leading: null,
     automaticallyImplyLeading: false,
     leadingWidth: 0,
@@ -11,6 +12,7 @@ AppBar appbar(User? user, BuildContext context) {
       user!.email!,
       style: Theme.of(context).textTheme.displayLarge!.copyWith(
             fontSize: 21,
+            color: Colors.white,
           ),
     ),
     actions: [
@@ -19,7 +21,7 @@ AppBar appbar(User? user, BuildContext context) {
             await FirebaseAuth.instance.signOut();
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.logout, color: Colors.black))
+          icon: Icon(Icons.logout, color: Color.fromARGB(255, 248, 19, 2)))
     ],
   );
 }

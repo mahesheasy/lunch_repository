@@ -20,14 +20,14 @@ class CheckBoxtile extends StatelessWidget {
         value: initialvalue,
         enabled: isLunchProvided,
         onChanged: onchnage,
-        checkboxShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
+        checkboxShape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        side: BorderSide(color: Colors.black, width: 2.5),
         title: Text(
           title,
           style: Theme.of(context).textTheme.displayLarge!.copyWith(
                 fontSize: 25,
-                color: Colors.grey[800],
+                color: Colors.black,
               ),
         ),
         controlAffinity: ListTileControlAffinity.leading,

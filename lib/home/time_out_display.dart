@@ -6,7 +6,7 @@ Container timeoutwidget(BuildContext context) {
       "Time Out",
       style: Theme.of(context).textTheme.displayLarge!.copyWith(
             fontSize: 40,
-            color: Colors.grey[800],
+            color: Colors.white,
           ),
     ),
   );

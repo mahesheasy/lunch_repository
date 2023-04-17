@@ -26,33 +26,34 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
         },
         style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
-              fontSize: 16,
-              color: Color.fromARGB(255, 5, 5, 5),
+              fontSize: 17,
+              // Color.fromARGB(255, 5, 5, 5)
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
+                MaterialStatePropertyAll(Color.fromRGBO(198, 205, 255, 1)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
-        icon: Icon(Icons.copy, color: Colors.black87),
+        icon: Icon(Icons.copy, color: Colors.black),
         label: Text(
           buttonNames[buttonNamesIndex],
           style: TextStyle(
-            color: Colors.black87, // text color
+            color: Colors.black, // text color
           ),
         ));
   } else {
     return ElevatedButton(
         style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
-              fontSize: 16,
-              color: Color.fromARGB(255, 5, 5, 5),
+              fontSize: 18,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
+                MaterialStatePropertyAll(Color.fromRGBO(198, 205, 255, 1)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
         onPressed: () async {
@@ -66,7 +67,7 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
         child: Text(
           buttonNames[buttonNamesIndex],
           style: TextStyle(
-            color: Colors.black87, // text color
+            color: Colors.black, // text color
           ),
         ));
   }

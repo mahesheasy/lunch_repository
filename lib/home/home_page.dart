@@ -22,9 +22,7 @@ class _HomePageState extends State<HomePage> {
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
-
   late Timer timer;
-
   void usertesting() {
     final user = FirebaseAuth.instance.currentUser;
     var email = user!.email!;
@@ -90,9 +88,7 @@ class _HomePageState extends State<HomePage> {
     usertesting();
     fortotallunch();
     fortotalegg();
-
     ToastContext().init(context);
-    // Create a Timer to update the list every 24 hours
     timer = Timer.periodic(
       Duration(seconds: 5),
       (timer) {
@@ -113,13 +109,11 @@ class _HomePageState extends State<HomePage> {
       final email = user.email!;
     }
     var now = DateTime.now();
-    print(now.hour);
-
     return Scaffold(
       appBar: appbar(user, context),
       body: Center(
         child: Container(
-          decoration: BoxDecoration(color: Colors.purple[50]),
+          decoration: BoxDecoration(color: Colors.white),
           child: Column(
             children: [
               Container(
@@ -127,11 +121,11 @@ class _HomePageState extends State<HomePage> {
                 height: 180,
                 margin: EdgeInsets.only(top: 60, bottom: 60),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 187, 246, 226),
+                  color: Color.fromRGBO(244, 162, 97, 1),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 3,
                       blurRadius: 5,
                       offset: Offset(0, 3),
@@ -146,35 +140,6 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       child: Column(
                         children: [
-                          // Container(
-                          //   width: 160,
-                          //   child: CheckboxListTile(
-                          //     value: _lunchisChecked,
-                          //     enabled: _isLunchProvided,
-                          //     onChanged: (newValue) async {
-                          //       assert(newValue != null);
-                          //       setState(
-                          //         () {
-                          //           _lunchisChecked = newValue!;
-                          //         },
-                          //       );
-                          //     },
-                          //     checkboxShape: RoundedRectangleBorder(
-                          //       borderRadius: BorderRadius.circular(5),
-                          //     ),
-                          //     title: Text(
-                          //       "Lunch",
-                          //       style: Theme.of(context)
-                          //           .textTheme
-                          //           .displayLarge!
-                          //           .copyWith(
-                          //             fontSize: 25,
-                          //             color: Colors.grey[800],
-                          //           ),
-                          //     ),
-                          //     controlAffinity: ListTileControlAffinity.leading,
-                          //   ),
-                          // ),
                           CheckBoxtile(
                             initialvalue: _lunchisChecked,
                             isLunchProvided: _isLunchProvided,
@@ -198,20 +163,23 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    // if (now.hour >= 11) timeoutwidget(context),
+                    //if (now.hour >= 11) timeoutwidget(context),
                   ],
                 ),
               ),
+
+// ----------- imp --- color --- Color.fromARGB(255, 222, 225, 225) ---
+
               Container(
                 height: 50,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 222, 225, 225),
+                  color: Color.fromRGBO(146, 222, 139, 1),
                 ),
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                    //  if (now.hour <= 11)
+                    //if (now.hour <= 11)
                     if (_isLunchProvided)
                       yesbtnandtext(
                         0,
@@ -231,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 30,
               ),
               Totalquantatydisplay(context, totallunchcount, totaleggcount),
             ],
@@ -240,15 +208,15 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomAppBar(
         height: 60,
-        color: Color.fromARGB(255, 222, 225, 225),
+        color: Color.fromRGBO(146, 222, 139, 1),
         child: Container(
           padding: EdgeInsets.all(5),
           child: Container(
             child: Column(
               children: [
-                // if (now.hour >= 11)
-                Bottomappbarcontant(context, totallunchcount.toString(),
-                    totaleggcount.toString()),
+                if (now.hour >= 11)
+                  Bottomappbarcontant(context, totallunchcount.toString(),
+                      totaleggcount.toString()),
               ],
             ),
           ),
