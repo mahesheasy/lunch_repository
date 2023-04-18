@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
       appBar: appbar(user, context),
       body: Center(
         child: Container(
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: BoxDecoration(color: Colors.white60),
           child: Column(
             children: [
               Container(
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                 height: 180,
                 margin: EdgeInsets.only(top: 60, bottom: 60),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(244, 162, 97, 1),
+                  color: Color.fromRGBO(191, 226, 220, 1),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (now.hour <= 11)
+                    if (now.hour < 11)
                       Container(
                         child: Column(
                           children: [
@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                    if (now.hour >= 11) timeoutwidget(context),
+                    if (now.hour > 11) timeoutwidget(context),
                   ],
                 ),
               ),
@@ -174,12 +174,12 @@ class _HomePageState extends State<HomePage> {
                 height: 50,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(244, 162, 97, 1),
+                  color: Color.fromRGBO(191, 226, 220, 1),
                 ),
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                    if (now.hour <= 11)
+                    if (now.hour < 11)
                       if (_isLunchProvided)
                         yesbtnandtext(
                           0,
@@ -208,13 +208,13 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomAppBar(
         height: 60,
-        color: Color.fromRGBO(244, 162, 97, 1),
+        color: Color.fromRGBO(191, 226, 220, 1),
         child: Container(
           padding: EdgeInsets.all(5),
           child: Container(
             child: Column(
               children: [
-                if (now.hour >= 11)
+                if (now.hour > 11)
                   Bottomappbarcontant(context, totallunchcount.toString(),
                       totaleggcount.toString()),
               ],

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 AppBar appbar(User? user, BuildContext context) {
   return AppBar(
     //Color.fromARGB(255, 222, 225, 225)
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.black87,
     leading: null,
     automaticallyImplyLeading: false,
     leadingWidth: 0,

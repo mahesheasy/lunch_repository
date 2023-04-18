@@ -19,6 +19,7 @@ class CheckBoxtile extends StatelessWidget {
       child: CheckboxListTile(
         value: initialvalue,
         enabled: isLunchProvided,
+        activeColor: Color.fromARGB(255, 107, 124, 252),
         onChanged: onchnage,
         checkboxShape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
