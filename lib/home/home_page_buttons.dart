@@ -33,14 +33,14 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromRGBO(198, 205, 255, 1)),
+                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
-        icon: Icon(Icons.copy, color: Colors.black),
+        icon: Icon(Icons.copy, color: Colors.black87),
         label: Text(
           buttonNames[buttonNamesIndex],
           style: TextStyle(
-            color: Colors.black, // text color
+            color: Colors.black87, // text color
           ),
         ));
   } else {
@@ -53,7 +53,7 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromRGBO(198, 205, 255, 1)),
+                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
         onPressed: () async {
@@ -61,13 +61,11 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
               buttonNamesIndex, context, _lunchisChecked, _eggisChecked);
           // Handle the result here
           onPress?.call();
-          Toast.show("Successfully updated!",
-              duration: Toast.lengthShort, gravity: Toast.center);
         },
         child: Text(
           buttonNames[buttonNamesIndex],
           style: TextStyle(
-            color: Colors.black, // text color
+            color: Colors.black87, // text color
           ),
         ));
   }
