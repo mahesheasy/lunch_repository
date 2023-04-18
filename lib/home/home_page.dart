@@ -136,34 +136,34 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // if (now.hour <= 11)
-                    Container(
-                      child: Column(
-                        children: [
-                          CheckBoxtile(
-                            initialvalue: _lunchisChecked,
-                            isLunchProvided: _isLunchProvided,
-                            title: "Lunch",
-                            onchnage: (value) {
-                              setState(() {
-                                _lunchisChecked = value!;
-                              });
-                            },
-                          ),
-                          CheckBoxtile(
-                            initialvalue: _eggisChecked,
-                            isLunchProvided: _isLunchProvided,
-                            title: "Egg",
-                            onchnage: (value) {
-                              setState(() {
-                                _eggisChecked = value!;
-                              });
-                            },
-                          ),
-                        ],
+                    if (now.hour <= 11)
+                      Container(
+                        child: Column(
+                          children: [
+                            CheckBoxtile(
+                              initialvalue: _lunchisChecked,
+                              isLunchProvided: _isLunchProvided,
+                              title: "Lunch",
+                              onchnage: (value) {
+                                setState(() {
+                                  _lunchisChecked = value!;
+                                });
+                              },
+                            ),
+                            CheckBoxtile(
+                              initialvalue: _eggisChecked,
+                              isLunchProvided: _isLunchProvided,
+                              title: "Egg",
+                              onchnage: (value) {
+                                setState(() {
+                                  _eggisChecked = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    //if (now.hour >= 11) timeoutwidget(context),
+                    if (now.hour >= 11) timeoutwidget(context),
                   ],
                 ),
               ),
@@ -174,27 +174,27 @@ class _HomePageState extends State<HomePage> {
                 height: 50,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(146, 222, 139, 1),
+                  color: Color.fromRGBO(244, 162, 97, 1),
                 ),
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                    //if (now.hour <= 11)
-                    if (_isLunchProvided)
-                      yesbtnandtext(
-                        0,
-                        context,
-                        _lunchisChecked,
-                        _eggisChecked,
-                        null,
-                        null,
-                        _list[_currentIndex],
-                        onPress: () {
-                          usertesting();
-                          fortotallunch();
-                          fortotalegg();
-                        },
-                      ),
+                    if (now.hour <= 11)
+                      if (_isLunchProvided)
+                        yesbtnandtext(
+                          0,
+                          context,
+                          _lunchisChecked,
+                          _eggisChecked,
+                          null,
+                          null,
+                          _list[_currentIndex],
+                          onPress: () {
+                            usertesting();
+                            fortotallunch();
+                            fortotalegg();
+                          },
+                        ),
                   ],
                 ),
               ),
@@ -208,7 +208,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomAppBar(
         height: 60,
-        color: Color.fromRGBO(146, 222, 139, 1),
+        color: Color.fromRGBO(244, 162, 97, 1),
         child: Container(
           padding: EdgeInsets.all(5),
           child: Container(
