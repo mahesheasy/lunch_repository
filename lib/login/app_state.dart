@@ -30,15 +30,14 @@ class _LunchAppState extends State<LunchApp> {
       debugShowCheckedModeBanner: false,
       title: 'MealMaven',
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-          textTheme: TextTheme(
-            displayLarge: GoogleFonts.eduQldBeginner(
-              fontSize: 21,
-              wordSpacing: 3,
-              letterSpacing: 1.5,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+        primarySwatch: Colors.deepPurple,
+        textTheme: TextTheme(
+          displayLarge: GoogleFonts.eduQldBeginner(
+            fontSize: 21,
+            wordSpacing: 3,
+            letterSpacing: 1.5,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
