@@ -15,55 +15,61 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
     {VoidCallback? onPress}) {
   if (buttonNamesIndex == 1) {
     return ElevatedButton.icon(
-        onPressed: () {
-          print('Buttonindex 2 pressed!,pressed copy');
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => Sign_in_page()),
-        },
-        style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
+      onPressed: () {
+        print('Buttonindex 2 pressed!,pressed copy');
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => Sign_in_page()),
+      },
+      style: ButtonStyle(
+          textStyle: MaterialStatePropertyAll(
+            GoogleFonts.vastShadow(
               fontSize: 16,
               color: Color.fromARGB(255, 5, 5, 5),
               fontWeight: FontWeight.bold,
-            )),
-            elevation: MaterialStatePropertyAll(4),
-            backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
-            padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
-            minimumSize: MaterialStatePropertyAll(Size(20, 20))),
-        icon: Icon(Icons.copy, color: Colors.black87),
-        label: Text(
-          buttonNames[buttonNamesIndex],
-          style: TextStyle(
-            color: Colors.black87, // text color
+            ),
           ),
-        ));
+          elevation: MaterialStatePropertyAll(4),
+          backgroundColor:
+              MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
+          padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
+          minimumSize: MaterialStatePropertyAll(Size(20, 20))),
+      icon: Icon(Icons.copy, color: Colors.black87),
+      label: Text(
+        buttonNames[buttonNamesIndex],
+        style: TextStyle(
+          color: Colors.black87, // text color
+        ),
+      ),
+    );
   } else {
     return ElevatedButton(
-        style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
+      style: ButtonStyle(
+          textStyle: MaterialStatePropertyAll(
+            GoogleFonts.vastShadow(
               fontSize: 16,
               color: Color.fromARGB(255, 5, 5, 5),
               fontWeight: FontWeight.bold,
-            )),
-            elevation: MaterialStatePropertyAll(4),
-            backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
-            padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
-            minimumSize: MaterialStatePropertyAll(Size(20, 20))),
-        onPressed: () async {
-          await mycallbackusingforlogoutandhaa(
-              buttonNamesIndex, context, _lunchisChecked, _eggisChecked);
-          // Handle the result here
-          onPress?.call();
-        },
-        child: Text(
-          buttonNames[buttonNamesIndex],
-          style: TextStyle(
-            color: Colors.black87, // text color
+            ),
           ),
-        ));
+          elevation: MaterialStatePropertyAll(4),
+          backgroundColor:
+              MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
+          padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
+          minimumSize: MaterialStatePropertyAll(Size(20, 20))),
+      onPressed: () async {
+        await mycallbackusingforlogoutandhaa(
+            buttonNamesIndex, context, _lunchisChecked, _eggisChecked);
+        // Handle the result here
+        onPress?.call();
+      },
+      child: Text(
+        buttonNames[buttonNamesIndex],
+        style: TextStyle(
+          color: Colors.black87, // text color
+        ),
+      ),
+    );
   }
 }
 
@@ -73,14 +79,18 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     print('Buttonindex 1 pressed!,pressed haa');
     final user = FirebaseAuth.instance.currentUser;
     var user_email = user!.email!;
-    lunch.add({
-      'egg': _eggisChecked,
-      'lunch': _lunchisChecked,
-      'name': "test5",
-      'email': user_email,
-      'date': "${now.day}-${now.month}-${now.year}",
-    }).then((value) {
-      print('updated food');
-    });
+    lunch.add(
+      {
+        'egg': _eggisChecked,
+        'lunch': _lunchisChecked,
+        'name': "test5",
+        'email': user_email,
+        'date': "${now.day}-${now.month}-${now.year}",
+      },
+    ).then(
+      (value) {
+        print('updated food');
+      },
+    );
   }
 }

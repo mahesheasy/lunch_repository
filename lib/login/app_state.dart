@@ -14,36 +14,61 @@ class LunchApp extends StatefulWidget {
 
 class _LunchAppState extends State<LunchApp> {
   // This widget is the root of your application.
+
+  late Stream<User?> authStateChanges;
+
+  @override
+  void initState() {
+    super.initState();
+
+    authStateChanges = FirebaseAuth.instance.authStateChanges();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'New project',
+      debugShowCheckedModeBanner: false,
+      title: 'Mealmaven',
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-          textTheme: TextTheme(
-            displayLarge: GoogleFonts.greatVibes(
-              fontSize: 21,
-              wordSpacing: 3,
-              letterSpacing: 1.5,
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
+        primarySwatch: Colors.deepPurple,
+        textTheme: TextTheme(
+          displayLarge: GoogleFonts.greatVibes(
+            fontSize: 21,
+            wordSpacing: 3,
+            letterSpacing: 1.5,
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            padding: MaterialStatePropertyAll(
+              EdgeInsets.only(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                top: 0,
+              ),
             ),
           ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ButtonStyle(
-                  padding: MaterialStatePropertyAll(EdgeInsets.only(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            top: 0,
-          ))))),
+        ),
+      ),
       home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
+        stream: authStateChanges,
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            return HomePage();
-          } else {
-            return LoginPage();
+          print(snapshot.connectionState);
+          switch (snapshot.connectionState) {
+            case ConnectionState.active:
+            case ConnectionState.done:
+              if (snapshot.hasData &&
+                  snapshot.data != null &&
+                  !snapshot.hasError) {
+                return HomePage();
+              } else {
+                return LoginPage();
+              }
+            default:
+              return LoginPage();
           }
         },
       ),
