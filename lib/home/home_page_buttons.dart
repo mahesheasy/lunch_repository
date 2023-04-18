@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
+import 'package:toast/toast.dart';
 
 List buttonNames = ['Yes', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance
@@ -11,45 +13,47 @@ var now = DateTime.now();
 //
 
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
-    bool _lunchisChecked, bool _eggisChecked,
+    bool _lunchisChecked, bool _eggisChecked, totallunchcount, totaleggcount,
     {VoidCallback? onPress}) {
   if (buttonNamesIndex == 1) {
     return ElevatedButton.icon(
         onPressed: () {
-          print('Buttonindex 2 pressed!,pressed copy');
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => Sign_in_page()),
+          Toast.show("Copied!",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
+          final whatsapptext = ClipboardData(
+              text: " Lunch : $totallunchcount  Egg : $totaleggcount");
+          Clipboard.setData(whatsapptext);
         },
         style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
-              fontSize: 16,
-              color: Color.fromARGB(255, 5, 5, 5),
+              fontSize: 17,
+              // Color.fromARGB(255, 5, 5, 5)
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
+                MaterialStatePropertyAll(Color.fromRGBO(198, 205, 255, 1)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
-        icon: Icon(Icons.copy, color: Colors.black87),
+        icon: Icon(Icons.copy, color: Colors.black),
         label: Text(
           buttonNames[buttonNamesIndex],
           style: TextStyle(
-            color: Colors.black87, // text color
+            color: Colors.black, // text color
           ),
         ));
   } else {
     return ElevatedButton(
         style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
-              fontSize: 16,
-              color: Color.fromARGB(255, 5, 5, 5),
+              fontSize: 18,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
             elevation: MaterialStatePropertyAll(4),
             backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
+                MaterialStatePropertyAll(Color.fromRGBO(198, 205, 255, 1)),
             padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
             minimumSize: MaterialStatePropertyAll(Size(20, 20))),
         onPressed: () async {
@@ -57,11 +61,13 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
               buttonNamesIndex, context, _lunchisChecked, _eggisChecked);
           // Handle the result here
           onPress?.call();
+          Toast.show("Successfully updated!",
+              duration: Toast.lengthShort, gravity: Toast.center);
         },
         child: Text(
           buttonNames[buttonNamesIndex],
           style: TextStyle(
-            color: Colors.black87, // text color
+            color: Colors.black, // text color
           ),
         ));
   }
@@ -76,7 +82,6 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     lunch.add({
       'egg': _eggisChecked,
       'lunch': _lunchisChecked,
-      'name': "test5",
       'email': user_email,
       'date': "${now.day}-${now.month}-${now.year}",
     }).then((value) {

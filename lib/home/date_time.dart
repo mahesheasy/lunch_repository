@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 var now = DateTime.now();
 
-Row Current_Date() {
-  if (now.hour >= 10 && now.minute > 30) {}
-
+Row Current_Date(BuildContext context) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Text('${now.day}-${now.month}-${now.year}',
-          style: TextStyle(color: Colors.black87)),
+      Text(
+        '${now.day}-${now.month}-${now.year}',
+        style: Theme.of(context).textTheme.displayLarge!.copyWith(
+              fontSize: 20,
+            ),
+      ),
     ],
   );
 }
