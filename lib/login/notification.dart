@@ -49,7 +49,7 @@ class notification {
         id + 1,
         "Alert..❗️",
 
-        "time is too short..🕚  update your food broooo ",
+        "time is too short..🕚  update your food broooo ;",
         SheduleDate2,
         
         NotificationDetails(
