@@ -83,7 +83,7 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
       'email': user_email,
       'date': "${now.day}-${now.month}-${now.year}",
     }).then((value) {
-      print('updated food');
+     
     });
   }
 }

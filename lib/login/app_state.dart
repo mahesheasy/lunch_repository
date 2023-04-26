@@ -44,7 +44,7 @@ class _LunchAppState extends State<LunchApp> {
       home: StreamBuilder<User?>(
         stream: authStateChanges,
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          print(snapshot.connectionState);
+         
           switch (snapshot.connectionState) {
             case ConnectionState.active:
             case ConnectionState.done:

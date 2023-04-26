@@ -24,13 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      if (newUser != null) {
-        // Navigate to success page
-      }
-    } catch (e) {
-      print(e);
-      // Display error message
-    }
+      if (newUser != null) {}
+    } catch (e) {}
 
     setState(() {
       _isLoading = false;

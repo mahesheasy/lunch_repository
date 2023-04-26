@@ -1,4 +1,4 @@
-package com.example.lunch_repository
+package `in`.easycloud.mealmaven
 
 import io.flutter.embedding.android.FlutterActivity
 

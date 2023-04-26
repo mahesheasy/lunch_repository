@@ -34,11 +34,11 @@ class _HomePageState extends State<HomePage> {
         .then(
       (Snap) {
         if (Snap.size == 0) {
-          print('pls order');
+        
           _isLunchProvided = true;
           setState(() {});
         } else {
-          print('y ordered food before only');
+        
           _isLunchProvided = false;
 
           _lunchisChecked = Snap.docs.first['lunch'] as bool;
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totallunchcount = querySnapshot.size;
-        print('lunch $totallunchcount');
+      
         setState(() {});
       },
     );
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totaleggcount = querySnapshot.size;
-        print('egg $totaleggcount');
+     
         setState(() {});
       },
     );

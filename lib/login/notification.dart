@@ -19,7 +19,7 @@ class notification {
   Future<void> showNotification(int id, String title, String body) async {
     tz.initializeTimeZones();
     var SheduleDate1 = tz.TZDateTime.from(
-        DateTime(now.year, now.month, now.day, 9, 0, 0), tz.local);
+        DateTime(now.year, now.month, now.day, 10, 0, 0), tz.local);
     var SheduleDate2 = tz.TZDateTime.from(
         DateTime(now.year, now.month, now.day, 10, 30, 0), tz.local);
     if (now.isBefore(SheduleDate1)) {
