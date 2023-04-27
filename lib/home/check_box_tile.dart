@@ -26,8 +26,8 @@ class CheckBoxtile extends StatelessWidget {
         side: BorderSide(color: Colors.black, width: 2.5),
         title: Text(
           title,
-          style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                fontSize: 25,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 23,
                 color: Colors.black,
               ),
         ),

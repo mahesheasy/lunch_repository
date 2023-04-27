@@ -15,11 +15,11 @@ TextField Password_input(
     style: TextStyle(color: Color.fromARGB(255, 6, 6, 6)),
     decoration: InputDecoration(
       labelText: ' Password ',
-      labelStyle: GoogleFonts.playfairDisplay(
+      labelStyle: GoogleFonts.lato(
           fontWeight: FontWeight.w500, fontSize: 25, color: Colors.black),
-      hintText: 'Enter your password:',
-      hintStyle: GoogleFonts.greatVibes(
-          fontWeight: FontWeight.w500, fontSize: 20, color: Colors.black),
+      hintText: 'Enter your password',
+      hintStyle: GoogleFonts.lato(
+          fontWeight: FontWeight.w500, fontSize: 15, color: Colors.black),
       fillColor: Color.fromARGB(255, 222, 224, 225),
       filled: true,
       prefixIcon: Icon(

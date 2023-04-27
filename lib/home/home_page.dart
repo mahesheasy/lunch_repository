@@ -136,7 +136,6 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   // if (now.hour < 11)
                       Container(
                         child: Column(
                           children: [
@@ -163,7 +162,6 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                   // if (now.hour > 11) timeoutwidget(context),
                   ],
                 ),
               ),
@@ -179,8 +177,8 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                   // if (now.hour < 11)
-                      if (_isLunchProvided)
+                     if (now.hour < 11)
+                     if (_isLunchProvided)
                         yesbtnandtext(
                           0,
                           context,
@@ -195,6 +193,8 @@ class _HomePageState extends State<HomePage> {
                             fortotalegg();
                           },
                         ),
+
+                        if (now.hour > 11) timeoutwidget(context),
                   ],
                 ),
               ),
@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: Column(
               children: [
-               // if (now.hour > 11)
+                if (now.hour > 11)
                   Bottomappbarcontant(context, totallunchcount.toString(),
                       totaleggcount.toString()),
               ],

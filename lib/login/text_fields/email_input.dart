@@ -8,11 +8,11 @@ TextField Email_input(_editingController) {
     keyboardType: TextInputType.name,
     decoration: InputDecoration(
       labelText: ' Email address',
-      labelStyle: GoogleFonts.playfairDisplay(
+      labelStyle: GoogleFonts.lato(
           fontWeight: FontWeight.w500, fontSize: 25, color: Colors.black),
       hintText: 'Enter your email address',
-      hintStyle: GoogleFonts.greatVibes(
-          fontWeight: FontWeight.w500, fontSize: 25, color: Colors.black),
+      hintStyle: GoogleFonts.lato(
+          fontWeight: FontWeight.w500, fontSize: 15, color: Colors.black),
       fillColor: Color.fromARGB(255, 222, 224, 225),
       filled: true,
       prefixIcon: Icon(

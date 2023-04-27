@@ -106,8 +106,8 @@ class _LoginPage extends State<LoginPage> {
                         ),
                       ),
                       textStyle: MaterialStatePropertyAll(
-                        GoogleFonts.vastShadow(
-                          fontSize: 22,
+                        GoogleFonts.lato(
+                          fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 20, 1, 1),
                         ),

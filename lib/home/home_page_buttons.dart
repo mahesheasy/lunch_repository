@@ -4,8 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:toast/toast.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
-List buttonNames = ['Yes', 'Copy'];
+List buttonNames = ['yes', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance
     .collection('lunch_${now.day}-${now.month}-${now.year}');
 var now = DateTime.now();
@@ -14,16 +15,23 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
     bool _lunchisChecked, bool _eggisChecked, totallunchcount, totaleggcount,
     {VoidCallback? onPress}) {
   if (buttonNamesIndex == 1) {
+    final egg_price = FirebaseRemoteConfig.instance.getInt('egg_price');
+    final food_multiplier =
+        FirebaseRemoteConfig.instance.getDouble('food_multiplier');
+
     return ElevatedButton.icon(
         onPressed: () {
           Toast.show("Copied!",
               duration: Toast.lengthShort, gravity: Toast.bottom);
+          var total_quantity =
+              (int.parse(totallunchcount) * food_multiplier).round();
           final whatsapptext = ClipboardData(
-              text: " Lunch : $totallunchcount  Egg : $totaleggcount");
+              text:
+                  " Lunch : ${total_quantity}  Egg : ${int.parse(totaleggcount) * egg_price} ");
           Clipboard.setData(whatsapptext);
         },
         style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
+            textStyle: MaterialStatePropertyAll(GoogleFonts.lato(
               fontSize: 17,
               // Color.fromARGB(255, 5, 5, 5)
               color: Colors.black,
@@ -44,8 +52,8 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
   } else {
     return ElevatedButton(
         style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(GoogleFonts.vastShadow(
-              fontSize: 18,
+            textStyle: MaterialStatePropertyAll(GoogleFonts.lato(
+              fontSize: 23,
               color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
@@ -72,9 +80,9 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
 Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     BuildContext context, _lunchisChecked, _eggisChecked) async {
   if (buttonNamesIndex == 0) {
-     Toast.show("Successfully Updated!",
-              duration: Toast.lengthShort, gravity: Toast.bottom);
-    print('Buttonindex 1 pressed!,pressed haa');
+    Toast.show("Successfully Updated!",
+        duration: Toast.lengthShort, gravity: Toast.bottom);
+
     final user = FirebaseAuth.instance.currentUser;
     var user_email = user!.email!;
     lunch.add({

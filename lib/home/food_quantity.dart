@@ -26,7 +26,7 @@ class Quantitywidget extends StatelessWidget {
         Expanded(
           child: Text(
             quantity[quantityIndex],
-            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 21,
                 ),
           ),
@@ -36,7 +36,7 @@ class Quantitywidget extends StatelessWidget {
           child: Text(
             ":",
             textAlign: TextAlign.end,
-            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 21,
                 ),
           ),
@@ -45,7 +45,7 @@ class Quantitywidget extends StatelessWidget {
           child: Text(
             totallunchandeggcount,
             textAlign: TextAlign.end,
-            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 21,
                 ),
           ),

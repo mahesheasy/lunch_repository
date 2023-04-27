@@ -15,7 +15,7 @@ Row yesbtnandtext(
     children: [
       Text(
         listtext,
-        style: Theme.of(context).textTheme.displayLarge!.copyWith(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: 28,
               color: Colors.black,
             ),

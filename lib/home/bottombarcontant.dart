@@ -18,7 +18,7 @@ Row Bottomappbarcontant(
         'and paste in WhatsApp',
         style: Theme.of(context)
             .textTheme
-            .displayLarge!
+            .bodyMedium!
             .copyWith(fontSize: 21, color: Colors.black),
       )
     ],

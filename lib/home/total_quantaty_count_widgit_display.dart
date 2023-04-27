@@ -16,7 +16,7 @@ Container Totalquantatydisplay(
           children: [
             Text(
               "Total food quantity",
-              style: Theme.of(context).textTheme.displayLarge!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 21,
                   ),
             ),

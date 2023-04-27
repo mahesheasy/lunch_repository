@@ -10,7 +10,7 @@ AppBar appbar(User? user, BuildContext context) {
     leadingWidth: 0,
     title: Text(
       user!.email!,
-      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontSize: 21,
             color: Colors.white,
           ),

@@ -9,7 +9,7 @@ Row Current_Date(BuildContext context) {
     children: [
       Text(
         '${now.day}-${now.month}-${now.year}',
-        style: Theme.of(context).textTheme.displayLarge!.copyWith(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: 20,
             ),
       ),

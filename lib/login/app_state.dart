@@ -32,12 +32,13 @@ class _LunchAppState extends State<LunchApp> {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         textTheme: TextTheme(
-          displayLarge: GoogleFonts.eduQldBeginner(
-            fontSize: 21,
+          // displayLarge: GoogleFonts.eduQldBeginner
+          bodyMedium: GoogleFonts.lato(
+            // fontSize: 21,
             wordSpacing: 3,
             letterSpacing: 1.5,
             color: Colors.black,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
