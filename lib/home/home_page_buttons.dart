@@ -72,6 +72,8 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
 Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
     BuildContext context, _lunchisChecked, _eggisChecked) async {
   if (buttonNamesIndex == 0) {
+     Toast.show("Successfully Updated!",
+              duration: Toast.lengthShort, gravity: Toast.bottom);
     print('Buttonindex 1 pressed!,pressed haa');
     final user = FirebaseAuth.instance.currentUser;
     var user_email = user!.email!;

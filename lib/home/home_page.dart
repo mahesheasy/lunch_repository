@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: [
                    // if (now.hour < 11)
-                    //  if (_isLunchProvided)
+                      if (_isLunchProvided)
                         yesbtnandtext(
                           0,
                           context,
