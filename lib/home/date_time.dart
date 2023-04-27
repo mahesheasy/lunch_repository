@@ -17,7 +17,7 @@ Row Current_Date(BuildContext context) {
   );
 }
 
-// we have to do one thing in next virsion that is 
+// we have to do one thing in next version that is 
 // -------
 // 1 . we have to wrap with Column to Row and and one Row above present 
 //Row and use text weigates for labeling "Present Time " and "Present Day "  

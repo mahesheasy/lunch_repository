@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-List quantity = ['Total Lunch', r"Total Egg  "];
+List quantity = ['Total Lunch', "Total Egg  "];
 
 // Row totalquantity(
 //     int quantityIndex, BuildContext context, String _totallunchandeggcount) {

@@ -10,8 +10,6 @@ CollectionReference lunch = FirebaseFirestore.instance
     .collection('lunch_${now.day}-${now.month}-${now.year}');
 var now = DateTime.now();
 
-//
-
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
     bool _lunchisChecked, bool _eggisChecked, totallunchcount, totaleggcount,
     {VoidCallback? onPress}) {
@@ -82,8 +80,6 @@ Future<void> mycallbackusingforlogoutandhaa(int buttonNamesIndex,
       'lunch': _lunchisChecked,
       'email': user_email,
       'date': "${now.day}-${now.month}-${now.year}",
-    }).then((value) {
-     
     });
   }
 }
