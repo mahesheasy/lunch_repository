@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Foodtrueview extends StatefulWidget {
+class foodtrueview extends StatefulWidget {
+  const foodtrueview({super.key});
+
   @override
-  _MyPageState createState() => _MyPageState();
+  State<foodtrueview> createState() => _foodtrueviewState();
 }
 
-class _MyPageState extends State<Foodtrueview> {
+List<String> emailList = [];
+
+class _foodtrueviewState extends State<foodtrueview> {
   var now = DateTime.now();
   Future<void> foremaillilst() async {
-    List<String> emailList = [];
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
@@ -18,10 +21,7 @@ class _MyPageState extends State<Foodtrueview> {
         .then(
       (QuerySnapshot querySnapshot) {
         var docs = querySnapshot.docs;
-        // for (var i = 0; i < docs.length; i++) {
-        //   user_Email = docs[i]['email'];
-        // }
-        // print(user_Email);
+
         docs.forEach((doc) {
           String email = doc['email'];
           emailList.add('$email');
@@ -33,10 +33,55 @@ class _MyPageState extends State<Foodtrueview> {
   }
 
   @override
+  void initState() {
+    emailList.clear();
+    foremaillilst();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Food True View'),
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color.fromRGBO(191, 226, 220, 1),
+        title: Text(
+          'Food',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 21,
+                color: Colors.black,
+              ),
+        ),
+      ),
+      body: Container(
+        child: ListView.builder(
+          itemCount: emailList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              color: Colors.grey[300],
+              margin: EdgeInsets.only(top: 3),
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Text(
+                    emailList[index].substring(0, 2),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                  ),
+                ),
+                title: Text(
+                  emailList[index],
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
