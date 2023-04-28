@@ -12,6 +12,7 @@ List<String> emailList = [];
 
 class _foodtruelistState extends State<foodtruelist> {
   var now = DateTime.now();
+  bool _isLoading = false;
   Future<void> foremaillilst() async {
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
@@ -27,7 +28,10 @@ class _foodtruelistState extends State<foodtruelist> {
           emailList.add('$email');
         });
         print(emailList);
-        setState(() {});
+        
+      setState(() {
+        _isLoading = false;
+      });
       },
     );
   }
@@ -36,6 +40,7 @@ class _foodtruelistState extends State<foodtruelist> {
   void initState() {
     emailList.clear();
     foremaillilst();
+     _isLoading = true;
     super.initState();
   }
 
@@ -53,7 +58,11 @@ class _foodtruelistState extends State<foodtruelist> {
               ),
         ),
       ),
-      body: Container(
+      body:  _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Container(
         child: ListView.builder(
           itemCount: emailList.length,
           itemBuilder: (BuildContext context, int index) {

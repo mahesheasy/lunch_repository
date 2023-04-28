@@ -12,30 +12,34 @@ List<String> emailList = [];
 
 class _eggtruelistState extends State<eggtruelist> {
   var now = DateTime.now();
+  bool _isLoading = false;
   Future<void> foremaillilst() async {
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
         .where('egg', isEqualTo: true)
         .get()
-        .then(
-      (QuerySnapshot querySnapshot) {
-        var docs = querySnapshot.docs;
+        .then((QuerySnapshot querySnapshot) {
+      var docs = querySnapshot.docs;
 
-        docs.forEach((doc) {
-          String email = doc['email'];
-          emailList.add('$email');
-        });
-        print(emailList);
-        setState(() {});
-      },
-    );
+      docs.forEach((doc) {
+        String email = doc['email'];
+        emailList.add('$email');
+      });
+     // print(emailList);
+     
+
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   @override
   void initState() {
     emailList.clear();
     foremaillilst();
+     _isLoading = true;
     super.initState();
   }
 
@@ -53,36 +57,41 @@ class _eggtruelistState extends State<eggtruelist> {
               ),
         ),
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: emailList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              color: Colors.grey[300],
-              margin: EdgeInsets.only(top: 3),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    emailList[index].substring(0, 2),
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 18,
-                          color: Colors.black,
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Container(
+              child: ListView.builder(
+                itemCount: emailList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    color: Colors.grey[300],
+                    margin: EdgeInsets.only(top: 3),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Text(
+                          emailList[index].substring(0, 2),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
                         ),
-                  ),
-                ),
-                title: Text(
-                  emailList[index],
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 18,
-                        color: Colors.black,
                       ),
-                ),
+                      title: Text(
+                        emailList[index],
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
-      ),
+            ),
     );
   }
 }
