@@ -6,7 +6,7 @@ import 'package:lunch_app/login/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'egg_list.dart';
+
 
 class LunchApp extends StatefulWidget {
   const LunchApp({super.key});
@@ -56,10 +56,10 @@ class _LunchAppState extends State<LunchApp> {
                   !snapshot.hasError) {
                 return HomePage();
               } else {
-                return egg_list();
+                return LoginPage();
               }
             default:
-              return egg_list();
+              return LoginPage();
           }
         },
       ),
