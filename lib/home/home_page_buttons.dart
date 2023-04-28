@@ -27,7 +27,7 @@ ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
               (int.parse(totallunchcount) * food_multiplier).round();
           final whatsapptext = ClipboardData(
               text:
-                  " Lunch : ${total_quantity}  Egg : ${int.parse(totaleggcount) * egg_price} ");
+                  " Lunch : ${total_quantity}  Egg : ${int.parse(totaleggcount) * egg_price} Rs");
           Clipboard.setData(whatsapptext);
         },
         style: ButtonStyle(
