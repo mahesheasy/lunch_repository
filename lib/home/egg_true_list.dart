@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class foodtrueview extends StatefulWidget {
-  const foodtrueview({super.key});
+class eggtruelist extends StatefulWidget {
+  const eggtruelist({super.key});
 
   @override
-  State<foodtrueview> createState() => _foodtrueviewState();
+  State<eggtruelist> createState() => _eggtruelistState();
 }
 
 List<String> emailList = [];
 
-class _foodtrueviewState extends State<foodtrueview> {
+class _eggtruelistState extends State<eggtruelist> {
   var now = DateTime.now();
   Future<void> foremaillilst() async {
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
-        .where('lunch', isEqualTo: true)
+        .where('egg', isEqualTo: true)
         .get()
         .then(
       (QuerySnapshot querySnapshot) {
@@ -46,7 +46,7 @@ class _foodtrueviewState extends State<foodtrueview> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Color.fromRGBO(191, 226, 220, 1),
         title: Text(
-          'Food',
+          'Egg',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 21,
                 color: Colors.black,

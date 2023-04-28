@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_app/home/date_time.dart';
 import 'package:lunch_app/home/food_quantity.dart';
-import 'package:lunch_app/home/food_true_view.dart';
-import 'package:lunch_app/login/egg_list.dart';
+import 'package:lunch_app/home/food_true_list.dart';
+import 'package:lunch_app/home/egg_true_list.dart';
 
 Container Totalquantatydisplay(
     BuildContext context, totallunchcount, totaleggcount) {
@@ -35,9 +35,8 @@ Container Totalquantatydisplay(
             quantityIndex: 0,
             totallunchandeggcount: totallunchcount.toString(),
             onTap: () {
-              
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => foodtrueview()));
+                  MaterialPageRoute(builder: (context) => foodtruelist()));
             }),
         SizedBox(
           height: 30,
@@ -47,10 +46,9 @@ Container Totalquantatydisplay(
             quantityIndex: 1,
             totallunchandeggcount: totaleggcount.toString(),
             onTap: () {
-              
               Navigator.push(
                   context, //----------------->here egg true view page
-                  MaterialPageRoute(builder: (context) => egg_list()));
+                  MaterialPageRoute(builder: (context) => eggtruelist()));
             }),
         //totalquantity(1, context, totaleggcount.toString())
       ],
