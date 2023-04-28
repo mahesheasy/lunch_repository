@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class _egg_listState extends State<egg_list> {
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
-        .where('lunch', isEqualTo: true)
+        .where('egg', isEqualTo: true)
         .get()
         .then(
       (QuerySnapshot querySnapshot) {
@@ -40,8 +40,9 @@ class _egg_listState extends State<egg_list> {
 
   @override
   void initState() {
+     emailList.clear();
     eggList();
-    emailList.clear();
+   
     super.initState();
    
   }
@@ -51,6 +52,7 @@ class _egg_listState extends State<egg_list> {
     return Scaffold(
       appBar: AppBar(
         title: Text('egg list'),
+        backgroundColor: Colors.black87,
       ),
       body: Container(
         child: ListView.builder(

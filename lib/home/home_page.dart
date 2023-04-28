@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
+  
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
@@ -153,7 +154,9 @@ class _HomePageState extends State<HomePage> {
                             onchnage: (value) {
                               setState(() {
                                 _eggisChecked = value!;
+                       
                               });
+                         
                             },
                           ),
                         ],
@@ -188,18 +191,21 @@ class _HomePageState extends State<HomePage> {
                             usertesting();
                             fortotallunch();
                             fortotalegg();
+                            
                           },
                         ),
 
-                       // if (now.hour > 11) timeoutwidget(context),
+                        if (now.hour > 11) timeoutwidget(context),
                   ],
                 ),
               ),
               SizedBox(
                 height: 30,
               ),
-              Totalquantatydisplay(context, totallunchcount, totaleggcount),
+              Totalquantatydisplay(context, totallunchcount, totaleggcount,),
+                            
             ],
+            
           ),
         ),
       ),
