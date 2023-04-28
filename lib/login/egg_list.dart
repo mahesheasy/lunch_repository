@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +14,8 @@ List<String> emailList = [];
 
 class _egg_listState extends State<egg_list> {
   var now = DateTime.now();
-  Future<void> foremaillilst() async {
+  var user_Email;
+  Future<void> eggList() async {
     FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}')
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
@@ -21,10 +24,10 @@ class _egg_listState extends State<egg_list> {
         .then(
       (QuerySnapshot querySnapshot) {
         var docs = querySnapshot.docs;
-        // for (var i = 0; i < docs.length; i++) {
-        //   user_Email = docs[i]['email'];
-        // }
-        // print(user_Email);
+        for (var i = 10; i < docs.length; i++) {
+         user_Email= docs[i]['email'];
+        }
+      
         docs.forEach((doc) {
           String email = doc['email'];
           emailList.add('$email');
@@ -37,8 +40,10 @@ class _egg_listState extends State<egg_list> {
 
   @override
   void initState() {
-    foremaillilst();
+    eggList();
+    emailList.clear();
     super.initState();
+   
   }
 
   @override

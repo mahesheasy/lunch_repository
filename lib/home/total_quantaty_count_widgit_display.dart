@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_app/home/date_time.dart';
 import 'package:lunch_app/home/food_quantity.dart';
 import 'package:lunch_app/home/food_true_view.dart';
+import 'package:lunch_app/login/egg_list.dart';
 
 Container Totalquantatydisplay(
     BuildContext context, totallunchcount, totaleggcount) {
@@ -47,7 +48,7 @@ Container Totalquantatydisplay(
             onTap: () {
               Navigator.push(
                   context, //----------------->here egg true view page
-                  MaterialPageRoute(builder: (context) => Foodtrueview()));
+                  MaterialPageRoute(builder: (context) => egg_list()));
             }),
         //totalquantity(1, context, totaleggcount.toString())
       ],
