@@ -35,7 +35,7 @@ Container Totalquantatydisplay(
             totallunchandeggcount: totallunchcount.toString(),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Foodtrueview()));
+                  MaterialPageRoute(builder: (context) => foodtrueview()));
             }),
         SizedBox(
           height: 30,
@@ -47,7 +47,7 @@ Container Totalquantatydisplay(
             onTap: () {
               Navigator.push(
                   context, //----------------->here egg true view page
-                  MaterialPageRoute(builder: (context) => Foodtrueview()));
+                  MaterialPageRoute(builder: (context) => foodtrueview()));
             }),
         //totalquantity(1, context, totaleggcount.toString())
       ],
