@@ -34,11 +34,9 @@ class _HomePageState extends State<HomePage> {
         .then(
       (Snap) {
         if (Snap.size == 0) {
-        
           _isLunchProvided = true;
           setState(() {});
         } else {
-        
           _isLunchProvided = false;
 
           _lunchisChecked = Snap.docs.first['lunch'] as bool;
@@ -60,7 +58,6 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totallunchcount = querySnapshot.size;
-      
         setState(() {});
       },
     );
@@ -76,7 +73,7 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totaleggcount = querySnapshot.size;
-     
+
         setState(() {});
       },
     );
@@ -136,32 +133,32 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            CheckBoxtile(
-                              initialvalue: _lunchisChecked,
-                              isLunchProvided: _isLunchProvided,
-                              title: "Lunch",
-                              onchnage: (value) {
-                                setState(() {
-                                  _lunchisChecked = value!;
-                                });
-                              },
-                            ),
-                            CheckBoxtile(
-                              initialvalue: _eggisChecked,
-                              isLunchProvided: _isLunchProvided,
-                              title: "Egg",
-                              onchnage: (value) {
-                                setState(() {
-                                  _eggisChecked = value!;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+                    Container(
+                      child: Column(
+                        children: [
+                          CheckBoxtile(
+                            initialvalue: _lunchisChecked,
+                            isLunchProvided: _isLunchProvided,
+                            title: "Lunch",
+                            onchnage: (value) {
+                              setState(() {
+                                _lunchisChecked = value!;
+                              });
+                            },
+                          ),
+                          CheckBoxtile(
+                            initialvalue: _eggisChecked,
+                            isLunchProvided: _isLunchProvided,
+                            title: "Egg",
+                            onchnage: (value) {
+                              setState(() {
+                                _eggisChecked = value!;
+                              });
+                            },
+                          ),
+                        ],
                       ),
+                    ),
                   ],
                 ),
               ),

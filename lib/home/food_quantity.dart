@@ -12,45 +12,51 @@ class Quantitywidget extends StatelessWidget {
     super.key,
     required this.quantityIndex,
     required this.totallunchandeggcount,
+    this.onTap,
   });
 
   final int quantityIndex;
   final String totallunchandeggcount;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      // crossAxisAlignment: CrossAxisAlignment.baseline,
-      //mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Expanded(
-          child: Text(
-            quantity[quantityIndex],
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 21,
-                ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.baseline,
+        //mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            child: Text(
+              quantity[quantityIndex],
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 21,
+                  ),
+            ),
           ),
-        ),
-        SizedBox(
-          width: 20,
-          child: Text(
-            ":",
-            textAlign: TextAlign.end,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 21,
-                ),
+          SizedBox(
+            width: 20,
+            child: Text(
+              ":",
+              textAlign: TextAlign.end,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 21,
+                  ),
+            ),
           ),
-        ),
-        Expanded(
-          child: Text(
-            totallunchandeggcount,
-            textAlign: TextAlign.end,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 21,
-                ),
+          Expanded(
+            child: Text(
+              totallunchandeggcount,
+              textAlign: TextAlign.end,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 21,
+                  ),
+            ),
           ),
-        ),
-      ],
+          Icon(Icons.arrow_forward_ios_rounded, color: Colors.black87),
+        ],
+      ),
     );
   }
 }
