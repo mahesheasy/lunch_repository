@@ -23,6 +23,7 @@ class Quantitywidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+                     
       child: Row(
         // crossAxisAlignment: CrossAxisAlignment.baseline,
         //mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -54,7 +55,7 @@ class Quantitywidget extends StatelessWidget {
                   ),
             ),
           ),
-          Icon(Icons.arrow_forward_ios_rounded, color: Colors.black87),
+          Icon(Icons.arrow_forward_ios_rounded, color: Color.fromARGB(255, 0, 0, 0)),
         ],
       ),
     );

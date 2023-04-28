@@ -35,6 +35,7 @@ Container Totalquantatydisplay(
             quantityIndex: 0,
             totallunchandeggcount: totallunchcount.toString(),
             onTap: () {
+              
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Foodtrueview()));
             }),
@@ -46,6 +47,7 @@ Container Totalquantatydisplay(
             quantityIndex: 1,
             totallunchandeggcount: totaleggcount.toString(),
             onTap: () {
+              
               Navigator.push(
                   context, //----------------->here egg true view page
                   MaterialPageRoute(builder: (context) => egg_list()));
