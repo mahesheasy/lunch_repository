@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:lunch_app/home/home_page.dart';
 import 'package:lunch_app/login/login_page.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'egg_list.dart';
 
 class LunchApp extends StatefulWidget {
   const LunchApp({super.key});
@@ -45,7 +48,6 @@ class _LunchAppState extends State<LunchApp> {
       home: StreamBuilder<User?>(
         stream: authStateChanges,
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-         
           switch (snapshot.connectionState) {
             case ConnectionState.active:
             case ConnectionState.done:
@@ -54,10 +56,10 @@ class _LunchAppState extends State<LunchApp> {
                   !snapshot.hasError) {
                 return HomePage();
               } else {
-                return LoginPage();
+                return egg_list();
               }
             default:
-              return LoginPage();
+              return egg_list();
           }
         },
       ),
