@@ -19,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
+
+  //bool _isLunchProvided = (DateTime.now().day >= 11)? false:true;
   
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
@@ -34,16 +36,22 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (Snap) {
-        if (Snap.size == 0) {
-          _isLunchProvided = true;
-          setState(() {});
-        } else {
+        if (Snap.size == 0 && DateTime.now().hour >= 11) {        
           _isLunchProvided = false;
-
           _lunchisChecked = Snap.docs.first['lunch'] as bool;
           _eggisChecked = Snap.docs.first['egg'] as bool;
           timer.cancel();
           setState(() {});
+        } else if(Snap.size == 0) {
+           _isLunchProvided = true;
+          setState(() {});
+        }else{
+          _isLunchProvided = false;
+           _lunchisChecked = Snap.docs.first['lunch'] as bool;
+          _eggisChecked = Snap.docs.first['egg'] as bool;
+          timer.cancel();
+          setState(() {});
+
         }
       },
     );
@@ -79,13 +87,22 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
+  // void enabled(){
+  //   if (now.day >= 11) {
+  //     _isLunchProvided = false;
+  //     setState(() {});
+  //   } else {
+  //     _isLunchProvided = true;
+  //     setState(() {});
+  //   }
+  // }
   @override
   void initState() {
     super.initState();
     usertesting();
     fortotallunch();
     fortotalegg();
+    //enabled();
     ToastContext().init(context);
     timer = Timer.periodic(
       Duration(seconds: 5),
@@ -149,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           CheckBoxtile(
                             initialvalue: _eggisChecked,
-                            isLunchProvided: _isLunchProvided,
+                            isLunchProvided: _isLunchProvided ,
                             title: "Egg",
                             onchnage: (value) {
                               setState(() {
@@ -177,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                     if (now.hour < 11)
+                    if (now.hour < 11)
                     if (_isLunchProvided)
                         yesbtnandtext(
                           0,
