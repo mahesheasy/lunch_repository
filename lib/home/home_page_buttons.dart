@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:toast/toast.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+//import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 List buttonNames = ['yes', 'Copy'];
 CollectionReference lunch = FirebaseFirestore.instance
@@ -12,22 +12,19 @@ CollectionReference lunch = FirebaseFirestore.instance
 var now = DateTime.now();
 
 ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
-    bool _lunchisChecked, bool _eggisChecked, totallunchcount, totaleggcount,
+    bool _lunchisChecked, bool _eggisChecked, totallunchcount, totaleggcount,meal_quantity,
     {VoidCallback? onPress}) {
   if (buttonNamesIndex == 1) {
-    final egg_price = FirebaseRemoteConfig.instance.getInt('egg_price');
-    final food_multiplier =
-        FirebaseRemoteConfig.instance.getDouble('food_multiplier');
+    
 
     return ElevatedButton.icon(
         onPressed: () {
           Toast.show("Copied!",
               duration: Toast.lengthShort, gravity: Toast.bottom);
-          var total_quantity =
-              (int.parse(totallunchcount) * food_multiplier).round();
           final whatsapptext = ClipboardData(
+            // -- for -- egg -- Egg : ${int.parse(totaleggcount) * egg_price} Rs
               text:
-                  " Lunch : ${total_quantity}  Egg : ${int.parse(totaleggcount) * egg_price} Rs");
+                  "Lunch : ${meal_quantity} ");
           Clipboard.setData(whatsapptext);
         },
         style: ButtonStyle(

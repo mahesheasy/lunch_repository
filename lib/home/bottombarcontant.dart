@@ -5,12 +5,14 @@ Row Bottomappbarcontant(
   BuildContext context,
   totallunchcount,
   totaleggcount,
+  meal_quantity
 ) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      logoutsubmitSharebtn(1, context, false, true, totallunchcount.toString(),
-          totaleggcount.toString()),
+      // we used "false , false" for balanceing buttons like copy and yes btns 
+      logoutsubmitSharebtn(1, context, false, false, totallunchcount.toString(),
+          totaleggcount.toString(),meal_quantity),
       SizedBox(
         width: 20,
       ),

@@ -5,7 +5,8 @@ import 'package:lunch_app/home/food_true_list.dart';
 import 'package:lunch_app/home/egg_true_list.dart';
 
 Container Totalquantatydisplay(
-    BuildContext context, totallunchcount, totaleggcount) {
+    BuildContext context, totallunchcount, totaleggcount,
+    [meal_quantity, food_multiplier]) {
   return Container(
     width: 350,
     margin: EdgeInsets.only(
@@ -30,7 +31,6 @@ Container Totalquantatydisplay(
         SizedBox(
           height: 40,
         ),
-        // totalquantity(0, context, totallunchcount.toString()),
         Quantitywidget(
             quantityIndex: 0,
             totallunchandeggcount: totallunchcount.toString(),
@@ -41,7 +41,6 @@ Container Totalquantatydisplay(
         SizedBox(
           height: 30,
         ),
-
         Quantitywidget(
             quantityIndex: 1,
             totallunchandeggcount: totaleggcount.toString(),
@@ -50,7 +49,42 @@ Container Totalquantatydisplay(
                   context, //----------------->here egg true view page
                   MaterialPageRoute(builder: (context) => eggtruelist()));
             }),
-        //totalquantity(1, context, totaleggcount.toString())
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          padding: EdgeInsets.all(3),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(8, 230, 193, 1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Meal quantity (${totallunchcount} x ${food_multiplier})",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 20,
+                    ),
+              ),
+              SizedBox(
+                width: 40,
+                child: Text(
+                  " => ",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 20,
+                      ),
+                ),
+              ),
+              Text(
+                "$meal_quantity",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 20,
+                    ),
+              ),
+            ],
+          ),
+        ),
       ],
     ),
   );

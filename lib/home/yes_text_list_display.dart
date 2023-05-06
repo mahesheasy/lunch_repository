@@ -9,6 +9,7 @@ Row yesbtnandtext(
     totallunchcount,
     totaleggcount,
     listtext,
+    meal_quantity,
     {VoidCallback? onPress}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -30,6 +31,7 @@ Row yesbtnandtext(
         _eggisChecked,
         null,
         null,
+        meal_quantity,
         onPress: () {
           onPress?.call();
         },

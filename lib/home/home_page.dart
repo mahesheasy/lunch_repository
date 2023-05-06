@@ -9,6 +9,7 @@ import 'package:lunch_app/home/total_quantaty_count_widgit_display.dart';
 import 'package:lunch_app/home/yes_text_list_display.dart';
 import 'package:toast/toast.dart';
 import 'package:lunch_app/home/check_box_tile.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,13 +20,13 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
-
-  //bool _isLunchProvided = (DateTime.now().day >= 11)? false:true;
-  
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
   late Timer timer;
+  final food_multiplier =
+      FirebaseRemoteConfig.instance.getDouble('food_multiplier');
+
   void usertesting() {
     final user = FirebaseAuth.instance.currentUser;
     var email = user!.email!;
@@ -36,22 +37,20 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (Snap) {
-        if (Snap.size == 0 && DateTime.now().hour >= 11) {        
+        if (Snap.size == 0 && DateTime.now().hour >= 11) {
+          _isLunchProvided = false;
+
+          timer.cancel();
+          setState(() {});
+        } else if (Snap.size == 0) {
+          _isLunchProvided = true;
+          setState(() {});
+        } else {
           _isLunchProvided = false;
           _lunchisChecked = Snap.docs.first['lunch'] as bool;
           _eggisChecked = Snap.docs.first['egg'] as bool;
           timer.cancel();
           setState(() {});
-        } else if(Snap.size == 0) {
-           _isLunchProvided = true;
-          setState(() {});
-        }else{
-          _isLunchProvided = false;
-           _lunchisChecked = Snap.docs.first['lunch'] as bool;
-          _eggisChecked = Snap.docs.first['egg'] as bool;
-          timer.cancel();
-          setState(() {});
-
         }
       },
     );
@@ -67,9 +66,17 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totallunchcount = querySnapshot.size;
+
+        roundFigure();
         setState(() {});
       },
     );
+  }
+
+  int meal_quantity = 0;
+  void roundFigure() {
+    meal_quantity = (totallunchcount * food_multiplier).round();
+    setState(() {});
   }
 
   var totaleggcount = 0;
@@ -87,22 +94,13 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-  // void enabled(){
-  //   if (now.day >= 11) {
-  //     _isLunchProvided = false;
-  //     setState(() {});
-  //   } else {
-  //     _isLunchProvided = true;
-  //     setState(() {});
-  //   }
-  // }
+
   @override
   void initState() {
     super.initState();
     usertesting();
     fortotallunch();
     fortotalegg();
-    //enabled();
     ToastContext().init(context);
     timer = Timer.periodic(
       Duration(seconds: 5),
@@ -126,9 +124,19 @@ class _HomePageState extends State<HomePage> {
     var now = DateTime.now();
     return Scaffold(
       appBar: appbar(user, context),
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(color: Colors.white60),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          fortotallunch();
+          fortotalegg();
+          return Future.delayed(Duration(milliseconds: 1500));
+        },
+        displacement: 5,
+        backgroundColor: Colors.black87,
+        color: Color.fromARGB(255, 248, 19, 2),
+        strokeWidth: 3,
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
               Container(
@@ -166,14 +174,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                           CheckBoxtile(
                             initialvalue: _eggisChecked,
-                            isLunchProvided: _isLunchProvided ,
+                            isLunchProvided: _isLunchProvided,
                             title: "Egg",
                             onchnage: (value) {
                               setState(() {
                                 _eggisChecked = value!;
-                       
                               });
-                         
                             },
                           ),
                         ],
@@ -183,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-// ----------- imp --- color --- Color.fromARGB(255, 222, 225, 225) ---
+              // ----------- imp --- color --- Color.fromARGB(255, 222, 225, 225) ---
 
               Container(
                 height: 50,
@@ -195,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: [
                     if (now.hour < 11)
-                    if (_isLunchProvided)
+                      if (_isLunchProvided)
                         yesbtnandtext(
                           0,
                           context,
@@ -204,25 +210,23 @@ class _HomePageState extends State<HomePage> {
                           null,
                           null,
                           _list[_currentIndex],
+                          meal_quantity,
                           onPress: () {
                             usertesting();
                             fortotallunch();
                             fortotalegg();
-                            
                           },
                         ),
-
-                        if (now.hour >= 11) timeoutwidget(context),
+                    if (now.hour >= 11) timeoutwidget(context),
                   ],
                 ),
               ),
               SizedBox(
                 height: 30,
               ),
-              Totalquantatydisplay(context, totallunchcount, totaleggcount,),
-                            
+              Totalquantatydisplay(context, totallunchcount, totaleggcount,
+                  meal_quantity, food_multiplier),
             ],
-            
           ),
         ),
       ),
@@ -236,7 +240,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 if (now.hour >= 11)
                   Bottomappbarcontant(context, totallunchcount.toString(),
-                      totaleggcount.toString()),
+                      totaleggcount.toString(), meal_quantity),
               ],
             ),
           ),

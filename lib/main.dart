@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lunch_app/login/app_state.dart';
@@ -15,5 +16,11 @@ void main() async {
       '˜”*°•.˜”*°• Update your lunch •°*”˜.•°*”˜..😋🍛');
 
   await Firebase.initializeApp();
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(minutes: 1),
+    minimumFetchInterval: const Duration(minutes: 1),
+  ));
+  await remoteConfig.fetchAndActivate();
   runApp(const LunchApp());
 }
