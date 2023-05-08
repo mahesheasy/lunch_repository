@@ -11,34 +11,41 @@ CollectionReference lunch = FirebaseFirestore.instance
     .collection('lunch_${now.day}-${now.month}-${now.year}');
 var now = DateTime.now();
 
-ElevatedButton logoutsubmitSharebtn(int buttonNamesIndex, BuildContext context,
-    bool _lunchisChecked, bool _eggisChecked, totallunchcount, totaleggcount,meal_quantity,
+ElevatedButton logoutsubmitSharebtn(
+    int buttonNamesIndex,
+    BuildContext context,
+    bool _lunchisChecked,
+    bool _eggisChecked,
+    totallunchcount,
+    totaleggcount,
+    meal_quantity,
     {VoidCallback? onPress}) {
   if (buttonNamesIndex == 1) {
-    
-
     return ElevatedButton.icon(
         onPressed: () {
           Toast.show("Copied!",
               duration: Toast.lengthShort, gravity: Toast.bottom);
           final whatsapptext = ClipboardData(
-            // -- for -- egg -- Egg : ${int.parse(totaleggcount) * egg_price} Rs
-              text:
-                  "Lunch : ${meal_quantity} ");
+              // -- for -- egg -- Egg : ${int.parse(totaleggcount) * egg_price} Rs
+              text: "Lunch : ${meal_quantity} ");
           Clipboard.setData(whatsapptext);
         },
         style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(GoogleFonts.lato(
-              fontSize: 17,
-              // Color.fromARGB(255, 5, 5, 5)
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            )),
-            elevation: MaterialStatePropertyAll(4),
-            backgroundColor:
-                MaterialStatePropertyAll(Color.fromARGB(255, 200, 192, 234)),
-            padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
-            minimumSize: MaterialStatePropertyAll(Size(20, 20))),
+          textStyle: MaterialStatePropertyAll(GoogleFonts.lato(
+            fontSize: 17,
+            // Color.fromARGB(255, 5, 5, 5)
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          )),
+          elevation: MaterialStatePropertyAll(4),
+          backgroundColor: MaterialStatePropertyAll(
+            Color.fromARGB(255, 200, 192, 234),
+          ),
+          padding: MaterialStatePropertyAll(EdgeInsets.all(4)),
+          minimumSize: MaterialStatePropertyAll(
+            Size(20, 20),
+          ),
+        ),
         icon: Icon(Icons.copy, color: Colors.black87),
         label: Text(
           buttonNames[buttonNamesIndex],

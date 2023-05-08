@@ -20,6 +20,8 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
+
+  int fixedTime = 11; // but 11
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
@@ -37,16 +39,18 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (Snap) {
-        if (Snap.size == 0 && DateTime.now().hour >= 11) {
-          _isLunchProvided = false;
+        //
+        // if (Snap.size == 0 && DateTime.now().hour >= fixedTime) {
+        //   _isLunchProvided = false;
 
-          timer.cancel();
-          setState(() {});
-        } else if (Snap.size == 0) {
-          _isLunchProvided = true;
+        //   timer.cancel();
+        //   setState(() {});
+        // } 
+          if (Snap.size == 0) {
+          _isLunchProvided = false;
           setState(() {});
         } else {
-          _isLunchProvided = false;
+          _isLunchProvided = true;
           _lunchisChecked = Snap.docs.first['lunch'] as bool;
           _eggisChecked = Snap.docs.first['egg'] as bool;
           timer.cancel();
@@ -164,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CheckBoxtile(
                             initialvalue: _lunchisChecked,
-                            isLunchProvided: _isLunchProvided,
+                            enabled: !_isLunchProvided && now.hour < fixedTime,
                             title: "Lunch",
                             onchnage: (value) {
                               setState(() {
@@ -174,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           CheckBoxtile(
                             initialvalue: _eggisChecked,
-                            isLunchProvided: _isLunchProvided,
+                            enabled: !_isLunchProvided && now.hour < fixedTime,
                             title: "Egg",
                             onchnage: (value) {
                               setState(() {
@@ -200,8 +204,8 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                    if (now.hour < 11)
-                      if (_isLunchProvided)
+                    if (now.hour < fixedTime)
+                      if (!_isLunchProvided)
                         yesbtnandtext(
                           0,
                           context,
@@ -217,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                             fortotalegg();
                           },
                         ),
-                    if (now.hour >= 11) timeoutwidget(context),
+                    if (now.hour >= fixedTime) timeoutwidget(context),
                   ],
                 ),
               ),
@@ -238,9 +242,8 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: Column(
               children: [
-                if (now.hour >= 11)
                   Bottomappbarcontant(context, totallunchcount.toString(),
-                      totaleggcount.toString(), meal_quantity),
+                      totaleggcount.toString(), meal_quantity,_isLunchProvided,fixedTime),
               ],
             ),
           ),
