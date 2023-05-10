@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_app/home/home_page_buttons.dart';
 
-Row adminbottombar(BuildContext context, totallunchcount, totaleggcount, meal_quantity) {
+Row adminbottombar(BuildContext context, totallunchcount, totaleggcount, meal_quantity,{VoidCallback? onPress}) {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       // we used "false , false" for balanceing buttons like copy and yes btns
       logoutsubmitSharebtn(
@@ -14,17 +14,23 @@ Row adminbottombar(BuildContext context, totallunchcount, totaleggcount, meal_qu
           false,
           totallunchcount.toString(),
           totaleggcount.toString(),
-          meal_quantity),
-      SizedBox(
-        width: 20,
+          meal_quantity
+         ),
+     
+ logoutsubmitSharebtn(
+        2,
+        context,
+        false,
+        false,
+        null,
+        null,
+        meal_quantity,
+        onPress: () {
+          onPress?.call();
+          
+        },
       ),
-      Text(
-        'and paste in WhatsApp',
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(fontSize: 21, color: Colors.black),
-      )
+     
     ],
   );
 }

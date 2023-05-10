@@ -18,6 +18,7 @@ class _foodtruelistState extends State<foodtruelist> {
         .collection('lunch_${now.day}-${now.month}-${now.year}')
         .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
         .where('lunch', isEqualTo: true)
+        //.where('Guest',isEqualTo:null)
         .get()
         .then(
       (QuerySnapshot querySnapshot) {
