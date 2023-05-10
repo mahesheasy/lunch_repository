@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lunch_app/home/app_bar_dispaly.dart';
 import 'package:lunch_app/home/bottombarcontant.dart';
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
+
+  int fixedTime = 11; // but 11
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
   var now = DateTime.now();
@@ -37,16 +40,18 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (Snap) {
-        if (Snap.size == 0 && DateTime.now().hour >= 11) {
-          _isLunchProvided = false;
+        //
+        // if (Snap.size == 0 && DateTime.now().hour >= fixedTime) {
+        //   _isLunchProvided = false;
 
-          timer.cancel();
-          setState(() {});
-        } else if (Snap.size == 0) {
-          _isLunchProvided = true;
+        //   timer.cancel();
+        //   setState(() {});
+        // }
+        if (Snap.size == 0) {
+          _isLunchProvided = false;
           setState(() {});
         } else {
-          _isLunchProvided = false;
+          _isLunchProvided = true;
           _lunchisChecked = Snap.docs.first['lunch'] as bool;
           _eggisChecked = Snap.docs.first['egg'] as bool;
           timer.cancel();
@@ -66,16 +71,51 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totallunchcount = querySnapshot.size;
-
+        //totallunchcount =querySnapshot.docs.where((element) => element['Guest'] == "guest@easycloud.in").length;
+        //totallunchcount =querySnapshot.docs.where((element) => element['Guest'] != "guest@easycloud.in").length;
         roundFigure();
         setState(() {});
       },
     );
   }
 
+  var guestcount = 0;
+  Future<void> fetchtotalguestcount() async {
+    FirebaseFirestore.instance
+        .collection('lunch_${now.day}-${now.month}-${now.year}')
+        .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
+        .where('guestlunch', isEqualTo: true)
+        .get()
+        .then(
+      (QuerySnapshot querySnapshot) {
+        // querySnapshot.docs.first.reference.delete();
+        guestcount = querySnapshot.size;
+        roundFigure();
+        setState(() {});
+      },
+    );
+  }
+
+  final CollectionReference lunchtoday = FirebaseFirestore.instance.collection(
+      'lunch_${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}');
+
+  Future<void> guestlunchremovecount() async {
+    QuerySnapshot querySnapshot = await lunchtoday
+        .where('date', isEqualTo: '${now.day}-${now.month}-${now.year}')
+        .where('guestlunch', isEqualTo: true)
+        .orderBy(FieldPath.documentId)
+        .limit(1)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      String documentId = querySnapshot.docs.first.id;
+      await lunchtoday.doc(documentId).delete();   
+    } else {
+    }
+  }
+
   int meal_quantity = 0;
   void roundFigure() {
-    meal_quantity = (totallunchcount * food_multiplier).round();
+    meal_quantity = ((totallunchcount + guestcount) * food_multiplier).round();
     setState(() {});
   }
 
@@ -101,6 +141,8 @@ class _HomePageState extends State<HomePage> {
     usertesting();
     fortotallunch();
     fortotalegg();
+    fetchtotalguestcount();
+
     ToastContext().init(context);
     timer = Timer.periodic(
       Duration(seconds: 5),
@@ -128,6 +170,7 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () async {
           fortotallunch();
           fortotalegg();
+          
           return Future.delayed(Duration(milliseconds: 1500));
         },
         displacement: 5,
@@ -142,7 +185,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 width: 200,
                 height: 180,
-                margin: EdgeInsets.only(top: 60, bottom: 60),
+                margin: EdgeInsets.only(top: 50, bottom: 50),
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(191, 226, 220, 1),
                   borderRadius: BorderRadius.circular(15),
@@ -164,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CheckBoxtile(
                             initialvalue: _lunchisChecked,
-                            isLunchProvided: _isLunchProvided,
+                            enabled: !_isLunchProvided && now.hour < fixedTime,
                             title: "Lunch",
                             onchnage: (value) {
                               setState(() {
@@ -174,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           CheckBoxtile(
                             initialvalue: _eggisChecked,
-                            isLunchProvided: _isLunchProvided,
+                            enabled: !_isLunchProvided && now.hour < fixedTime,
                             title: "Egg",
                             onchnage: (value) {
                               setState(() {
@@ -200,8 +243,8 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(right: 5, left: 5),
                 child: Column(
                   children: [
-                    if (now.hour < 11)
-                      if (_isLunchProvided)
+                    if (now.hour < fixedTime)
+                      if (!_isLunchProvided)
                         yesbtnandtext(
                           0,
                           context,
@@ -217,15 +260,23 @@ class _HomePageState extends State<HomePage> {
                             fortotalegg();
                           },
                         ),
-                    if (now.hour >= 11) timeoutwidget(context),
+                    if (now.hour >= fixedTime) timeoutwidget(context),
                   ],
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
-              Totalquantatydisplay(context, totallunchcount, totaleggcount,
-                  meal_quantity, food_multiplier),
+              Totalquantatydisplay(
+                  context,
+                  totallunchcount,
+                  totaleggcount,
+                  meal_quantity,
+                  food_multiplier,
+                  guestcount, 
+                  fixedTime,               
+                  guestlunchremovecount,
+                  fetchtotalguestcount),
             ],
           ),
         ),
@@ -238,9 +289,15 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: Column(
               children: [
-                if (now.hour >= 11)
-                  Bottomappbarcontant(context, totallunchcount.toString(),
-                      totaleggcount.toString(), meal_quantity),
+                Bottomappbarcontant(
+                    context,
+                    totallunchcount.toString(),
+                    totaleggcount.toString(),
+                    meal_quantity,
+                    _isLunchProvided,
+                    fixedTime,
+                    fetchtotalguestcount()
+                   ),// 
               ],
             ),
           ),

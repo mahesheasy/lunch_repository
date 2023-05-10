@@ -46,6 +46,7 @@ class Quantitywidget extends StatelessWidget {
                   ),
             ),
           ),
+          
           Expanded(
             child: Text(
               totallunchandeggcount,
