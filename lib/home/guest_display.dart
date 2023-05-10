@@ -60,8 +60,7 @@ class guest_display extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       guestlunchremovecount?.call();
-                       Toast.show("Removed Successfully 👍",
-      duration: Toast.lengthShort, gravity: Toast.bottom);
+                      
 
                     },
                     icon: Icon(

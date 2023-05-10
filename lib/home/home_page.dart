@@ -109,6 +109,8 @@ class _HomePageState extends State<HomePage> {
     if (querySnapshot.docs.isNotEmpty) {
       String documentId = querySnapshot.docs.first.id;
       await lunchtoday.doc(documentId).delete();   
+       Toast.show("Removed Successfully 👍",
+      duration: Toast.lengthShort, gravity: Toast.bottom);
     } else {
     }
   }
