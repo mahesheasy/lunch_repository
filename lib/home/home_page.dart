@@ -170,6 +170,7 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () async {
           fortotallunch();
           fortotalegg();
+          
           return Future.delayed(Duration(milliseconds: 1500));
         },
         displacement: 5,
@@ -272,8 +273,10 @@ class _HomePageState extends State<HomePage> {
                   totaleggcount,
                   meal_quantity,
                   food_multiplier,
-                  guestcount,                
-                  guestlunchremovecount),
+                  guestcount, 
+                  fixedTime,               
+                  guestlunchremovecount,
+                  fetchtotalguestcount),
             ],
           ),
         ),
@@ -293,7 +296,8 @@ class _HomePageState extends State<HomePage> {
                     meal_quantity,
                     _isLunchProvided,
                     fixedTime,
-                    fetchtotalguestcount()),
+                    fetchtotalguestcount()
+                   ),// 
               ],
             ),
           ),

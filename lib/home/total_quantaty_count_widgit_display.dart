@@ -11,7 +11,8 @@ Container Totalquantatydisplay(
     meal_quantity,
     food_multiplier,
    [ guestcount,
-    Future<void> Function()? guestlunchremovecount]) {
+     fixedTime,
+    Future<void> Function()? guestlunchremovecount,Future<void> Function()? fetchtotalguestcount]) {
   return Container(
     width: 350,
     margin: EdgeInsets.only(
@@ -57,7 +58,7 @@ Container Totalquantatydisplay(
         SizedBox(
           height: 20,
         ),
-        guest_display(guestcount: guestcount,guestlunchremovecount: guestlunchremovecount ),//,fixedTime: fixedTime
+        guest_display(guestcount: guestcount,guestlunchremovecount: guestlunchremovecount,fetchtotalguestcount: fetchtotalguestcount,fixedTime: fixedTime ),//,fixedTime: fixedTime
         SizedBox(
           height: 20,
         ),
