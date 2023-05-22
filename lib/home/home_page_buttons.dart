@@ -86,8 +86,8 @@ Widget logoutsubmitSharebtn(
 Future<void> callbackforyes(int buttonNamesIndex, BuildContext context,
     _lunchisChecked, _eggisChecked) async {
   if (buttonNamesIndex == 0) {
-    Toast.show("Successfully Updated!",
-        duration: Toast.lengthShort, gravity: Toast.bottom);
+    Toast.show("Successfully Updated!😄",
+        duration: Toast.lengthShort, gravity: Toast.top,backgroundColor: Color.fromARGB(255, 93, 5, 35));
 
     final user = FirebaseAuth.instance.currentUser;
     var user_email = user!.email!;

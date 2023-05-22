@@ -184,18 +184,31 @@ class EmailSearchDelegate extends SearchDelegate<String> {
         int index,
       ) {
         return Container(
-          color: Colors.grey[300],
-          child: ListTile(
-            title: Text(
-              suggestedEmails[index],
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
+          child: Container(
+            color: Colors.grey[300],
+            margin: EdgeInsets.only(top: 3),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text(
+                  suggestedEmails[index].substring(0, 2),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                ),
               ),
+              title: Text(
+                suggestedEmails[index],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+              ),
+              onTap: () {
+                close(context, suggestedEmails[index]);
+              },
             ),
-            onTap: () {
-              close(context, suggestedEmails[index]);
-            },
           ),
         );
       },
