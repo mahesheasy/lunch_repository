@@ -26,8 +26,7 @@ class _eggtruelistState extends State<eggtruelist> {
         String email = doc['email'];
         emailList.add('$email');
       });
-     // print(emailList);
-     
+      // print(emailList);
 
       setState(() {
         _isLoading = false;
@@ -39,7 +38,7 @@ class _eggtruelistState extends State<eggtruelist> {
   void initState() {
     emailList.clear();
     foremaillilst();
-     _isLoading = true;
+    _isLoading = true;
     super.initState();
   }
 
@@ -56,6 +55,17 @@ class _eggtruelistState extends State<eggtruelist> {
                 color: Colors.black,
               ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: EmailSearchEggDelegate(emailList),
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
       body: _isLoading
           ? Center(
@@ -92,6 +102,113 @@ class _eggtruelistState extends State<eggtruelist> {
                 },
               ),
             ),
+    );
+  }
+}
+
+class EmailSearchEggDelegate extends SearchDelegate<String> {
+  final List<String> emailList;
+
+  EmailSearchEggDelegate(this.emailList);
+
+  @override
+  String get searchFieldLabel => 'Search Emails';
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return theme.copyWith(
+      appBarTheme: AppBarTheme(
+        color: Color.fromRGBO(191, 226, 220, 1),
+      ),
+    );
+  }
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: const Icon(
+          Icons.clear,
+          color: Colors.black,
+        ),
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, '');
+      },
+      icon: const Icon(Icons.arrow_back, color: Colors.black),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    final filteredEmails =
+        emailList.where((email) => email.contains(query)).toList();
+
+    return ListView.builder(
+      itemCount: filteredEmails.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(
+            filteredEmails[index],
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestedEmails =
+        emailList.where((email) => email.contains(query)).toList();
+
+    return ListView.builder(
+      itemCount: suggestedEmails.length,
+      itemBuilder: (
+        BuildContext context,
+        int index,
+      ) {
+        return Container(
+          child: Container(
+            color: Colors.grey[300],
+            margin: EdgeInsets.only(top: 3),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text(
+                  suggestedEmails[index].substring(0, 2),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                ),
+              ),
+              title: Text(
+                suggestedEmails[index],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+              ),
+              onTap: () {
+                close(context, suggestedEmails[index]);
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
