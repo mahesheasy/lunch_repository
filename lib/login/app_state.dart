@@ -32,7 +32,8 @@ class _LunchAppState extends State<LunchApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MealMaven',
-      theme: ThemeData(
+      theme: 
+      ThemeData(
         primarySwatch: Colors.deepPurple,
         textTheme: TextTheme(
           // displayLarge: GoogleFonts.eduQldBeginner
@@ -45,6 +46,8 @@ class _LunchAppState extends State<LunchApp> {
           ),
         ),
       ),
+     // ThemeData(useMaterial3: true),
+
       home: StreamBuilder<User?>(
         stream: authStateChanges,
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {

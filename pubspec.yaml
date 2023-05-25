@@ -41,6 +41,8 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   firebase_remote_config: ^4.0.1
   share_plus: ^7.0.0
+  uuid: ^3.0.7
+  intl: ^0.18.1
 
 
  
