@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lunch_app/models/widgets/expenses_list/expense_data.dart';
 
 class NewExpenses extends StatefulWidget {
-  const NewExpenses({super.key});
+  const NewExpenses({super.key, required this.onAddExpenses});
+
+  final void Function(Expense expense) onAddExpenses;
 
   @override
   State<NewExpenses> createState() => _NewExpensesState();
@@ -25,10 +27,28 @@ class _NewExpensesState extends State<NewExpenses> {
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text('invalid input'),
-          content: const Text('please make sure with a valid title,amount,and date'),
+          content:
+              const Text('please make sure with a valid title,amount,and date'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("okey"),
+            ),
+          ],
         ),
       );
+      return;
     }
+    widget.onAddExpenses(
+      Expense(
+          title: _titleController.text,
+          amount: enterdAmount,
+          date: _SelectedDate!,
+          category: _SelectedCatagory),
+    );
+    Navigator.pop(context);
   }
 
   void _presentDate() async {

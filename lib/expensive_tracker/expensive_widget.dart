@@ -26,9 +26,15 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
   ];
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
-      builder: (ctx) => NewExpenses(),
+      builder: (ctx) => NewExpenses(onAddExpenses:_addExpenses),
     );
+  }
+  void _addExpenses(Expense expenses){
+    setState(() {
+      _registeredExpense.add(expenses);
+    });
   }
 
   @override
