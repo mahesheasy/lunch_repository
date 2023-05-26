@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
     fortotallunch();
     fortotalegg();
     fetchtotalguestcount();
-
+    //day_to_auto_add(meal_quantity, totaleggcount);
     ToastContext().init(context);
     timer = Timer.periodic(
       Duration(seconds: 5),
@@ -289,13 +289,13 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Container(
-               
                 height: 56,
                 child: Card(
                   margin: EdgeInsets.only(left: 10, right: 10),
                   color: Colors.black87,
                   child: Container(
-                    padding: EdgeInsets.only(top: 3,bottom: 3,left: 4,right: 4),
+                    padding:
+                        EdgeInsets.only(top: 3, bottom: 3, left: 4, right: 4),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
