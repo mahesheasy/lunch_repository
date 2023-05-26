@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lunch_app/home/Drawer_Widget.dart';
 import 'package:lunch_app/home/app_bar_dispaly.dart';
 import 'package:lunch_app/home/bottombarcontant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -164,6 +165,7 @@ class _HomePageState extends State<HomePage> {
     var now = DateTime.now();
     return Scaffold(
       appBar: appbar(user, context),
+      drawer: NavigationDrawerWidget(),
       body: RefreshIndicator(
         onRefresh: () async {
           fortotallunch();
@@ -289,13 +291,13 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Container(
-               
                 height: 56,
                 child: Card(
                   margin: EdgeInsets.only(left: 10, right: 10),
                   color: Colors.black87,
                   child: Container(
-                    padding: EdgeInsets.only(top: 3,bottom: 3,left: 4,right: 4),
+                    padding:
+                        EdgeInsets.only(top: 3, bottom: 3, left: 4, right: 4),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -328,3 +330,5 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 }
+
+

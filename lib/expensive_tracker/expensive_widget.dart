@@ -28,17 +28,75 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) => NewExpenses(onAddExpenses:_addExpenses),
+      builder: (ctx) => NewExpenses(onAddExpenses: _addExpenses),
     );
   }
-  void _addExpenses(Expense expenses){
+
+  void _addExpenses(Expense expenses) {
     setState(() {
       _registeredExpense.add(expenses);
     });
   }
 
+  void _removeExpenses(Expense expenses) {
+    final ExpensesIndex = _registeredExpense.indexOf(expenses);
+    setState(() {
+      _registeredExpense.remove(expenses);
+    });
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Are you sure?",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        content: Text('Do you want to remove'),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(
+                    Color.fromARGB(255, 49, 120, 35),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _registeredExpense.insert(ExpensesIndex, expenses);
+                  });
+                  Navigator.pop(context);
+                },
+                child: Text("No",style: TextStyle(color: Colors.black)),
+              ),
+              TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(
+                    Color.fromARGB(255, 209, 13, 13),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Yes",style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget mainContent =
+        Center(child: Text("No expenses found..try to add Some !"));
+    if (_registeredExpense.isNotEmpty) {
+      mainContent = ExpensesList(
+        expenses: _registeredExpense,
+        onRemoveExpenses: _removeExpenses,
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text("Expenses Tracker"),
@@ -55,7 +113,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
         children: [
           Text('the chart'),
           Expanded(
-            child: ExpensesList(expenses: _registeredExpense),
+            child: mainContent,
           ),
         ],
       ),
