@@ -164,8 +164,8 @@ class _HomePageState extends State<HomePage> {
     }
     var now = DateTime.now();
     return Scaffold(
-      appBar: appbar(user, context),
-      drawer: NavigationDrawerWidget(),
+      appBar: appbar(context),
+      drawer: NavigationDrawerWidget(user, context),
       body: RefreshIndicator(
         onRefresh: () async {
           fortotallunch();
@@ -330,5 +330,3 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 }
-
-

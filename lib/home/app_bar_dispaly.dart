@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-AppBar appbar(User? user, BuildContext context) {
+AppBar appbar( BuildContext context) {
   return AppBar(
     
     //Color.fromARGB(255, 222, 225, 225)
@@ -9,14 +9,14 @@ AppBar appbar(User? user, BuildContext context) {
     leading: null,
     // automaticallyImplyLeading: false,
     // leadingWidth: 0,
-    title: Text(
-      user!.email!,
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: 21,
-            color: Colors.white,
-          ),
+    // title: Text(
+    //   user!.email!,
+    //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+    //         fontSize: 21,
+    //         color: Colors.white,
+    //       ),
           
-    ),
+    // ),
     // actions: [
     //   IconButton(
     //       onPressed: () async {

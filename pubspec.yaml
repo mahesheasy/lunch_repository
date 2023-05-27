@@ -43,6 +43,7 @@ dependencies:
   share_plus: ^7.0.0
   uuid: ^3.0.7
   intl: ^0.18.1
+  rating_dialog: ^2.0.4
 
 
  

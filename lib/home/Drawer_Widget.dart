@@ -2,86 +2,82 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
-  final padding=EdgeInsets.symmetric(horizontal: 30);
-   NavigationDrawerWidget({super.key});
+  // final User user;
+  //final padding = EdgeInsets.symmetric(horizontal: 30);
+  NavigationDrawerWidget(User? user, BuildContext context, {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
+    final user = FirebaseAuth.instance.currentUser;
     return Drawer(
-      child: Material(
-        color: Color.fromARGB(255, 241, 244, 249),
-        child: ListView(
-          padding: padding,
-          children: <Widget>[
-            const SizedBox(
-              height: 48,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text('Test'),
+            accountEmail: Text(
+              user!.email!,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 21,
+                    color: Colors.white,
+                  ),
             ),
-            buildMenuItem(
-              text: 'profile',
-              icons: Icons.person,
+            currentAccountPicture: CircleAvatar(
+              child: Icon(Icons.person),
             ),
-            const SizedBox(
-              height: 48,
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.home_outlined),
+            title: Text('HOME'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.corporate_fare),
+            title: Text('POWERED BY'),
+            trailing: Text(
+              "Easy cloud",
+              style: TextStyle(color: Color.fromARGB(255, 136, 135, 133)),
             ),
-            buildMenuItem(
-              text: '',
-              icons: Icons.person,
+            onTap: () {
+              // Handle settings
+            },
+          ),
+          Divider(),
+          ListTile(
+            hoverColor:Colors.amber ,
+            focusColor: Colors.amber,
+            leading: Icon(Icons.star),
+            title: Text('Rate Us'),
+            trailing: Text(
+              "OpenPlayStore",
+              style: TextStyle(color: Color.fromARGB(255, 136, 135, 133)),
             ),
-            const SizedBox(
-              height: 48,
-            ),
-            buildMenuItem(
-              text: 'person',
-              icons: Icons.person,
-            ),
-             const SizedBox(
-              height: 48,
-            ),
-            Divider(color: Colors.black,thickness: 2,),
-
-             const SizedBox(
-              height: 48,
-            ),
-               const SizedBox(
-              height: 48,
-            ),
-            buildMenuItem(
-              text: 'notification',
-              icons: Icons.notifications,
-            ),
-               const SizedBox(
-              height: 48,
-            ),
-            buildMenuItem(
-              text: 'settings',
-              icons: Icons.settings,
-            ),
-             const SizedBox(
-              height: 48,
-            ),
-            buildMenuItem(
-              text: 'logOut',
-              icons: Icons.logout,
-            ),
-          
-
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildMenuItem({required String text, required IconData icons}) {
-    final Color = Colors.black;
-    final hovercolor=Colors.white;
-    return ListTile(
-      leading: Icon(icons,color: Color,),
-      title: Text(text,style: TextStyle(color: Color),),
-      hoverColor:hovercolor,
-      onTap: ()async{
+            onTap: () {},
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              // Handle settings
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('logout'),
+            onTap: () async {
               await FirebaseAuth.instance.signOut();
-
-      },
+            },
+          ),
+        ],
+      ),
     );
   }
 }
