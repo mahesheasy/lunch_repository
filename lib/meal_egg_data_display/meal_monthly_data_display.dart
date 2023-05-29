@@ -10,15 +10,25 @@ class Meal_monthly_data_display extends StatefulWidget {
 }
 
 class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
-  @override
-  var totallunchcount = 0;
+  // var totallunchcount = 0;
+  bool isSunday = DateTime.now().weekday == DateTime.sunday;
+  List<int> meal_quantity_list = [];
+  List<int> meal_day_list = [];
   Future<void> fortotallunch(int day) async {
     if (day <= now.day) {
       int l1 = await getStaffLunchCount(day);
       int l2 = await getGuestLunchCount(day);
+//(l1 + l2) != 0 &&
       if ((l1 + l2) != 0) {
-        print("$day : Total : ${l1 + l2}");
+        print("$day : Total : ${(l1 + l2)}");
+        //meal_quantity_list = [];
+
+        int data = l1 + l2;
+        meal_quantity_list.add(data);
+        int meal_day = day;
+        meal_day_list.add(meal_day);
       }
+      print(meal_day_list);
     }
   }
 
@@ -65,8 +75,10 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
   }
 
   var now = DateTime.now();
-  CollectionReference total_egg_meal_storage =
-      FirebaseFirestore.instance.collection('monthly_counting');
+  // String meal_date = '${now.month}';
+
+  //CollectionReference total_egg_meal_storage =
+  // FirebaseFirestore.instance.collection('monthly_counting');
   @override
   Widget build(
     BuildContext context,
@@ -76,10 +88,10 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
         title: Text('Count'),
       ),
       body: Center(
-        child: Column(
-          children: [
-// basic card
-            Container(
+        child: ListView.builder(
+          itemCount: meal_quantity_list.length,
+          itemBuilder: (context, index) {
+            return Container(
               margin: EdgeInsets.only(left: 4, right: 4),
               child: Card(
                 color: Colors.tealAccent[100],
@@ -100,7 +112,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
                             width: 8,
                           ),
                           Text(
-                            '${widget.meal_quantity}',
+                            '${meal_quantity_list[index]}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -111,7 +123,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
                         ],
                       ),
                       Text(
-                        "${now.day}-${now.month}-${now.year}",
+                        "${meal_day_list[index]}-${now.month}-${now.year}",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 19,
                             ),
@@ -120,8 +132,8 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
                   ),
                 ),
               ),
-            )
-          ],
+            );
+          },
         ),
       ),
     );
