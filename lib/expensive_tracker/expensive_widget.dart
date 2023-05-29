@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+
 
 import 'package:lunch_app/models/widgets/expenses_list/expense_data.dart';
 import 'package:lunch_app/models/widgets/expenses_list/expenses_list.dart';
@@ -12,31 +14,39 @@ class ExpensiveWidget extends StatefulWidget {
 }
 
 class _ExpensiveWidgetState extends State<ExpensiveWidget> {
+
   final List<Expense> _registeredExpense = [
-    Expense(
-        title: " the foood",
-        amount: 19.90,
-        date: DateTime.now(),
-        category: Category.food),
-    Expense(
-        title: " the foood today",
-        amount: 99.90,
-        date: DateTime.now(),
-        category: Category.egg),
+   
+    // Expense(
+    //     Descriptions: " the foood",
+    //     amount: 19.90,
+    //     date: DateTime.now(),
+    //     category: Category.food),
+    // Expense(
+    //     Descriptions: " the foood today",
+    //     amount: 99.90,
+    //     date: DateTime.now(),
+    //     category: Category.egg),
+    
+
   ];
+
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) => NewExpenses(onAddExpenses: _addExpenses),
+      builder: (ctx) => NewExpenses(onAddExpenses: _addExpenses,),
     );
   }
 
   void _addExpenses(Expense expenses) {
     setState(() {
       _registeredExpense.add(expenses);
+      //forExpenses(expenses, context);
+     
     });
   }
+ 
 
   void _removeExpenses(Expense expenses) {
     final ExpensesIndex = _registeredExpense.indexOf(expenses);
@@ -46,7 +56,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Are you sure?",
+       title: Text("Are you sure?",
             style: TextStyle(fontWeight: FontWeight.bold)),
         content: Text('Do you want to remove'),
         actions: [
@@ -87,6 +97,9 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     );
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     Widget mainContent =
@@ -99,11 +112,13 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Expenses Tracker"),
+       title: Text("Expenses Tracker"),
         actions: [
           IconButton(
             onPressed: () {
               _openAddExpenseOverlay();
+             // fortotalexpenses();
+
             },
             icon: const Icon(Icons.add),
           ),

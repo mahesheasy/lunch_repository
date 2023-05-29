@@ -14,7 +14,7 @@ enum Category { food, egg, extra }
 
 class Expense {
   final String id;
-  final String title;
+  final String Descriptions;
   final double amount;
   final DateTime date;
   final Category category;
@@ -24,7 +24,7 @@ class Expense {
   }
 
   Expense(
-      {required this.title,
+      {required this.Descriptions,
       required this.amount,
       required this.date,
       required this.category})

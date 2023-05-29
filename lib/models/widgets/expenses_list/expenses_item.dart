@@ -11,7 +11,7 @@ class ExpensesItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: Column(
           children: [
-            Text(expense.title),
+            Text(expense.Descriptions),
             SizedBox(
               height: 4,
             ),

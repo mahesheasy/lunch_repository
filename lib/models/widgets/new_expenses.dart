@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lunch_app/models/widgets/expenses_list/expense_data.dart';
 
@@ -9,12 +11,16 @@ class NewExpenses extends StatefulWidget {
   @override
   State<NewExpenses> createState() => _NewExpensesState();
 }
-
+List<String>expensesList = [];
 class _NewExpensesState extends State<NewExpenses> {
+  var now = DateTime.now();
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _SelectedDate;
   Category _SelectedCatagory = Category.food;
+  List<String>expensesList = [];
+
+
 
   void _saveExpensesData() {
     final enterdAmount = double.tryParse(_amountController.text);
@@ -43,12 +49,28 @@ class _NewExpensesState extends State<NewExpenses> {
     }
     widget.onAddExpenses(
       Expense(
-          title: _titleController.text,
+          Descriptions: _titleController.text,
           amount: enterdAmount,
           date: _SelectedDate!,
           category: _SelectedCatagory),
     );
     Navigator.pop(context);
+  }
+
+  Future<void> forExpenses_adding() async {
+    print('adding expense');
+
+    final user = FirebaseAuth.instance.currentUser;
+    final user_email = user?.email;
+
+    await FirebaseFirestore.instance.collection('expenses').add({
+      'description': _titleController.text,
+      'amount': double.parse(_amountController.text),
+      'category': _SelectedCatagory.name,
+      'expensesDate': _SelectedDate!,
+      'admin': user_email,
+      'currentDate': "${now.day}-${now.month}-${now.year}",
+    });
   }
 
   void _presentDate() async {
@@ -63,6 +85,7 @@ class _NewExpensesState extends State<NewExpenses> {
       _SelectedDate = pickedDate;
     });
   }
+  
 
   @override
   void dispose() {
@@ -113,7 +136,7 @@ class _NewExpensesState extends State<NewExpenses> {
                     IconButton(
                       onPressed: () {
                         _presentDate();
-                        print("je;;");
+                       
                       },
                       icon: Icon(Icons.calendar_month),
                     ),
@@ -155,7 +178,11 @@ class _NewExpensesState extends State<NewExpenses> {
                 child: Text('cancel'),
               ),
               ElevatedButton(
-                onPressed: _saveExpensesData,
+                onPressed: () async {
+                  _saveExpensesData();
+                
+                  await forExpenses_adding();
+                },
                 child: Text("save"),
               ),
             ],
