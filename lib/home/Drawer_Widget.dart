@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   // final User user;
@@ -12,10 +13,13 @@ class NavigationDrawerWidget extends StatelessWidget {
   ) {
     final user = FirebaseAuth.instance.currentUser;
     return Drawer(
+  
       child: ListView(
         padding: EdgeInsets.zero,
+        
         children: <Widget>[
           UserAccountsDrawerHeader(
+            decoration: BoxDecoration(color: Color.fromARGB(255, 8, 8, 8)),
             accountName: Text('Test'),
             accountEmail: Text(
               user!.email!,
@@ -25,7 +29,8 @@ class NavigationDrawerWidget extends StatelessWidget {
                   ),
             ),
             currentAccountPicture: CircleAvatar(
-              child: Icon(Icons.person),
+              backgroundImage: NetworkImage(
+                  'https://png.pngtree.com/element_our/sm/20180410/sm_5acd1797b5783.jpg'),
             ),
           ),
           Divider(),
@@ -44,21 +49,24 @@ class NavigationDrawerWidget extends StatelessWidget {
               "Easy cloud",
               style: TextStyle(color: Color.fromARGB(255, 136, 135, 133)),
             ),
-            onTap: () {
-              // Handle settings
+            onTap: () async {
+              // ignore: deprecated_member_use
+              await launch('https://easycloud.in/');
             },
           ),
           Divider(),
           ListTile(
-            hoverColor:Colors.amber ,
-            focusColor: Colors.amber,
             leading: Icon(Icons.star),
             title: Text('Rate Us'),
             trailing: Text(
               "OpenPlayStore",
               style: TextStyle(color: Color.fromARGB(255, 136, 135, 133)),
             ),
-            onTap: () {},
+            onTap: () async {
+              // ignore: deprecated_member_use
+              await launch(
+                  'https://play.google.com/store/apps/details?id=in.easycloud.mealmaven&pli=1');
+            },
           ),
           Divider(),
           ListTile(
@@ -71,11 +79,12 @@ class NavigationDrawerWidget extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('logout'),
+            title: Text('logout',style: TextStyle(color: Color.fromARGB(255, 1, 0, 0)),),
             onTap: () async {
               await FirebaseAuth.instance.signOut();
             },
           ),
+          Divider(),
         ],
       ),
     );
