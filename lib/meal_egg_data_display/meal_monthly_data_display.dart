@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 
 class Meal_monthly_data_display extends StatefulWidget {
@@ -11,9 +12,11 @@ class Meal_monthly_data_display extends StatefulWidget {
 
 class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
   // var totallunchcount = 0;
-  bool isSunday = DateTime.now().weekday == DateTime.sunday;
+  final food_multiplier =
+      FirebaseRemoteConfig.instance.getDouble('food_multiplier');
   List<int> meal_quantity_list = [];
   List<int> meal_day_list = [];
+  late int data;
   Future<void> fortotallunch(int day) async {
     if (day <= now.day) {
       int l1 = await getStaffLunchCount(day);
@@ -23,7 +26,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
         print("$day : Total : ${(l1 + l2)}");
         //meal_quantity_list = [];
 
-        int data = l1 + l2;
+        data = ((l1 + l2) * food_multiplier).round();
         meal_quantity_list.add(data);
         int meal_day = day;
         meal_day_list.add(meal_day);
