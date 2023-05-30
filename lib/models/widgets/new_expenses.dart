@@ -1,26 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lunch_app/models/widgets/expenses_list/expense_data.dart';
 
 class NewExpenses extends StatefulWidget {
-  const NewExpenses({super.key, required this.onAddExpenses});
+  const NewExpenses({
+    super.key,
+    required this.onAddExpenses,
+    
+  });
 
   final void Function(Expense expense) onAddExpenses;
+ 
 
   @override
   State<NewExpenses> createState() => _NewExpensesState();
 }
-List<String>expensesList = [];
+
+final List<String> registeredExpense = [];
+
 class _NewExpensesState extends State<NewExpenses> {
   var now = DateTime.now();
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime? _SelectedDate;
+  DateTime _SelectedDate =DateTime(0000, 00, 00, 00, 00, 00);
   Category _SelectedCatagory = Category.food;
-  List<String>expensesList = [];
-
-
 
   void _saveExpensesData() {
     final enterdAmount = double.tryParse(_amountController.text);
@@ -47,11 +52,13 @@ class _NewExpensesState extends State<NewExpenses> {
       );
       return;
     }
+
+String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
     widget.onAddExpenses(
       Expense(
           Descriptions: _titleController.text,
           amount: enterdAmount,
-          date: _SelectedDate!,
+          date: formattedDateTime,
           category: _SelectedCatagory),
     );
     Navigator.pop(context);
@@ -63,15 +70,40 @@ class _NewExpensesState extends State<NewExpenses> {
     final user = FirebaseAuth.instance.currentUser;
     final user_email = user?.email;
 
+String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
+
     await FirebaseFirestore.instance.collection('expenses').add({
       'description': _titleController.text,
       'amount': double.parse(_amountController.text),
       'category': _SelectedCatagory.name,
-      'expensesDate': _SelectedDate!,
+      'expensesDate': formattedDateTime,
       'admin': user_email,
       'currentDate': "${now.day}-${now.month}-${now.year}",
     });
   }
+ Map<String, dynamic>? data;
+   void readDataFromFirebase() async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  
+  try {
+    QuerySnapshot querySnapshot = await firestore.collection('expenses').get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+       data = documentSnapshot.data() as Map<String, dynamic>?;
+        print(data);
+      }
+    } else {
+      print('No documents found.');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+
+ 
+
+
 
   void _presentDate() async {
     final now = DateTime.now();
@@ -82,16 +114,22 @@ class _NewExpensesState extends State<NewExpenses> {
         firstDate: firstDate,
         lastDate: now);
     setState(() {
-      _SelectedDate = pickedDate;
+      _SelectedDate = pickedDate!;
     });
   }
-  
 
   @override
   void dispose() {
     _titleController.dispose();
     _amountController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    readDataFromFirebase();
   }
 
   @override
@@ -131,12 +169,11 @@ class _NewExpensesState extends State<NewExpenses> {
                     Text(
                       _SelectedDate == null
                           ? '00/00/202_'
-                          : formatter.format(_SelectedDate!),
+                          : formatter.format(_SelectedDate),
                     ),
                     IconButton(
                       onPressed: () {
                         _presentDate();
-                       
                       },
                       icon: Icon(Icons.calendar_month),
                     ),
@@ -180,7 +217,7 @@ class _NewExpensesState extends State<NewExpenses> {
               ElevatedButton(
                 onPressed: () async {
                   _saveExpensesData();
-                
+
                   await forExpenses_adding();
                 },
                 child: Text("save"),

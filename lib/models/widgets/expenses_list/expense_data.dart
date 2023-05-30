@@ -6,6 +6,17 @@ final uuid = Uuid();
 
 
 enum Category { food, egg, extra }
+
+Category nameToCategory(String name) {
+  if (name == 'food') return Category.food;
+  if(name=='egg')return Category.egg;
+  if (name=='extra') return Category.extra;
+  return Category.food;
+    
+  
+}
+
+ 
  const CategoryIcon ={
   Category.food :Icons.lunch_dining_rounded,
   Category.egg :Icons.egg_rounded,
@@ -16,12 +27,9 @@ class Expense {
   final String id;
   final String Descriptions;
   final double amount;
-  final DateTime date;
+  final String date;
   final Category category;
 
-  String get formattedDate{
-    return formatter.format(date);
-  }
 
   Expense(
       {required this.Descriptions,
@@ -29,4 +37,5 @@ class Expense {
       required this.date,
       required this.category})
       : id = uuid.v4();
+      
 }

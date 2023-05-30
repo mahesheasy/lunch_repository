@@ -1,6 +1,5 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 
 import 'package:lunch_app/models/widgets/expenses_list/expense_data.dart';
 import 'package:lunch_app/models/widgets/expenses_list/expenses_list.dart';
@@ -14,49 +13,85 @@ class ExpensiveWidget extends StatefulWidget {
 }
 
 class _ExpensiveWidgetState extends State<ExpensiveWidget> {
-
-  final List<Expense> _registeredExpense = [
-   
+  final List<Expense> registeredExpense = [
     // Expense(
     //     Descriptions: " the foood",
     //     amount: 19.90,
-    //     date: DateTime.now(),
+    //     date: '00/00/202_',
     //     category: Category.food),
     // Expense(
     //     Descriptions: " the foood today",
     //     amount: 99.90,
-    //     date: DateTime.now(),
+    //     date: '00/00/202_',
     //     category: Category.egg),
-    
-
   ];
+
+  static var category;
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (ctx) => NewExpenses(onAddExpenses: _addExpenses,),
+      builder: (ctx) => NewExpenses(
+        onAddExpenses: _addExpenses,
+      ),
     );
   }
 
   void _addExpenses(Expense expenses) {
     setState(() {
-      _registeredExpense.add(expenses);
-      //forExpenses(expenses, context);
-     
+      registeredExpense.add(expenses);
     });
   }
+
+  @override
+  void initState() {
+    readDataFromFirebase();
+    super.initState();
+  }
+
+  Map<String, dynamic>? data;
+  void readDataFromFirebase() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    try {
+      QuerySnapshot querySnapshot =
+          await firestore.collection('expenses').get();
+      if (querySnapshot.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+          data = documentSnapshot.data() as Map<String, dynamic>?;
+          print(data);
+           Expense expense = Expense(
+          Descriptions: data!['description'],
+          amount: data!['amount'],
+          date: data!['expensesDate'],
+           category: nameToCategory(data!['category']),
+        );
+       
+          registeredExpense.add(expense);
+        
+        }
+        setState(() {
+          
+        });
+      } else {
+        print('No documents found.');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
  
 
   void _removeExpenses(Expense expenses) {
-    final ExpensesIndex = _registeredExpense.indexOf(expenses);
+    final ExpensesIndex = registeredExpense.indexOf(expenses);
     setState(() {
-      _registeredExpense.remove(expenses);
+      registeredExpense.remove(expenses);
     });
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-       title: Text("Are you sure?",
+        title: Text("Are you sure?",
             style: TextStyle(fontWeight: FontWeight.bold)),
         content: Text('Do you want to remove'),
         actions: [
@@ -71,11 +106,11 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _registeredExpense.insert(ExpensesIndex, expenses);
+                    registeredExpense.insert(ExpensesIndex, expenses);
                   });
                   Navigator.pop(context);
                 },
-                child: Text("No",style: TextStyle(color: Colors.black)),
+                child: Text("No", style: TextStyle(color: Colors.black)),
               ),
               TextButton(
                 style: ButtonStyle(
@@ -87,7 +122,8 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
                   Navigator.pop(context);
                 },
                 child: Text(
-                  "Yes",style: TextStyle(color: Colors.black),
+                  "Yes",
+                  style: TextStyle(color: Colors.black),
                 ),
               ),
             ],
@@ -97,28 +133,24 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     );
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     Widget mainContent =
         Center(child: Text("No expenses found..try to add Some !"));
-    if (_registeredExpense.isNotEmpty) {
+    if (registeredExpense.isNotEmpty) {
       mainContent = ExpensesList(
-        expenses: _registeredExpense,
+        expenses: registeredExpense,
         onRemoveExpenses: _removeExpenses,
       );
     }
     return Scaffold(
       appBar: AppBar(
-       title: Text("Expenses Tracker"),
+        title: Text("Expenses Tracker"),
         actions: [
           IconButton(
             onPressed: () {
               _openAddExpenseOverlay();
-             // fortotalexpenses();
-
+              // fortotalexpenses();
             },
             icon: const Icon(Icons.add),
           ),
