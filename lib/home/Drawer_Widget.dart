@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 class NavigationDrawerWidget extends StatelessWidget {
   // final User user;
   //final padding = EdgeInsets.symmetric(horizontal: 30);
-  NavigationDrawerWidget(User? user, BuildContext context, {super.key});
+  NavigationDrawerWidget(User? user, BuildContext context, {super.key,});
 
   @override
   Widget build(
@@ -73,7 +73,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
-              // Handle settings
+             
             },
           ),
           Divider(),

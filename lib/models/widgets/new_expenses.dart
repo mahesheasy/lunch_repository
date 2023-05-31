@@ -8,11 +8,9 @@ class NewExpenses extends StatefulWidget {
   const NewExpenses({
     super.key,
     required this.onAddExpenses,
-    
   });
 
   final void Function(Expense expense) onAddExpenses;
- 
 
   @override
   State<NewExpenses> createState() => _NewExpensesState();
@@ -22,10 +20,12 @@ final List<String> registeredExpense = [];
 
 class _NewExpensesState extends State<NewExpenses> {
   var now = DateTime.now();
+ 
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime _SelectedDate =DateTime(0000, 00, 00, 00, 00, 00);
+  DateTime _SelectedDate = DateTime(0000, 00, 00, 00, 00, 00);
   Category _SelectedCatagory = Category.food;
+  
 
   void _saveExpensesData() {
     final enterdAmount = double.tryParse(_amountController.text);
@@ -53,26 +53,32 @@ class _NewExpensesState extends State<NewExpenses> {
       return;
     }
 
-String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
+   String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
     widget.onAddExpenses(
       Expense(
-          Descriptions: _titleController.text,
-          amount: enterdAmount,
-          date: formattedDateTime,
-          category: _SelectedCatagory),
+        id: uuid.v4(),
+        Descriptions: _titleController.text,
+        amount: enterdAmount,
+        date: formattedDateTime,
+        category: _SelectedCatagory,
+      ),
     );
     Navigator.pop(context);
   }
 
+
   Future<void> forExpenses_adding() async {
-    print('adding expense');
+   
 
     final user = FirebaseAuth.instance.currentUser;
     final user_email = user?.email;
 
-String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
-
-    await FirebaseFirestore.instance.collection('expenses').add({
+    String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
+     //String DateTime='${now.year}-${now.month}' ;
+    await FirebaseFirestore.instance
+        .collection('expenses_${now.month}-${now.year}')
+        //.doc()
+        .add({
       'description': _titleController.text,
       'amount': double.parse(_amountController.text),
       'category': _SelectedCatagory.name,
@@ -81,29 +87,27 @@ String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
       'currentDate': "${now.day}-${now.month}-${now.year}",
     });
   }
- Map<String, dynamic>? data;
-   void readDataFromFirebase() async {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  
-  try {
-    QuerySnapshot querySnapshot = await firestore.collection('expenses').get();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
-       data = documentSnapshot.data() as Map<String, dynamic>?;
-        print(data);
+  Map<String, dynamic>? data;
+  void readDataFromFirebase() async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    try {
+      QuerySnapshot querySnapshot =
+          await firestore.collection('expenses').get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+          data = documentSnapshot.data() as Map<String, dynamic>?;
+          print(data);
+        }
+      } else {
+        print('No documents found.');
       }
-    } else {
-      print('No documents found.');
+    } catch (e) {
+      print('Error: $e');
     }
-  } catch (e) {
-    print('Error: $e');
   }
-}
-
- 
-
-
 
   void _presentDate() async {
     final now = DateTime.now();
@@ -129,7 +133,7 @@ String formattedDateTime = DateFormat('yyyy-MM-dd').format(_SelectedDate);
   void initState() {
     // TODO: implement initState
     super.initState();
-    readDataFromFirebase();
+    // readDataFromFirebase();
   }
 
   @override

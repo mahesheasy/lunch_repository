@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_app/home/home_page.dart';
 import 'package:lunch_app/login/login_page.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-
 
 class LunchApp extends StatefulWidget {
   const LunchApp({super.key});
@@ -17,8 +14,20 @@ class LunchApp extends StatefulWidget {
 
 class _LunchAppState extends State<LunchApp> {
   // This widget is the root of your application.
+  final lightTheme = ThemeData(
+  brightness: Brightness.light,
+  primaryColor: Colors.blue,
+
+);
+
+final darkTheme = ThemeData(
+  brightness: Brightness.dark,
+  primaryColor: Colors.indigo,
+ 
+);
 
   late Stream<User?> authStateChanges;
+  bool isDarkTheme = false;
 
   @override
   void initState() {
@@ -27,26 +36,35 @@ class _LunchAppState extends State<LunchApp> {
     authStateChanges = FirebaseAuth.instance.authStateChanges();
   }
 
+  void toggleTheme() {
+    setState(() {
+      isDarkTheme = !isDarkTheme;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = isDarkTheme ? darkTheme : lightTheme;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MealMaven',
-      theme: 
-      ThemeData(
-        primarySwatch: Colors.deepPurple,
-        textTheme: TextTheme(
-          // displayLarge: GoogleFonts.eduQldBeginner
-          bodyMedium: GoogleFonts.lato(
-            // fontSize: 21,
-            wordSpacing: 3,
-            letterSpacing: 1.5,
-            color: Colors.black,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
-     // ThemeData(useMaterial3: true),
+      theme: theme,
+
+      // ThemeData(
+      //   primarySwatch: Colors.deepPurple,
+      //   textTheme: TextTheme(
+      //
+      //     bodyMedium: GoogleFonts.lato(
+      //
+      //       wordSpacing: 3,
+      //       letterSpacing: 1.5,
+      //       color: Colors.black,
+      //       fontWeight: FontWeight.w800,
+      //     ),
+      //   ),
+      //),
+      // ThemeData(useMaterial3: true),
 
       home: StreamBuilder<User?>(
         stream: authStateChanges,

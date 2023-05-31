@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lunch_app/home/home_page_buttons.dart';
 
 import 'package:lunch_app/models/widgets/expenses_list/expense_data.dart';
 import 'package:lunch_app/models/widgets/expenses_list/expenses_list.dart';
@@ -13,18 +14,8 @@ class ExpensiveWidget extends StatefulWidget {
 }
 
 class _ExpensiveWidgetState extends State<ExpensiveWidget> {
-  final List<Expense> registeredExpense = [
-    // Expense(
-    //     Descriptions: " the foood",
-    //     amount: 19.90,
-    //     date: '00/00/202_',
-    //     category: Category.food),
-    // Expense(
-    //     Descriptions: " the foood today",
-    //     amount: 99.90,
-    //     date: '00/00/202_',
-    //     category: Category.egg),
-  ];
+  final List<Expense> registeredExpense = [];
+    bool _isLoading = false;
 
   static var category;
 
@@ -47,6 +38,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
   @override
   void initState() {
     readDataFromFirebase();
+    _isLoading=true;
     super.initState();
   }
 
@@ -54,24 +46,25 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
   void readDataFromFirebase() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     try {
-      QuerySnapshot querySnapshot =
-          await firestore.collection('expenses').get();
+      QuerySnapshot querySnapshot = await firestore
+          .collection('expenses_${now.month}-${now.year}')
+          .orderBy('expensesDate')
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
           data = documentSnapshot.data() as Map<String, dynamic>?;
-          print(data);
-           Expense expense = Expense(
-          Descriptions: data!['description'],
-          amount: data!['amount'],
-          date: data!['expensesDate'],
-           category: nameToCategory(data!['category']),
-        );
-       
+          Expense expense = Expense(
+            Descriptions: data!['description'],
+            amount: data!['amount'],
+            date: data!['expensesDate'],
+            category: nameToCategory(data!['category']),
+            id: documentSnapshot.id,
+          );
+
           registeredExpense.add(expense);
-        
         }
         setState(() {
-          
+          _isLoading=false;
         });
       } else {
         print('No documents found.');
@@ -81,18 +74,16 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     }
   }
 
- 
-
   void _removeExpenses(Expense expenses) {
     final ExpensesIndex = registeredExpense.indexOf(expenses);
-    setState(() {
-      registeredExpense.remove(expenses);
-    });
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Are you sure?",
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          "Are you sure?",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         content: Text('Do you want to remove'),
         actions: [
           Row(
@@ -119,6 +110,21 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
                   ),
                 ),
                 onPressed: () {
+                  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+                  print(expenses.id);
+                  firestore
+                      .collection('expenses')
+                      .doc(expenses.id)
+                      .delete()
+                      .then((value) {
+                    setState(() {
+                      registeredExpense.remove(expenses);
+                      
+                    });
+                  }).catchError((error) {
+                    print("Failed to delete document: $error");
+                  });
                   Navigator.pop(context);
                 },
                 child: Text(
@@ -132,6 +138,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
       ),
     );
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +163,11 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
           ),
         ],
       ),
-      body: Column(
+      body:_isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
         children: [
           Text('the chart'),
           Expanded(
@@ -164,6 +175,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
           ),
         ],
       ),
+    
     );
   }
 }
