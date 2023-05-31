@@ -51,9 +51,7 @@ Widget homebuttons(
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => Meal_monthly_data_display(
-                      meal_quantity: meal_quantity,
-                    )));
+                builder: (context) => Meal_monthly_data_display()));
       },
       icon: Icon(
         Icons.ramen_dining,

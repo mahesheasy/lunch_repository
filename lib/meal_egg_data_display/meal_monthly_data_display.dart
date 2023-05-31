@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 
+class MealCount {
+  final int date;
+  final int meal_quantity;
+  MealCount(this.date, this.meal_quantity);
+}
+
 class Meal_monthly_data_display extends StatefulWidget {
-  final meal_quantity;
-  Meal_monthly_data_display({super.key, required this.meal_quantity});
+  Meal_monthly_data_display({super.key});
   @override
   State<Meal_monthly_data_display> createState() =>
       _Meal_monthly_data_displayState();
@@ -14,24 +21,23 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
   // var totallunchcount = 0;
   final food_multiplier =
       FirebaseRemoteConfig.instance.getDouble('food_multiplier');
-  List<int> meal_quantity_list = [];
-  List<int> meal_day_list = [];
-  late int data;
+  List<MealCount> mealCounts = [];
+
+  late int meal_quantity;
   Future<void> fortotallunch(int day) async {
     if (day <= now.day) {
       int l1 = await getStaffLunchCount(day);
       int l2 = await getGuestLunchCount(day);
+
 //(l1 + l2) != 0 &&
       if ((l1 + l2) != 0) {
-        print("$day : Total : ${(l1 + l2)}");
+        //print("$day : Total : ${(l1 + l2)}");
         //meal_quantity_list = [];
 
-        data = ((l1 + l2) * food_multiplier).round();
-        meal_quantity_list.add(data);
         int meal_day = day;
-        meal_day_list.add(meal_day);
+        meal_quantity = ((l1 + l2) * food_multiplier).round();
+        mealCounts.add(MealCount(meal_day, meal_quantity));
       }
-      print(meal_day_list);
     }
   }
 
@@ -46,7 +52,6 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
       (QuerySnapshot querySnapshot) {
         if (querySnapshot.size == 0) return;
         count = querySnapshot.size;
-        setState(() {});
       },
     );
     return count;
@@ -63,18 +68,23 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
       (QuerySnapshot querySnapshot) {
         if (querySnapshot.size == 0) return;
         count = querySnapshot.size;
-        setState(() {});
       },
     );
     return count;
   }
 
+  void test() async {
+    int lastDayOfMonth = DateTime(now.year, now.month + 1, 0).day;
+    for (int i = 1; i <= lastDayOfMonth; i++) {
+      await fortotallunch(i);
+    }
+    mealCounts.sort((a, b) => a.date.compareTo(b.date));
+    setState(() {});
+  }
+
   void initState() {
     super.initState();
-    int lastDayOfMonth = DateTime(now.year, now.month + 1, 0).day;
-    for (int i = 1; i < lastDayOfMonth; i++) {
-      fortotallunch(i);
-    }
+    test();
   }
 
   var now = DateTime.now();
@@ -92,7 +102,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
       ),
       body: Center(
         child: ListView.builder(
-          itemCount: meal_quantity_list.length,
+          itemCount: mealCounts.length,
           itemBuilder: (context, index) {
             return Container(
               margin: EdgeInsets.only(left: 4, right: 4),
@@ -115,7 +125,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
                             width: 8,
                           ),
                           Text(
-                            '${meal_quantity_list[index]}',
+                            '${mealCounts[index].meal_quantity}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -126,7 +136,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
                         ],
                       ),
                       Text(
-                        "${meal_day_list[index]}-${now.month}-${now.year}",
+                        "${mealCounts[index].date}-${now.month}-${now.year}",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 19,
                             ),
