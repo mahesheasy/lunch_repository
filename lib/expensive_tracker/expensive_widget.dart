@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lunch_app/home/app_bar_dispaly.dart';
 import 'package:lunch_app/home/home_page_buttons.dart';
 
 import 'package:lunch_app/models/widgets/expenses_list/expense_data.dart';
@@ -15,9 +16,9 @@ class ExpensiveWidget extends StatefulWidget {
 
 class _ExpensiveWidgetState extends State<ExpensiveWidget> {
   final List<Expense> registeredExpense = [];
-    bool _isLoading = false;
-
+  bool _isLoading = false;
   static var category;
+  double totalExpense = 0;
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
@@ -32,13 +33,30 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
   void _addExpenses(Expense expenses) {
     setState(() {
       registeredExpense.add(expenses);
+      totalExpense = calculateTotalExpenses();
+
+      print(totalExpense);
     });
+  }
+
+  double calculateTotalExpenses() {
+    var Total = 0.0;
+    for (var total in registeredExpense) {
+      Total += total.amount;
+      
+    }
+    print(Total);
+    return Total;
   }
 
   @override
   void initState() {
     readDataFromFirebase();
-    _isLoading=true;
+    calculateTotalExpenses();
+
+    print(totalExpense);
+    _isLoading = true;
+    totalExpense;
     super.initState();
   }
 
@@ -64,7 +82,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
           registeredExpense.add(expense);
         }
         setState(() {
-          _isLoading=false;
+          _isLoading = false;
         });
       } else {
         print('No documents found.');
@@ -76,6 +94,12 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
 
   void _removeExpenses(Expense expenses) {
     final ExpensesIndex = registeredExpense.indexOf(expenses);
+    if (ExpensesIndex != -1) {
+      setState(() {
+        registeredExpense.removeAt(ExpensesIndex);
+        totalExpense = calculateTotalExpenses();
+      });
+    }
 
     showDialog(
       context: context,
@@ -114,13 +138,12 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
 
                   print(expenses.id);
                   firestore
-                      .collection('expenses')
+                      .collection('expenses_${now.month}-${now.year}')
                       .doc(expenses.id)
                       .delete()
                       .then((value) {
                     setState(() {
                       registeredExpense.remove(expenses);
-                      
                     });
                   }).catchError((error) {
                     print("Failed to delete document: $error");
@@ -138,7 +161,6 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
       ),
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -150,32 +172,58 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
         onRemoveExpenses: _removeExpenses,
       );
     }
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text("Expenses Tracker"),
         actions: [
           IconButton(
             onPressed: () {
               _openAddExpenseOverlay();
+
               // fortotalexpenses();
             },
             icon: const Icon(Icons.add),
           ),
         ],
       ),
-      body:_isLoading
+      body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
           : Column(
-        children: [
-          Text('the chart'),
-          Expanded(
-            child: mainContent,
-          ),
-        ],
+              children: [
+                Text('the chart'),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          height: 60,
+          color: Color.fromARGB(255, 2, 1, 0),
+          child: Column(children: [
+            Container(
+              height: 56,
+              child: Card(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                color: Color.fromARGB(221, 232, 224, 224),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Total Expenses ==> ${totalExpense} ',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]),
+        ),
       ),
-    
     );
   }
 }

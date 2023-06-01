@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 class NavigationDrawerWidget extends StatelessWidget {
   // final User user;
   //final padding = EdgeInsets.symmetric(horizontal: 30);
+
   NavigationDrawerWidget(User? user, BuildContext context, {super.key,});
 
   @override
@@ -20,7 +21,7 @@ class NavigationDrawerWidget extends StatelessWidget {
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Color.fromARGB(255, 8, 8, 8)),
-            accountName: Text('Test'),
+            accountName: Text('Easy Cloud'),
             accountEmail: Text(
               user!.email!,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -68,14 +69,15 @@ class NavigationDrawerWidget extends StatelessWidget {
                   'https://play.google.com/store/apps/details?id=in.easycloud.mealmaven&pli=1');
             },
           ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () {
-             
-            },
-          ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.settings),
+          //   title: Text('Settings'),
+          //   onTap: () {
+               
+          //      Navigator.pop(context);
+          //   },
+          // ), 
           Divider(),
           ListTile(
             leading: Icon(Icons.logout),

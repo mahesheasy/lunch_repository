@@ -13,21 +13,7 @@ class LunchApp extends StatefulWidget {
 }
 
 class _LunchAppState extends State<LunchApp> {
-  // This widget is the root of your application.
-  final lightTheme = ThemeData(
-  brightness: Brightness.light,
-  primaryColor: Colors.blue,
-
-);
-
-final darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primaryColor: Colors.indigo,
- 
-);
-
   late Stream<User?> authStateChanges;
-  bool isDarkTheme = false;
 
   @override
   void initState() {
@@ -36,20 +22,13 @@ final darkTheme = ThemeData(
     authStateChanges = FirebaseAuth.instance.authStateChanges();
   }
 
-  void toggleTheme() {
-    setState(() {
-      isDarkTheme = !isDarkTheme;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final theme = isDarkTheme ? darkTheme : lightTheme;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MealMaven',
-      theme: theme,
+      // ignore: deprecated_member_use
+      theme:ThemeData(accentColor: Color(10)), 
 
       // ThemeData(
       //   primarySwatch: Colors.deepPurple,
@@ -68,7 +47,10 @@ final darkTheme = ThemeData(
 
       home: StreamBuilder<User?>(
         stream: authStateChanges,
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<User?> snapshot,
+        ) {
           switch (snapshot.connectionState) {
             case ConnectionState.active:
             case ConnectionState.done:

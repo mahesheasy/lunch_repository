@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lunch_app/home/time_out_display.dart';
 import 'package:lunch_app/home/total_quantaty_count_widgit_display.dart';
 import 'package:lunch_app/home/yes_text_list_display.dart';
-import 'package:lunch_app/login/app_state.dart';
+
 import 'package:toast/toast.dart';
 import 'package:lunch_app/home/check_box_tile.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
@@ -42,13 +43,7 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (Snap) {
-        //
-        // if (Snap.size == 0 && DateTime.now().hour >= fixedTime) {
-        //   _isLunchProvided = false;
-
-        //   timer.cancel();
-        //   setState(() {});
-        // }
+        
         if (Snap.size == 0) {
           _isLunchProvided = false;
           setState(() {});
