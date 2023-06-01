@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:lunch_app/expensive_tracker/expensive_widget.dart';
+import 'package:lunch_app/meal_egg_data_display/egg_monthly_data_display.dart';
 import 'package:lunch_app/meal_egg_data_display/meal_monthly_data_display.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
@@ -62,8 +63,10 @@ Widget homebuttons(
   } else if (buttonNamesIndex == 4) {
     return IconButton(
       onPressed: () async {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ExpensiveWidget()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Egg_monthly_data_display()));
       },
       icon: Icon(
         Icons.egg,
