@@ -43,7 +43,6 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     var Total = 0.0;
     for (var total in registeredExpense) {
       Total += total.amount;
-      
     }
     print(Total);
     return Total;
@@ -55,13 +54,16 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
     calculateTotalExpenses();
 
     print(totalExpense);
-    _isLoading = true;
+    _isLoading = false;
     totalExpense;
     super.initState();
   }
 
   Map<String, dynamic>? data;
   void readDataFromFirebase() async {
+     setState(() {
+      _isLoading=true;
+    });
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     try {
       QuerySnapshot querySnapshot = await firestore
@@ -83,13 +85,19 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
         }
         setState(() {
           _isLoading = false;
+          totalExpense = calculateTotalExpenses();
+          print(totalExpense);
         });
       } else {
         print('No documents found.');
+
       }
     } catch (e) {
       print('Error: $e');
     }
+    setState(() {
+      _isLoading=false;
+    });
   }
 
   void _removeExpenses(Expense expenses) {
@@ -122,6 +130,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
                 onPressed: () {
                   setState(() {
                     registeredExpense.insert(ExpensesIndex, expenses);
+                    totalExpense = calculateTotalExpenses();
                   });
                   Navigator.pop(context);
                 },
@@ -144,7 +153,9 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
                       .then((value) {
                     setState(() {
                       registeredExpense.remove(expenses);
+                       totalExpense = calculateTotalExpenses();
                     });
+                   
                   }).catchError((error) {
                     print("Failed to delete document: $error");
                   });
@@ -194,7 +205,7 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
             )
           : Column(
               children: [
-                Text('the chart'),
+                Text('Expenses'),
                 Expanded(
                   child: mainContent,
                 ),
@@ -213,9 +224,13 @@ class _ExpensiveWidgetState extends State<ExpensiveWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Total Expenses ==> ${totalExpense} ',
-                      style: TextStyle(color: Colors.black),
+                    Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: Text(
+                        'Total Expenses ==> ${totalExpense} ',
+                        
+                        style: TextStyle(color: Colors.black,fontSize: 25),
+                      ),
                     ),
                   ],
                 ),
