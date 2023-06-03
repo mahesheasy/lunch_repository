@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
-
+  bool isSunday = DateTime.now().weekday == DateTime.sunday;
   int fixedTime = 11; // but 11
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
@@ -71,8 +71,7 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totallunchcount = querySnapshot.size;
-        //totallunchcount =querySnapshot.docs.where((element) => element['Guest'] == "guest@easycloud.in").length;
-        //totallunchcount =querySnapshot.docs.where((element) => element['Guest'] != "guest@easycloud.in").length;
+
         roundFigure();
         setState(() {});
       },
@@ -88,7 +87,6 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (QuerySnapshot querySnapshot) {
-        // querySnapshot.docs.first.reference.delete();
         guestcount = querySnapshot.size;
         roundFigure();
         setState(() {});
@@ -108,11 +106,10 @@ class _HomePageState extends State<HomePage> {
         .get();
     if (querySnapshot.docs.isNotEmpty) {
       String documentId = querySnapshot.docs.first.id;
-      await lunchtoday.doc(documentId).delete();   
-       Toast.show("Removed Successfully 👍",
-      duration: Toast.lengthShort, gravity: Toast.bottom);
-    } else {
-    }
+      await lunchtoday.doc(documentId).delete();
+      Toast.show("Removed Successfully 👍",
+          duration: Toast.lengthShort, gravity: Toast.bottom);
+    } else {}
   }
 
   int meal_quantity = 0;
@@ -144,15 +141,14 @@ class _HomePageState extends State<HomePage> {
     fortotallunch();
     fortotalegg();
     fetchtotalguestcount();
-
+    //day_to_auto_add(meal_quantity, totaleggcount);
     ToastContext().init(context);
     timer = Timer.periodic(
       Duration(seconds: 5),
       (timer) {
         setState(
           () {
-            _currentIndex = (timer.tick + 1) %
-                _list.length; // Update the current index of the list
+            _currentIndex = (timer.tick + 1) % _list.length;
           },
         );
       },
@@ -172,7 +168,7 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () async {
           fortotallunch();
           fortotalegg();
-          
+
           return Future.delayed(Duration(milliseconds: 1500));
         },
         displacement: 5,
@@ -200,70 +196,75 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          CheckBoxtile(
-                            initialvalue: _lunchisChecked,
-                            enabled: !_isLunchProvided && now.hour < fixedTime,
-                            title: "Lunch",
-                            onchnage: (value) {
-                              setState(() {
-                                _lunchisChecked = value!;
-                              });
-                            },
-                          ),
-                          CheckBoxtile(
-                            initialvalue: _eggisChecked,
-                            enabled: !_isLunchProvided && now.hour < fixedTime,
-                            title: "Egg",
-                            onchnage: (value) {
-                              setState(() {
-                                _eggisChecked = value!;
-                              });
-                            },
-                          ),
-                        ],
+                child: Card(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            CheckBoxtile(
+                              initialvalue: _lunchisChecked,
+                              enabled:
+                                  !_isLunchProvided && now.hour < fixedTime,
+                              title: "Lunch",
+                              onchnage: (value) {
+                                setState(() {
+                                  _lunchisChecked = value!;
+                                });
+                              },
+                            ),
+                            CheckBoxtile(
+                              initialvalue: _eggisChecked,
+                              enabled:
+                                  !_isLunchProvided && now.hour < fixedTime,
+                              title: "Egg",
+                              onchnage: (value) {
+                                setState(() {
+                                  _eggisChecked = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-
-              // ----------- imp --- color --- Color.fromARGB(255, 222, 225, 225) ---
-
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(191, 226, 220, 1),
-                ),
-                padding: EdgeInsets.only(right: 5, left: 5),
-                child: Column(
-                  children: [
-                    if (now.hour < fixedTime)
-                      if (!_isLunchProvided)
-                        yesbtnandtext(
-                          0,
-                          context,
-                          _lunchisChecked,
-                          _eggisChecked,
-                          null,
-                          null,
-                          _list[_currentIndex],
-                          meal_quantity,
-                          onPress: () {
-                            usertesting();
-                            fortotallunch();
-                            fortotalegg();
-                          },
-                        ),
-                    if (now.hour >= fixedTime) timeoutwidget(context),
-                  ],
+              Card(
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(191, 226, 220, 1),
+                  ),
+                  padding: EdgeInsets.only(right: 5, left: 5),
+                  child: Column(
+                    children: [
+                      if (isSunday != true)
+                        if (now.hour < fixedTime)
+                          if (!_isLunchProvided)
+                            yesbtnandtext(
+                              0,
+                              context,
+                              _lunchisChecked,
+                              _eggisChecked,
+                              null,
+                              null,
+                              _list[_currentIndex],
+                              meal_quantity,
+                              onPress: () {
+                                usertesting();
+                                fortotallunch();
+                                fortotalegg();
+                              },
+                            ),
+                      if (now.hour >= fixedTime) timeoutwidget(context),
+                      if (isSunday == true) timeoutwidget(context),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -275,8 +276,8 @@ class _HomePageState extends State<HomePage> {
                   totaleggcount,
                   meal_quantity,
                   food_multiplier,
-                  guestcount, 
-                  fixedTime,               
+                  guestcount,
+                  fixedTime,
                   guestlunchremovecount,
                   fetchtotalguestcount),
             ],
@@ -284,24 +285,39 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 60,
-        color: Color.fromRGBO(191, 226, 220, 1),
         child: Container(
-          padding: EdgeInsets.all(5),
-          child: Container(
-            child: Column(
-              children: [
-                Bottomappbarcontant(
-                    context,
-                    totallunchcount.toString(),
-                    totaleggcount.toString(),
-                    meal_quantity,
-                    _isLunchProvided,
-                    fixedTime,
-                    fetchtotalguestcount()
-                   ),// 
-              ],
-            ),
+          height: 60,
+          color: Color.fromARGB(255, 235, 233, 228),
+          child: Column(
+            children: [
+              Container(
+                height: 56,
+                child: Card(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  color: Colors.black87,
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(top: 3, bottom: 3, left: 4, right: 4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Bottomappbarcontant(
+                            context,
+                            totallunchcount.toString(),
+                            totaleggcount.toString(),
+                            meal_quantity,
+                            _isLunchProvided,
+                            fixedTime,
+                            fetchtotalguestcount()),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // SizedBox(
+              //   height: 20,
+              // )
+            ],
           ),
         ),
       ),

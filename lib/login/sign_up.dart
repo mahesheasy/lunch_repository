@@ -24,7 +24,6 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      if (newUser != null) {}
     } catch (e) {}
 
     setState(() {

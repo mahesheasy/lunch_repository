@@ -24,7 +24,7 @@ Row yesbtnandtext(
       SizedBox(
         width: 10,
       ),
-      logoutsubmitSharebtn(
+      homebuttons(
         0,
         context,
         _lunchisChecked,

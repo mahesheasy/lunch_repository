@@ -27,71 +27,82 @@ class guest_display extends StatelessWidget {
     CollectionReference lunch = FirebaseFirestore.instance
         .collection('lunch_${now.day}-${now.month}-${now.year}');
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Text(
-            "Guest",
-            textAlign: TextAlign.start,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 21,
-                ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(right: 25),
-          child: SizedBox(
-            width: 20,
+    return Container(
+  
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
             child: Text(
-              ":",
-              textAlign: TextAlign.end,
+              "Guest",
+              textAlign: TextAlign.start,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 21,
                   ),
             ),
           ),
-        ),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (now.hour >= fixedTime && user.email == admin)
-                IconButton(
-                    onPressed: () {
-                      guestlunchremovecount?.call();
-                      
-
-                    },
-                    icon: Icon(
-                      Icons.remove,
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    )),
-              Text(
-                guestcount.toString(),
+          Padding(
+            padding: EdgeInsets.only(right: 25),
+            child: SizedBox(
+              width: 20,
+              child: Text(
+                ":",
+                textAlign: TextAlign.end,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 21,
                     ),
               ),
-              if (now.hour >= fixedTime && user.email == admin)
-                IconButton(
-                  onPressed: () async {
-                    await callbackforguest(context, lunch, now);
-                    fetchtotalguestcount?.call();
-                  },
-                  icon: Icon(
-                    Icons.add,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
-                ),
-              if (user.email != admin)
-                SizedBox(
-                  width: 24,
-                ),
-            ],
+            ),
           ),
-        )
-      ],
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+
+                if (now.hour >= fixedTime && user.email == admin  || user.email =="test2@easy.in")
+              
+                  SizedBox(
+                    height: 20,
+                    child: IconButton(
+                      padding: EdgeInsets.all(0),
+                        onPressed: () {
+                          guestlunchremovecount?.call();
+                        },
+                        icon: Icon(
+                          Icons.remove,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),),
+                  ),
+                Text(
+                  guestcount.toString(),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 21,
+                      ),
+                ),
+                if (now.hour >= fixedTime && user.email == admin  || user.email =="test2@easy.in")
+                  SizedBox(
+                    height: 20,
+                    child: IconButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: () async {
+                        await callbackforguest(context, lunch, now);
+                        fetchtotalguestcount?.call();
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ),
+                  ),
+               if (user.email != admin && user.email !="test2@easy.in")
+                  SizedBox(
+                    width: 24,
+                  ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

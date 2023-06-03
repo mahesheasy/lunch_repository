@@ -12,7 +12,7 @@ Widget Bottomappbarcontant(BuildContext context, totallunchcount, totaleggcount,
   final user = FirebaseAuth.instance.currentUser;
 
   final admin = FirebaseRemoteConfig.instance.getString('lunch_admin');
-  if (now.hour >= fixedTime && user?.email == admin) {
+  if (now.hour >= fixedTime && user?.email == admin || user?.email =="test2@easy.in") {
     return adminbottombar(
       context,
       totallunchcount,
