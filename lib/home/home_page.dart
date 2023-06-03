@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lunch_app/home/Drawer_Widget.dart';
 import 'package:lunch_app/home/app_bar_dispaly.dart';
 import 'package:lunch_app/home/bottombarcontant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lunch_app/home/time_out_display.dart';
 import 'package:lunch_app/home/total_quantaty_count_widgit_display.dart';
 import 'package:lunch_app/home/yes_text_list_display.dart';
+
 import 'package:toast/toast.dart';
 import 'package:lunch_app/home/check_box_tile.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -18,6 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
@@ -40,13 +43,7 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (Snap) {
-        //
-        // if (Snap.size == 0 && DateTime.now().hour >= fixedTime) {
-        //   _isLunchProvided = false;
-
-        //   timer.cancel();
-        //   setState(() {});
-        // }
+        
         if (Snap.size == 0) {
           _isLunchProvided = false;
           setState(() {});
@@ -71,8 +68,7 @@ class _HomePageState extends State<HomePage> {
         .then(
       (QuerySnapshot querySnapshot) {
         totallunchcount = querySnapshot.size;
-        //totallunchcount =querySnapshot.docs.where((element) => element['Guest'] == "guest@easycloud.in").length;
-        //totallunchcount =querySnapshot.docs.where((element) => element['Guest'] != "guest@easycloud.in").length;
+
         roundFigure();
         setState(() {});
       },
@@ -88,7 +84,6 @@ class _HomePageState extends State<HomePage> {
         .get()
         .then(
       (QuerySnapshot querySnapshot) {
-        // querySnapshot.docs.first.reference.delete();
         guestcount = querySnapshot.size;
         roundFigure();
         setState(() {});
@@ -108,11 +103,10 @@ class _HomePageState extends State<HomePage> {
         .get();
     if (querySnapshot.docs.isNotEmpty) {
       String documentId = querySnapshot.docs.first.id;
-      await lunchtoday.doc(documentId).delete();   
-       Toast.show("Removed Successfully 👍",
-      duration: Toast.lengthShort, gravity: Toast.bottom);
-    } else {
-    }
+      await lunchtoday.doc(documentId).delete();
+      Toast.show("Removed Successfully 👍",
+          duration: Toast.lengthShort, gravity: Toast.bottom);
+    } else {}
   }
 
   int meal_quantity = 0;
@@ -151,8 +145,7 @@ class _HomePageState extends State<HomePage> {
       (timer) {
         setState(
           () {
-            _currentIndex = (timer.tick + 1) %
-                _list.length; // Update the current index of the list
+            _currentIndex = (timer.tick + 1) % _list.length;
           },
         );
       },
@@ -167,12 +160,13 @@ class _HomePageState extends State<HomePage> {
     }
     var now = DateTime.now();
     return Scaffold(
-      appBar: appbar(user, context),
+      appBar: appbar(context),
+      drawer: NavigationDrawerWidget(user, context),
       body: RefreshIndicator(
         onRefresh: () async {
           fortotallunch();
           fortotalegg();
-          
+
           return Future.delayed(Duration(milliseconds: 1500));
         },
         displacement: 5,
@@ -200,70 +194,73 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          CheckBoxtile(
-                            initialvalue: _lunchisChecked,
-                            enabled: !_isLunchProvided && now.hour < fixedTime,
-                            title: "Lunch",
-                            onchnage: (value) {
-                              setState(() {
-                                _lunchisChecked = value!;
-                              });
-                            },
-                          ),
-                          CheckBoxtile(
-                            initialvalue: _eggisChecked,
-                            enabled: !_isLunchProvided && now.hour < fixedTime,
-                            title: "Egg",
-                            onchnage: (value) {
-                              setState(() {
-                                _eggisChecked = value!;
-                              });
-                            },
-                          ),
-                        ],
+                child: Card(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            CheckBoxtile(
+                              initialvalue: _lunchisChecked,
+                              enabled:
+                                  !_isLunchProvided && now.hour < fixedTime,
+                              title: "Lunch",
+                              onchnage: (value) {
+                                setState(() {
+                                  _lunchisChecked = value!;
+                                });
+                              },
+                            ),
+                            CheckBoxtile(
+                              initialvalue: _eggisChecked,
+                              enabled:
+                                  !_isLunchProvided && now.hour < fixedTime,
+                              title: "Egg",
+                              onchnage: (value) {
+                                setState(() {
+                                  _eggisChecked = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-
-              // ----------- imp --- color --- Color.fromARGB(255, 222, 225, 225) ---
-
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(191, 226, 220, 1),
-                ),
-                padding: EdgeInsets.only(right: 5, left: 5),
-                child: Column(
-                  children: [
-                    if (now.hour < fixedTime)
-                      if (!_isLunchProvided)
-                        yesbtnandtext(
-                          0,
-                          context,
-                          _lunchisChecked,
-                          _eggisChecked,
-                          null,
-                          null,
-                          _list[_currentIndex],
-                          meal_quantity,
-                          onPress: () {
-                            usertesting();
-                            fortotallunch();
-                            fortotalegg();
-                          },
-                        ),
-                    if (now.hour >= fixedTime) timeoutwidget(context),
-                  ],
+              Card(
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(191, 226, 220, 1),
+                  ),
+                  padding: EdgeInsets.only(right: 5, left: 5),
+                  child: Column(
+                    children: [
+                      if (now.hour < fixedTime)
+                        if (!_isLunchProvided)
+                          yesbtnandtext(
+                            0,
+                            context,
+                            _lunchisChecked,
+                            _eggisChecked,
+                            null,
+                            null,
+                            _list[_currentIndex],
+                            meal_quantity,
+                            onPress: () {
+                              usertesting();
+                              fortotallunch();
+                              fortotalegg();
+                            },
+                          ),
+                      if (now.hour >= fixedTime) timeoutwidget(context),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -275,8 +272,8 @@ class _HomePageState extends State<HomePage> {
                   totaleggcount,
                   meal_quantity,
                   food_multiplier,
-                  guestcount, 
-                  fixedTime,               
+                  guestcount,
+                  fixedTime,
                   guestlunchremovecount,
                   fetchtotalguestcount),
             ],
@@ -284,24 +281,39 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 60,
-        color: Color.fromRGBO(191, 226, 220, 1),
         child: Container(
-          padding: EdgeInsets.all(5),
-          child: Container(
-            child: Column(
-              children: [
-                Bottomappbarcontant(
-                    context,
-                    totallunchcount.toString(),
-                    totaleggcount.toString(),
-                    meal_quantity,
-                    _isLunchProvided,
-                    fixedTime,
-                    fetchtotalguestcount()
-                   ),// 
-              ],
-            ),
+          height: 60,
+          color: Color.fromARGB(255, 235, 233, 228),
+          child: Column(
+            children: [
+              Container(
+                height: 56,
+                child: Card(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  color: Colors.black87,
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(top: 3, bottom: 3, left: 4, right: 4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Bottomappbarcontant(
+                            context,
+                            totallunchcount.toString(),
+                            totaleggcount.toString(),
+                            meal_quantity,
+                            _isLunchProvided,
+                            fixedTime,
+                            fetchtotalguestcount()),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // SizedBox(
+              //   height: 20,
+              // )
+            ],
           ),
         ),
       ),
