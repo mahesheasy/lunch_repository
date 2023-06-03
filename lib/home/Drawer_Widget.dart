@@ -6,7 +6,11 @@ class NavigationDrawerWidget extends StatelessWidget {
   // final User user;
   //final padding = EdgeInsets.symmetric(horizontal: 30);
 
-  NavigationDrawerWidget(User? user, BuildContext context, {super.key,});
+  NavigationDrawerWidget(
+    User? user,
+    BuildContext context, {
+    super.key,
+  });
 
   @override
   Widget build(
@@ -14,10 +18,8 @@ class NavigationDrawerWidget extends StatelessWidget {
   ) {
     final user = FirebaseAuth.instance.currentUser;
     return Drawer(
-  
       child: ListView(
         padding: EdgeInsets.zero,
-        
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Color.fromARGB(255, 8, 8, 8)),
@@ -74,14 +76,17 @@ class NavigationDrawerWidget extends StatelessWidget {
           //   leading: Icon(Icons.settings),
           //   title: Text('Settings'),
           //   onTap: () {
-               
+
           //      Navigator.pop(context);
           //   },
-          // ), 
+          // ),
           Divider(),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('logout',style: TextStyle(color: Color.fromARGB(255, 1, 0, 0)),),
+            title: Text(
+              'logout',
+              style: TextStyle(color: Color.fromARGB(255, 1, 0, 0)),
+            ),
             onTap: () async {
               await FirebaseAuth.instance.signOut();
             },

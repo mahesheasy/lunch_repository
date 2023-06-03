@@ -112,7 +112,7 @@ class _Egg_monthly_data_displayState extends State<Egg_monthly_data_display> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.ramen_dining,
+                                Icons.egg,
                                 size: 30,
                               ),
                               SizedBox(
@@ -153,7 +153,7 @@ class _Egg_monthly_data_displayState extends State<Egg_monthly_data_display> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Total monthly egg count : $total_meal_quantity 🍜",
+                "Total monthly egg count : $total_meal_quantity 🥚",
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 21,
                       color: Colors.black87,

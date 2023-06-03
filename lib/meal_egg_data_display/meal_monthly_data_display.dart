@@ -85,7 +85,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
     }
 
     total_meal_quantity = MealCount.calculateSum(mealCounts);
-    print('Sum: $total_meal_quantity');
+    // print('Sum: $total_meal_quantity');
     mealCounts.sort((a, b) => a.date.compareTo(b.date));
     setState(() {
       isLoading = false;

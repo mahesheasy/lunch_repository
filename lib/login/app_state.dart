@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:lunch_app/home/home_page.dart';
 import 'package:lunch_app/login/login_page.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LunchApp extends StatefulWidget {
@@ -28,7 +26,7 @@ class _LunchAppState extends State<LunchApp> {
       debugShowCheckedModeBanner: false,
       title: 'MealMaven',
       // ignore: deprecated_member_use
-      theme:ThemeData(accentColor: Color(10)), 
+      theme: ThemeData(),
 
       // ThemeData(
       //   primarySwatch: Colors.deepPurple,
