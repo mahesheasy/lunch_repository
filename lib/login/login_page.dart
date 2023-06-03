@@ -134,8 +134,7 @@ class _LoginPage extends State<LoginPage> {
                           email: _editingController.text,
                           password: _passwordController.text,
                         );
-                        print(credential.user?.displayName);
-                      } on FirebaseAuthException catch (e) {
+                      } on FirebaseAuthException {
                         setState(() {
                           _isLoading = false;
                         });
@@ -159,20 +158,7 @@ class _LoginPage extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Center(
-                  //   child: Text(
-                  //     "forgot password",
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Center(
-                  //   child: Text("Don't have an account? SIGN UP"),
-                  // ),
+                 
                 ],
               ),
             ),

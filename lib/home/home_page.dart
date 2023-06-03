@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   bool _lunchisChecked = false;
   bool _eggisChecked = false;
   bool _isLunchProvided = false;
-
+  bool isSunday = DateTime.now().weekday == DateTime.sunday;
   int fixedTime = 11; // but 11
   List<String> _list = ['Lock Cheyyala ? ', 'Lock Karna Kya ?'];
   int _currentIndex = 0;
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
     fortotallunch();
     fortotalegg();
     fetchtotalguestcount();
-
+    //day_to_auto_add(meal_quantity, totaleggcount);
     ToastContext().init(context);
     timer = Timer.periodic(
       Duration(seconds: 5),
@@ -241,24 +241,26 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(right: 5, left: 5),
                   child: Column(
                     children: [
-                      if (now.hour < fixedTime)
-                        if (!_isLunchProvided)
-                          yesbtnandtext(
-                            0,
-                            context,
-                            _lunchisChecked,
-                            _eggisChecked,
-                            null,
-                            null,
-                            _list[_currentIndex],
-                            meal_quantity,
-                            onPress: () {
-                              usertesting();
-                              fortotallunch();
-                              fortotalegg();
-                            },
-                          ),
+                      if (isSunday != true)
+                        if (now.hour < fixedTime)
+                          if (!_isLunchProvided)
+                            yesbtnandtext(
+                              0,
+                              context,
+                              _lunchisChecked,
+                              _eggisChecked,
+                              null,
+                              null,
+                              _list[_currentIndex],
+                              meal_quantity,
+                              onPress: () {
+                                usertesting();
+                                fortotallunch();
+                                fortotalegg();
+                              },
+                            ),
                       if (now.hour >= fixedTime) timeoutwidget(context),
+                      if (isSunday == true) timeoutwidget(context),
                     ],
                   ),
                 ),

@@ -17,8 +17,11 @@ void main() async {
   await myNotification.showNotification(1, 'ℍ𝕖𝕝𝕝𝕠 𝕘𝕦𝕪𝕤 😊😝',
       '˜”*°•.˜”*°• Update your lunch •°*”˜.•°*”˜..😋🍛');
 
-  if (!kIsWeb) await Firebase.initializeApp();
-  else await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (!kIsWeb)
+    await Firebase.initializeApp();
+  else
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
   final remoteConfig = FirebaseRemoteConfig.instance;
   await remoteConfig.setConfigSettings(
     RemoteConfigSettings(

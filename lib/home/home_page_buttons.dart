@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:lunch_app/expensive_tracker/expensive_widget.dart';
+import 'package:lunch_app/meal_egg_data_display/egg_monthly_data_display.dart';
+import 'package:lunch_app/meal_egg_data_display/meal_monthly_data_display.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
 
-List buttonNames = ['yes', '', '', '',''];
+List buttonNames = ['yes', '', '', '', ''];
 CollectionReference lunch = FirebaseFirestore.instance
     .collection('lunch_${now.day}-${now.month}-${now.year}');
 var now = DateTime.now();
@@ -27,7 +29,8 @@ Widget homebuttons(
         await Share.share("Lunch : ${meal_quantity}");
       },
       icon: Icon(
-        Icons.share,size: 28,
+        Icons.share,
+        size: 28,
         color: Colors.white,
       ),
     );
@@ -38,35 +41,40 @@ Widget homebuttons(
             MaterialPageRoute(builder: (context) => ExpensiveWidget()));
       },
       icon: Icon(
-        Icons.account_balance_wallet,size: 34,
+        Icons.account_balance_wallet,
+        size: 34,
         color: Colors.white,
       ),
     );
-  }
-  else if (buttonNamesIndex == 3) {
+  } else if (buttonNamesIndex == 3) {
     return IconButton(
       onPressed: () async {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ExpensiveWidget()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Meal_monthly_data_display()));
       },
       icon: Icon(
-        Icons.ramen_dining,size: 34,
+        Icons.ramen_dining,
+        size: 34,
         color: Colors.white,
       ),
     );
-  }else if (buttonNamesIndex == 4) {
+  } else if (buttonNamesIndex == 4) {
     return IconButton(
       onPressed: () async {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ExpensiveWidget()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Egg_monthly_data_display()));
       },
       icon: Icon(
-        Icons.egg,size: 36,
+        Icons.egg,
+        size: 36,
         color: Colors.white,
       ),
     );
-  }
-   else {
+  } else {
     return ElevatedButton(
       style: ButtonStyle(
           textStyle: MaterialStatePropertyAll(
