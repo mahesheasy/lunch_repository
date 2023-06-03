@@ -108,6 +108,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Meal quantity'),
+        backgroundColor: Colors.black87,
       ),
       body: isLoading
           ? Center(
@@ -165,7 +166,7 @@ class _Meal_monthly_data_displayState extends State<Meal_monthly_data_display> {
             ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-          height: 60,
+          height: 50,
           color: Color.fromRGBO(191, 226, 220, 1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

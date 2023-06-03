@@ -89,6 +89,7 @@ class _Egg_monthly_data_displayState extends State<Egg_monthly_data_display> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Egg Count'),
+        backgroundColor: Colors.black87,
       ),
       body: isLoading
           ? Center(
@@ -146,7 +147,7 @@ class _Egg_monthly_data_displayState extends State<Egg_monthly_data_display> {
             ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-          height: 60,
+          height: 50,
           color: Color.fromRGBO(191, 226, 220, 1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
